@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "luckyMoney",
+    "texture": "542a3370-a3b3-44db-8fb7-0a3d4e4306e8",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      112,
+      90
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      112,
+      90
+    ]
+  }
+}

@@ -1,0 +1,69 @@
+(function() {"use strict";var __module = CC_EDITOR ? module : {exports:{}};var __filename = 'preview-scripts/assets/Script/IndexSence.js';var __require = CC_EDITOR ? function (request) {return cc.require(request, require);} : function (request) {return cc.require(request, __filename);};function __define (exports, require, module) {"use strict";
+cc._RF.push(module, 'd3b57f/hoxGCZSIuQJQ0tPw', 'IndexSence', __filename);
+// Script/IndexSence.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var RankCtrl_1 = require("./RankCtrl");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var IndexSence = /** @class */ (function (_super) {
+    __extends(IndexSence, _super);
+    function IndexSence() {
+        // LIFE-CYCLE CALLBACKS:
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        // onLoad () {}
+        _this._flicker = false;
+        return _this;
+        // update (dt) {}
+    }
+    Object.defineProperty(IndexSence.prototype, "flicker", {
+        get: function () {
+            return this._flicker;
+        },
+        set: function (v) {
+            if (this._flicker != v) {
+                this._flicker = v;
+                this.onRankBubble();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    IndexSence.prototype.start = function () {
+        this.node.on("onRankBubble", this.onRankBubble, this);
+    };
+    IndexSence.prototype.onRankBubble = function () {
+        this.flicker = RankCtrl_1.default.instance.getRankBubble();
+        var motion = this._flicker ? 3 : 2;
+        this.buMotion(motion);
+    };
+    // 气泡动作
+    IndexSence.prototype.buMotion = function (num) {
+        if (num == 3) {
+            var seq = cc.repeatForever(cc.sequence(cc.scaleTo(0.8, 1.1, 1.1), cc.scaleTo(0.4, 0.9, 0.9)));
+            this.node.runAction(seq);
+            this.node.active = true;
+        }
+        else if (num == 2) {
+            this.node.active = false;
+        }
+    };
+    IndexSence = __decorate([
+        ccclass
+    ], IndexSence);
+    return IndexSence;
+}(cc.Component));
+exports.default = IndexSence;
+
+cc._RF.pop();
+        }
+        if (CC_EDITOR) {
+            __define(__module.exports, __require, __module);
+        }
+        else {
+            cc.registerModuleFunc(__filename, function () {
+                __define(__module.exports, __require, __module);
+            });
+        }
+        })();
+        //# sourceMappingURL=IndexSence.js.map
+        

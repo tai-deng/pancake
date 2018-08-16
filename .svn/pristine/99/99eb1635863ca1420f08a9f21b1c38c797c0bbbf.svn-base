@@ -1,0 +1,132 @@
+(function() {"use strict";var __module = CC_EDITOR ? module : {exports:{}};var __filename = 'preview-scripts/assets/Script/gamecore/managers/EventManager.js';var __require = CC_EDITOR ? function (request) {return cc.require(request, require);} : function (request) {return cc.require(request, __filename);};function __define (exports, require, module) {"use strict";
+cc._RF.push(module, 'd00e8CvBp1J2Y/tIGGNlUeL', 'EventManager', __filename);
+// Script/gamecore/managers/EventManager.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+// Learn TypeScript:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * 事件管理
+ */
+var EventManager = /** @class */ (function (_super) {
+    __extends(EventManager, _super);
+    /**
+     *
+     */
+    function EventManager() {
+        var _this = _super.call(this) || this;
+        //事件管理器
+        _this._eventMap = {};
+        return _this;
+    }
+    /**
+     * 派发事件。自动生成cc.Event对象。
+     *
+     * @param eventName         事件名称
+     * @param data              携带数据
+     */
+    EventManager.prototype.dispatchEventWith = function (eventName, data) {
+        if (data === void 0) { data = null; }
+        var evt = new cc.Event(eventName, false);
+        if (data)
+            evt["data"] = data;
+        this.dispatchEvent(evt);
+    };
+    // update (dt) {}
+    /**
+     * 绑定事件至命令。收到该事件时，会新建一个命令并执行。
+     *
+     * @param eventName                 事件名
+     * @param commandClass              命令类
+     */
+    EventManager.prototype.mapEvent = function (eventName, commandClass) {
+        if (this._eventMap[eventName] == undefined) {
+            this._eventMap[eventName] = [];
+            this.on(eventName, this.eventsHandler, this);
+        }
+        var commandClasses = this._eventMap[eventName];
+        if (commandClasses.indexOf(commandClass) == -1) {
+            commandClasses.push(commandClass);
+        }
+    };
+    /**
+     * 取消绑定事件
+     *
+     * @param eventName                     事件名
+     * @param commandClass                  命令类。如果传递null，则取消绑定所有命令
+     */
+    EventManager.prototype.unmapEvent = function (eventName, commandClass) {
+        if (commandClass === void 0) { commandClass = null; }
+        var commandClasses = this._eventMap[eventName];
+        if (commandClasses != undefined) {
+            if (commandClass) {
+                //取消绑定该事件的指定命令
+                var index = commandClasses.indexOf(commandClass);
+                if (index >= 0) {
+                    commandClasses.splice(index, 1);
+                    if (commandClasses.length == 0) {
+                        delete this._eventMap[eventName];
+                        this.off(eventName, this.eventsHandler);
+                    }
+                }
+            }
+            else {
+                //取消绑定所有该事件的命令
+                delete this._eventMap[eventName];
+                this.off(eventName, this.eventsHandler);
+            }
+        }
+    };
+    /**
+     * 解绑所有事件
+     */
+    EventManager.prototype.unmapAllEvent = function () {
+        for (var key in this._eventMap) {
+            this.unmapEvent(key);
+        }
+    };
+    /**
+     * 事件管理器
+     */
+    EventManager.prototype.eventsHandler = function (evt) {
+        var eventName = evt.type;
+        var eventData = evt["data"];
+        var commandClasses = this._eventMap[eventName];
+        if (commandClasses != undefined) {
+            var len = commandClasses.length;
+            for (var i = 0; i < len; i++) {
+                var command = new commandClasses[i]();
+                command.event = evt;
+                command.data = eventData;
+                command.execute();
+            }
+        }
+    };
+    EventManager = __decorate([
+        ccclass
+    ], EventManager);
+    return EventManager;
+}(cc.Node));
+exports.default = EventManager;
+
+cc._RF.pop();
+        }
+        if (CC_EDITOR) {
+            __define(__module.exports, __require, __module);
+        }
+        else {
+            cc.registerModuleFunc(__filename, function () {
+                __define(__module.exports, __require, __module);
+            });
+        }
+        })();
+        //# sourceMappingURL=EventManager.js.map
+        

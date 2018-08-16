@@ -1,0 +1,135 @@
+"use strict";
+cc._RF.push(module, '45538n7JE1EJqcBQxxgUtw1', 'GameManager');
+// Script/gamecore/managers/GameManager.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var SoundsManager_1 = require("./SoundsManager");
+var PopUpManager_1 = require("./PopUpManager");
+var UtilsManager_1 = require("./UtilsManager");
+var EventManager_1 = require("./EventManager");
+var Context_1 = require("../legs/Context");
+var GameManager = /** @class */ (function (_super) {
+    __extends(GameManager, _super);
+    function GameManager() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    GameManager_1 = GameManager;
+    Object.defineProperty(GameManager, "eventManager", {
+        get: function () { return GameManager_1._eventManager; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(GameManager, "utilsManager", {
+        get: function () { return GameManager_1._utilsManager; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(GameManager, "soundsManager", {
+        get: function () { return GameManager_1._soundsManager; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(GameManager, "popUpManager", {
+        get: function () { return GameManager_1._popUpManager; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(GameManager, "context", {
+        get: function () { return GameManager_1._context; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    GameManager.init = function () {
+        if (GameManager_1._initialized)
+            return;
+        GameManager_1._initialized = true;
+        GameManager_1._canVibrate = true;
+        //读取本地数据
+        var v = cc.sys.localStorage.getItem("__l__gameManager_vibrateoff");
+        if (v == "true") {
+            GameManager_1.vibrateOff();
+        }
+    };
+    Object.defineProperty(GameManager, "canVibrate", {
+        /**
+         * 获取是否可震动
+         */
+        get: function () {
+            return GameManager_1._canVibrate;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * 关闭震动
+     */
+    GameManager.vibrateOff = function () {
+        if (!GameManager_1._canVibrate)
+            return;
+        GameManager_1._canVibrate = false;
+        cc.sys.localStorage.setItem("__l__gameManager_vibrateoff", true);
+    };
+    /**
+     * 开启震动
+     */
+    GameManager.vibrateOn = function () {
+        if (GameManager_1._canVibrate)
+            return;
+        GameManager_1._canVibrate = true;
+        cc.sys.localStorage.removeItem("__l__gameManager_vibrateoff");
+    };
+    /**
+     * 添加版本信息
+     */
+    GameManager.addVersionInfo = function () {
+        cc.info("----  gamecore ----");
+        cc.info("-  addVersionInfo   -");
+        // if (this._versionInfo) return;
+        var n = new cc.Node();
+        var label = n.addComponent(cc.Label);
+        label.fontSize = 20;
+        label.lineHeight = 20;
+        var vStr = GameManager_1.gameVersion;
+        if (GameManager_1.gameInternalVersionCode) {
+            vStr += "." + GameManager_1.gameInternalVersionCode;
+        }
+        label.string = vStr;
+        n.anchorX = 0;
+        if (GameManager_1.utilsManager.isIphoneX) {
+            n.x = 20;
+            n.y = 10 + 20;
+        }
+        else {
+            n.x = 0;
+            n.y = 10;
+        }
+        cc.director.getScene().addChild(n);
+    };
+    //版本号
+    GameManager.gameVersion = "1.0";
+    //总事件控制器
+    GameManager._eventManager = new EventManager_1.default();
+    //功能总控制器
+    GameManager._utilsManager = new UtilsManager_1.default();
+    //声音管理器
+    GameManager._soundsManager = new SoundsManager_1.default();
+    //popup管理器
+    GameManager._popUpManager = new PopUpManager_1.default();
+    //legs框架上下文
+    GameManager._context = new Context_1.default();
+    GameManager._temp = GameManager_1.init();
+    GameManager = GameManager_1 = __decorate([
+        ccclass
+    ], GameManager);
+    return GameManager;
+    var GameManager_1;
+}(cc.EventTarget));
+exports.default = GameManager;
+
+cc._RF.pop();

@@ -1,0 +1,75 @@
+(function() {"use strict";var __module = CC_EDITOR ? module : {exports:{}};var __filename = 'preview-scripts/assets/Script/StateManage/StateManage.js';var __require = CC_EDITOR ? function (request) {return cc.require(request, require);} : function (request) {return cc.require(request, __filename);};function __define (exports, require, module) {"use strict";
+cc._RF.push(module, '986e1ciQi1DVqOH9zxeLhHX', 'StateManage', __filename);
+// Script/StateManage/StateManage.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var StateManage = /** @class */ (function (_super) {
+    __extends(StateManage, _super);
+    function StateManage() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.skin = null;
+        _this.score = "0";
+        _this.jewel = 2;
+        return _this;
+    }
+    StateManage_1 = StateManage;
+    Object.defineProperty(StateManage, "instance", {
+        get: function () {
+            if (!StateManage_1._instance)
+                StateManage_1._instance = new StateManage_1();
+            return StateManage_1._instance;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StateManage.prototype, "lastChangedKey", {
+        /**
+         *
+         */
+        get: function () {
+            return this._lastChangedKey;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    // 修改状态
+    StateManage.prototype.setData = function (key, value) {
+        if (this[key] !== value && this[key] != void 0) {
+            this[key] = value;
+            this._lastChangedKey = key;
+            this.dispatchEvent(new cc.Event("change", false));
+        }
+    };
+    // 获取状态
+    StateManage.prototype.getData = function (key) {
+        if (this[key] != void 0) {
+            return this[key];
+        }
+        // cc.log(this.jewel)
+    };
+    StateManage._instance = null;
+    StateManage.KEY_SKIN = "skin"; // 皮肤
+    StateManage.KEY_SCORE = "score"; // 得分
+    StateManage.KEY_JEWEL_STATE = "jewel"; // 新钻石
+    StateManage = StateManage_1 = __decorate([
+        ccclass
+    ], StateManage);
+    return StateManage;
+    var StateManage_1;
+}(cc.Node));
+exports.default = StateManage;
+
+cc._RF.pop();
+        }
+        if (CC_EDITOR) {
+            __define(__module.exports, __require, __module);
+        }
+        else {
+            cc.registerModuleFunc(__filename, function () {
+                __define(__module.exports, __require, __module);
+            });
+        }
+        })();
+        //# sourceMappingURL=StateManage.js.map
+        

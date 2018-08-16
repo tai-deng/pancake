@@ -1,0 +1,79 @@
+"use strict";
+cc._RF.push(module, '7774cNMa9VNIJrBybGd2oTa', 'GameConfig');
+// Script/GameConfig.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * 游戏配置
+ */
+var GameConfig = /** @class */ (function () {
+    function GameConfig() {
+    }
+    //=============================================================
+    //等级配置
+    //=============================================================
+    GameConfig.LEVELS = [
+        // "level":number,                         //等级，比如1, 2, 3...
+        // "score":[number, number],               //分数区间比如[0, 100]
+        // "desc":string,                         //描述
+        // "dv":[number, number, number],         //[x1概率, x2概率， x3概率]。宝石概率
+        // "panSize":{number, null},               //0:大, 1:中, 2:小，默认为大
+        // "tl":[],                                 //[停留多少秒开始着火, 每多秒扣一分]不限时，请勿设置该字段。
+        // "fv":{number, null},                     //施加力量，可以为空
+        // "g":{number, null},                      //重力系数，可以为空
+        // "f":{number, null},                      //摩擦系数，可以为空
+        // "r":{number, null},                      //弹性系数，可以为空
+        { level: 1, score: [0, 4], desc: "5分升级",
+            dv: [0.3, 0.3, 0.4],
+            tl: [1, 3],
+            panSize: 0,
+            fv: null, g: null, f: 1
+        },
+        { level: 2, score: [5, 9], desc: "9分升级",
+            dv: [1.0, 0, 0, 0],
+            tl: [2, 1],
+            panSize: 1,
+            fv: null, g: null, f: null, r: null
+        },
+        { level: 3, score: [9, 19], desc: "20分升级",
+            dv: [0.3, 0.3, 0.4],
+            tl: [2, 1],
+            panSize: 2,
+            fv: null, g: null, f: null, r: null
+        },
+        { level: 4, score: [20, 10000], desc: "高分永无止境",
+            dv: [0.3, 0.3, 0.4],
+            panSize: 2,
+            fv: null, g: null, f: null, r: null
+        },
+    ];
+    //=============================================================
+    //=============================================================
+    //宝石概率配置
+    //=============================================================
+    //=============================================================
+    //游戏主玩法配置
+    //=============================================================
+    //煎饼分段数量
+    GameConfig.PANCAKE_SLICE_COUNT = 12;
+    //煎饼重力系数
+    GameConfig.PANCAKE_GRAVITY_SCALE = 2.0;
+    //煎饼摩擦系数(0-1)
+    GameConfig.PANCAKE_FRICTION = 0.65;
+    //煎饼弹性系数(0-1)
+    GameConfig.PANCAKE_RESTITUTION = 0.15;
+    //煎饼弯曲系数(0-2)
+    GameConfig.PANCAKE_BEND = 1;
+    //煎饼角速度衰减。数值越大，煎饼越难以翻面
+    GameConfig.PANCAKE_ANGULAR_DAMPING = 1.2;
+    //点击屏幕时，施加给手臂的力量（数值越大，抛得越高）
+    GameConfig.PANCAKE_FORCE_VALUE = 10000;
+    GameConfig = __decorate([
+        ccclass
+    ], GameConfig);
+    return GameConfig;
+}());
+exports.default = GameConfig;
+
+cc._RF.pop();

@@ -1,0 +1,63 @@
+"use strict";
+cc._RF.push(module, 'fa3bekhbrhEfK807M/d8ZPa', 'Jewels');
+// Script/Jewels/Jewels.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var Jewel = /** @class */ (function (_super) {
+    __extends(Jewel, _super);
+    function Jewel() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.jewels = [];
+        _this.terrace = null;
+        _this.newJewel = null;
+        _this.terracePos = null;
+        return _this;
+        // private stateChangeHandler(e:cc.Event):void {
+        //     let key:string = StateManage.instance.lastChangedKey;
+        //     if (key == StateManage.KEY_JEWEL_STATE && StateManage.instance.jewel == 1) {
+        //         // this.create();
+        //         this.node.active = false;
+        //         // StateManage.instance.setData(StateManage.KEY_JEWEL_STATE,2);
+        //     }
+        // }
+        // start(){
+        // }
+        // update (dt) {
+        // }
+    }
+    Jewel.prototype.create = function () {
+        if (!this.node.active) {
+            var random = Math.floor(Math.random() * 3);
+            random == 3 ? 0 : random;
+            this.newJewel = this.jewels[random];
+            this.terracePos = this.terrace.getPosition();
+            var x_Max = 60;
+            var x_Min = -60;
+            var y_Max = 200;
+            var y_Min = 50;
+            var x = Math.floor(Math.random() * x_Max * 2 - (x_Max / 2));
+            var y = Math.floor(Math.random() * y_Min + y_Max);
+            this.node.getComponent(cc.Sprite).spriteFrame = this.newJewel;
+            this.node.setPosition(this.terracePos.x + x, this.terracePos.y + y);
+            var seq = cc.repeatForever(cc.sequence(cc.moveBy(1, 0, 15), cc.moveBy(1, 0, -15)));
+            this.node.runAction(seq);
+            this.node.active = true;
+        }
+    };
+    Jewel.prototype.onLoad = function () {
+    };
+    __decorate([
+        property([cc.SpriteFrame])
+    ], Jewel.prototype, "jewels", void 0);
+    __decorate([
+        property(cc.Node)
+    ], Jewel.prototype, "terrace", void 0);
+    Jewel = __decorate([
+        ccclass
+    ], Jewel);
+    return Jewel;
+}(cc.Component));
+exports.default = Jewel;
+
+cc._RF.pop();

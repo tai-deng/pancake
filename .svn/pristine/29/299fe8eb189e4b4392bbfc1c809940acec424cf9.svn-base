@@ -1,0 +1,36 @@
+"use strict";
+cc._RF.push(module, '2fbedYuvmlHAqtGFLbg+iXR', 'GameSceneEvents');
+// Script/gameScene/GameSceneEvents.ts
+
+// Learn TypeScript:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var GameSceneEvents = /** @class */ (function () {
+    function GameSceneEvents() {
+    }
+    //游戏结束
+    GameSceneEvents.GAME_START = "gameStart";
+    //游戏结束
+    GameSceneEvents.GAME_OVER = "gameOver";
+    //用户等级改变
+    GameSceneEvents.LEVEL_CHANGED = "levelChanged";
+    //宝石数量改变
+    GameSceneEvents.DIAMONDS_CHANGED = "diamondsChanged";
+    //分数改变
+    GameSceneEvents.SCORE_CHANGED = "scoreChanged";
+    GameSceneEvents = __decorate([
+        ccclass
+    ], GameSceneEvents);
+    return GameSceneEvents;
+}());
+exports.default = GameSceneEvents;
+
+cc._RF.pop();

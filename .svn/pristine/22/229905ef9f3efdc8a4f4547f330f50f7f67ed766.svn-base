@@ -1,0 +1,373 @@
+"use strict";
+cc._RF.push(module, 'dd7c972jqtDkbyC17izJ8JQ', 'PancakeMain');
+// Script/gameScene/PancakeMain.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var GameConfig_1 = require("../GameConfig");
+var PancakeStates_1 = require("./PancakeStates");
+// Learn TypeScript:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * 煎饼
+ */
+var PancakeMain = /** @class */ (function (_super) {
+    __extends(PancakeMain, _super);
+    function PancakeMain() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        //片段节点
+        _this._slices = [];
+        //当前分数
+        _this._score = 0;
+        /**
+         * //准备状态，用户激活后自动落下
+         * public static READY:number = 0;
+         * //下落中
+         * public static FALLING:number = 1;
+         * //在平底锅上安静躺着
+         * public static QUIET:number = 2;
+         * //上抛中
+         * public static RISING:number = 3;
+         */
+        _this._state = 0;
+        //上一次停止的时候的旋转度
+        _this._lastRotation = 0;
+        return _this;
+    }
+    PancakeMain_1 = PancakeMain;
+    PancakeMain.prototype.start = function () {
+        this.createRigidBodies();
+        this.applyLevelData();
+        //中间节点
+        this._centerNode = this._slices[Math.floor(this._slices.length / 2)];
+        //落在锅底上时，结算分数
+        this.node.on(PancakeMain_1.EVENT_ON_PAN, this.onPanHandler, this);
+    };
+    /**
+     * 创建结构
+     *
+     */
+    PancakeMain.prototype.createRigidBodies = function () {
+        //煎饼宽
+        var pancakeW = 168;
+        //煎饼高
+        var pancakeH = 28;
+        //煎饼分块数量
+        var sliceCount = GameConfig_1.default.PANCAKE_SLICE_COUNT;
+        var sliceW = pancakeW / sliceCount;
+        var lastSliceBody;
+        var script = this;
+        for (var i = 0; i < sliceCount; i++) {
+            var sliceNode = new cc.Node();
+            sliceNode.width = sliceW + 4;
+            sliceNode.height = pancakeH;
+            sliceNode.x = i * sliceW - pancakeW / 2;
+            //贴图
+            if (this.pancakeTexture) {
+                var child = new cc.Node();
+                child.x = -sliceNode.x - sliceW / 2;
+                sliceNode.addChild(child);
+                var sprite = child.addComponent(cc.Sprite);
+                sprite.spriteFrame = new cc.SpriteFrame(this.pancakeTexture);
+                var mask = sliceNode.addComponent(cc.Mask);
+                mask.type = cc.Mask.Type.RECT;
+            }
+            cc.info("====  createRigidBodies  ====");
+            // let rigidBody:cc.RigidBody = sliceNode.addComponent(cc.RigidBody);
+            var collider = sliceNode.addComponent(cc.PhysicsBoxCollider);
+            var rigidBody = sliceNode.getComponent(cc.RigidBody);
+            //类型
+            // rigidBody.type = cc.RigidBodyType.Dynamic;
+            rigidBody.type = cc.RigidBodyType.Static;
+            //角速度衰减
+            rigidBody.angularDamping = GameConfig_1.default.PANCAKE_ANGULAR_DAMPING;
+            rigidBody.gravityScale = GameConfig_1.default.PANCAKE_GRAVITY_SCALE; //重力系数
+            //不旋转
+            // rigidBody.fixedRotation = true;
+            collider.size = new cc.Size(sliceW, pancakeH);
+            collider.friction = GameConfig_1.default.PANCAKE_FRICTION; //摩擦系数
+            collider.restitution = GameConfig_1.default.PANCAKE_RESTITUTION; //弹性系数
+            collider.apply();
+            if (!lastSliceBody) {
+                lastSliceBody = rigidBody;
+            }
+            else {
+                //创建连接点
+                var revoluteJoint = sliceNode.addComponent(cc.RevoluteJoint);
+                revoluteJoint.anchor = new cc.Vec2(-sliceW / 2, 0);
+                revoluteJoint.connectedAnchor = new cc.Vec2(sliceW / 2, 0);
+                revoluteJoint.connectedBody = lastSliceBody;
+                revoluteJoint.collideConnected = false; //连接的两个钢体不碰撞
+                revoluteJoint.apply();
+                //上头绳索
+                var ropeJoint = sliceNode.addComponent(cc.RopeJoint);
+                ropeJoint.anchor = new cc.Vec2(0, pancakeH / 2 - 2);
+                ropeJoint.connectedAnchor = new cc.Vec2(0, pancakeH / 2 - 2);
+                ropeJoint.connectedBody = lastSliceBody;
+                ropeJoint.maxLength = sliceW + GameConfig_1.default.PANCAKE_BEND;
+                ropeJoint.collideConnected = false;
+                ropeJoint.apply();
+                //下头绳索
+                ropeJoint = sliceNode.addComponent(cc.RopeJoint);
+                ropeJoint.anchor = new cc.Vec2(0, -pancakeH / 2 + 2);
+                ropeJoint.connectedAnchor = new cc.Vec2(0, -pancakeH / 2 + 2);
+                ropeJoint.connectedBody = lastSliceBody;
+                ropeJoint.maxLength = sliceW + GameConfig_1.default.PANCAKE_BEND;
+                ropeJoint.collideConnected = false;
+                ropeJoint.apply();
+                lastSliceBody = rigidBody;
+            }
+            //======================================================
+            //监听事件
+            //======================================================
+            // body.fixedRotation = true;
+            rigidBody.enabledContactListener = true;
+            rigidBody.onBeginContact = function (contact, selfCollider, otherCollider) {
+                script.onBeginContact(contact, selfCollider, otherCollider);
+            };
+            // rigidBody.onEndContact = function(contact:cc.PhysicsContact,selfCollider:cc.PhysicsCollider,otherCollider:cc.PhysicsCollider){
+            //     script.onEndContact(contact, selfCollider, otherCollider);
+            // }
+            rigidBody.onPostSolve = function (contact, selfCollider, otherCollider) {
+                script.onPostSolve(contact, selfCollider, otherCollider);
+            };
+            //======================================================
+            this.node.addChild(sliceNode);
+            this._slices.push(sliceNode);
+        }
+    };
+    Object.defineProperty(PancakeMain.prototype, "levelData", {
+        /**
+         * 设置当前等级数据
+         *
+         */
+        set: function (v) {
+            if (!v)
+                return;
+            if (this._levelData && this._levelData.level == v.level)
+                return;
+            this._levelData = v;
+            this.applyLevelData();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * 提交物理参数设定
+     *
+     */
+    PancakeMain.prototype.applyLevelData = function () {
+        if (!this._isOnLoadCalled || !this._slices)
+            return;
+        if (!this._levelData)
+            return;
+        cc.info("【applyLevelData】", JSON.stringify(this._levelData));
+        var levelData = this._levelData;
+        this._slices.forEach(function (sliceNode) {
+            // let rigidBody:cc.RigidBody = sliceNode.addComponent(cc.RigidBody);
+            var collider = sliceNode.getComponent(cc.PhysicsBoxCollider);
+            var rigidBody = sliceNode.getComponent(cc.RigidBody);
+            rigidBody.gravityScale = levelData.gravityScale;
+            collider.friction = levelData.friction; //摩擦系数
+            collider.restitution = levelData.restitution; //弹性系数
+            collider.apply();
+        });
+    };
+    Object.defineProperty(PancakeMain.prototype, "centerNode", {
+        get: function () {
+            return this._centerNode;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PancakeMain.prototype, "state", {
+        /**
+         * 获取煎饼状态
+         *
+         * @see PancakeStates
+         */
+        get: function () {
+            return this._state;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    PancakeMain.prototype.update = function (dt) {
+        var frames = cc.director.getTotalFrames();
+        if (frames % 10 == 0) {
+            //检查煎饼的线性速度
+            var centerBody = this._centerNode.getComponent(cc.RigidBody);
+            var velocity = centerBody.getWorldPoint(new cc.Vec2(0, 0), null);
+            velocity = centerBody.getLinearVelocityFromWorldPoint(velocity, null);
+            if (velocity) {
+                // cc.info(this._state, velocity.x, velocity.y);
+                //=====================================================
+                //计算获得分数
+                //=====================================================
+                var v = this.centerNode.rotation;
+                v = v - this._lastRotation;
+                v = Math.abs(Math.round(v / 180));
+                if (v > 0) {
+                    //获得分数
+                    this._score++;
+                    this._lastRotation = this.centerNode.rotation;
+                }
+                //=====================================================
+                var xv = Math.abs(velocity.x);
+                var yv = Math.abs(velocity.y);
+                if (this._state == PancakeStates_1.default.FALLING && xv < 2 && yv < 2) {
+                    if (this._state == PancakeStates_1.default.FALLING) {
+                        //落在铁盘上
+                        this.node.dispatchEvent(new cc.Event(PancakeMain_1.EVENT_ON_PAN, false));
+                    }
+                    this._state = PancakeStates_1.default.QUIET; //安静躺着
+                }
+                else if (velocity.y > 5) {
+                    if (this._state == PancakeStates_1.default.FALLING) {
+                        //下落过程中
+                        this.node.dispatchEvent(new cc.Event(PancakeMain_1.EVENT_ON_PAN, false));
+                        this.node.dispatchEvent(new cc.Event(PancakeMain_1.EVENT_LEAVE_PAN, false));
+                    }
+                    else if (this._state == PancakeStates_1.default.QUIET) {
+                        this.node.dispatchEvent(new cc.Event(PancakeMain_1.EVENT_LEAVE_PAN, false));
+                    }
+                    this._state = PancakeStates_1.default.RISING; //上升
+                }
+                else if (velocity.y < -5) {
+                    this._state = PancakeStates_1.default.FALLING; //下落
+                }
+            }
+        }
+    };
+    Object.defineProperty(PancakeMain.prototype, "actived", {
+        get: function () {
+            return this._actived;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * 让煎饼掉落
+     *
+     */
+    PancakeMain.prototype.active = function () {
+        if (this._actived)
+            return;
+        this._actived = true;
+        this._slices.forEach(function (ele) {
+            var body = ele.getComponent(cc.RigidBody);
+            body.type = cc.RigidBodyType.Dynamic;
+        });
+        this._state = PancakeStates_1.default.FALLING; //下落
+    };
+    /**
+     * 落在锅底上结算分数
+     *
+     * @param e
+     */
+    PancakeMain.prototype.onPanHandler = function (e) {
+        if (this._score > 0) {
+            var evt = new cc.Event(PancakeMain_1.EVENT_GET_SCORE, false);
+            evt["data"] = this._score;
+            this.node.dispatchEvent(evt);
+            this._score = 0;
+        }
+    };
+    // 饼碰撞开始
+    PancakeMain.prototype.onBeginContact = function (contact, selfCollider, otherCollider) {
+        var tag = otherCollider["tag"];
+        // cc.info("【Pancake onBeginContact】", tag);
+        // 碰撞到锅
+        if (tag != 100) {
+            contact.disabled = true;
+        }
+        else {
+            //碰撞点
+            var points = contact.getWorldManifold().points;
+            if (points && points.length > 0) {
+                var po = points[0];
+                po = selfCollider.body.getLocalPoint(po, null);
+                po = selfCollider.body.node.convertToWorldSpace(po);
+                var e = new cc.Event(PancakeMain_1.EVENT_TOUCH_PAN, false);
+                e["data"] = po;
+                this.node.dispatchEvent(e);
+            }
+        }
+        // 碰撞到钻石
+        if (tag == 200) {
+            var diamondNode = otherCollider.body.node;
+            if (this._lastDiamondUUID != diamondNode.uuid) {
+                this._lastDiamondUUID = diamondNode.uuid;
+                var e = new cc.Event(PancakeMain_1.EVENT_GET_DIAMOND, false);
+                e["data"] = otherCollider.body.node;
+                this.node.dispatchEvent(e);
+            }
+        }
+        //碰撞到墙壁
+        if (tag >= 300 && tag < 400) {
+            this.node.dispatchEvent(new cc.Event(PancakeMain_1.EVENT_DIE, false));
+        }
+    };
+    // 饼碰撞结束
+    PancakeMain.prototype.onEndContact = function (contact, selfCollider, otherCollider) {
+        // let tag:number = otherCollider["tag"];
+        // cc.info("【Pancake onEndContact】", tag);
+        // // 碰撞到锅
+        // if(tag == 100){
+        // }
+    };
+    //一次接触
+    PancakeMain.prototype.onPostSolve = function (contact, selfCollider, otherCollider) {
+        var tag = otherCollider["tag"];
+        // cc.info("【Pancake onPostSolve】", tag);
+        // 碰撞到锅
+        if (tag == 100) {
+            var theBody = selfCollider.body;
+            var velocity = void 0; //= theBody.getWorldPoint(new cc.Vec2(0, 0), null);
+            // velocity = theBody.getLinearVelocityFromWorldPoint(velocity, null);
+            // cc.info(velocity.x, velocity.y);
+            velocity = theBody.linearVelocity;
+            // cc.info(velocity.x, velocity.y, "theBody.linearVelocity");
+            // velocity.x = 100;
+            if (velocity.y > 100) {
+                // cc.info("施加力");
+                // let sc:number = 0.5;
+                // theBody.applyLinearImpulse(new cc.Vec2(60 * sc, 30 * sc), new cc.Vec2(0, 0), true);
+                // let velocity:cc.Vec2 = theBody.getWorldPoint(new cc.Vec2(0, 0), null);
+                // velocity = theBody.getLinearVelocityFromWorldPoint(velocity, null);
+                // cc.info("施加力后", velocity.x, velocity.y);
+                var sc = 0.5;
+                theBody.linearVelocity = new cc.Vec2(10, velocity.y * 0.9);
+                velocity = theBody.linearVelocity;
+                // cc.info("施加力后", velocity.x, velocity.y);
+            }
+        }
+    };
+    var PancakeMain_1;
+    //获取到宝石
+    PancakeMain.EVENT_GET_DIAMOND = "getDiamond";
+    //落在了铁盘上
+    PancakeMain.EVENT_ON_PAN = "onPan";
+    //离开铁盘
+    PancakeMain.EVENT_LEAVE_PAN = "leavePan";
+    //接触铁盘
+    PancakeMain.EVENT_TOUCH_PAN = "touchPan";
+    //死亡
+    PancakeMain.EVENT_DIE = "die";
+    //获得分数
+    PancakeMain.EVENT_GET_SCORE = "getScore";
+    PancakeMain = PancakeMain_1 = __decorate([
+        ccclass
+    ], PancakeMain);
+    return PancakeMain;
+}(cc.Component));
+exports.default = PancakeMain;
+
+cc._RF.pop();

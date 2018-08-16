@@ -1,0 +1,170 @@
+"use strict";
+cc._RF.push(module, '49ddbGjBlpLhaUOcmKhj7i6', 'WXRewardVideoAd');
+// Script/gamecore/wechat/WXRewardVideoAd.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var GameManager_1 = require("../managers/GameManager");
+var WXEventType_1 = require("./WXEventType");
+// Learn TypeScript:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * 微信激励视频广告
+ *
+ */
+var WXRewardVideoAd = /** @class */ (function (_super) {
+    __extends(WXRewardVideoAd, _super);
+    function WXRewardVideoAd() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    WXRewardVideoAd_1 = WXRewardVideoAd;
+    Object.defineProperty(WXRewardVideoAd, "adID", {
+        /**
+         * 设置广告id
+         */
+        set: function (value) {
+            cc.info("----  微信视频广告 ----");
+            cc.info("-  set ad id  -");
+            cc.info(value);
+            if (WXRewardVideoAd_1._adID != value) {
+                WXRewardVideoAd_1._adID = value;
+                WXRewardVideoAd_1.reset();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WXRewardVideoAd, "isReady", {
+        /**
+         * 广告是否已准备好
+         */
+        get: function () {
+            return WXRewardVideoAd_1._isReady;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WXRewardVideoAd, "isPlaying", {
+        /**
+         * 是否正在播放视频广告
+         */
+        get: function () {
+            return WXRewardVideoAd_1._isPlaying;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * 显示广告
+     */
+    WXRewardVideoAd.show = function () {
+        cc.info("----  微信视频广告 ----");
+        cc.info("-  show  -");
+        cc.info("WXRewardVideoAd._isReady", WXRewardVideoAd_1._isReady);
+        cc.info("WXRewardVideoAd._isPlaying", WXRewardVideoAd_1._isPlaying);
+        if (!WXRewardVideoAd_1._isReady)
+            return false;
+        if (WXRewardVideoAd_1._isPlaying)
+            return false;
+        //记录当前背景音乐是否已静音
+        WXRewardVideoAd_1._originalBGMMuted = GameManager_1.default.soundsManager.musicMuted;
+        WXRewardVideoAd_1._ad.show();
+        WXRewardVideoAd_1._isPlaying = true;
+        //静音背景音乐
+        GameManager_1.default.soundsManager.muteMusic();
+        return true;
+    };
+    /**
+     * 重置
+     */
+    WXRewardVideoAd.reset = function () {
+        cc.info("----  微信视频广告 ----");
+        cc.info("-  reset  -");
+        if (WXRewardVideoAd_1._ad) {
+            WXRewardVideoAd_1._ad.offLoad(WXRewardVideoAd_1.adLoadCallback);
+            WXRewardVideoAd_1._ad.offClose(WXRewardVideoAd_1.adCloseCallback);
+            WXRewardVideoAd_1._ad.offError(WXRewardVideoAd_1.adErrorCallback);
+            WXRewardVideoAd_1._ad = null;
+        }
+        //重置参数
+        WXRewardVideoAd_1._isReady = false;
+        WXRewardVideoAd_1._isPlaying = false;
+        if (!WXRewardVideoAd_1._adID)
+            return;
+        if (typeof wx == "undefined")
+            return;
+        WXRewardVideoAd_1._ad = wx.createRewardedVideoAd({
+            adUnitId: WXRewardVideoAd_1._adID
+        });
+        //监听事件
+        WXRewardVideoAd_1._ad.onLoad(WXRewardVideoAd_1.adLoadCallback);
+        WXRewardVideoAd_1._ad.onClose(WXRewardVideoAd_1.adCloseCallback);
+        WXRewardVideoAd_1._ad.onError(WXRewardVideoAd_1.adErrorCallback);
+        WXRewardVideoAd_1._ad.load();
+    };
+    /**
+     * 广告加载完成回调
+     */
+    WXRewardVideoAd.adLoadCallback = function () {
+        cc.info("----  微信视频广告 ----");
+        cc.info("-  adLoadCallback  -");
+        WXRewardVideoAd_1._isReady = true;
+        GameManager_1.default.eventManager.dispatchEventWith(WXEventType_1.default.REWARD_VIDEO_AD_READY);
+    };
+    /**
+     * 广告关闭回调
+     */
+    WXRewardVideoAd.adCloseCallback = function (res) {
+        if (res === void 0) { res = null; }
+        cc.info("----  微信视频广告 ----");
+        cc.info("-  adCloseCallback  -");
+        cc.info(res);
+        //恢复背景音乐
+        if (!WXRewardVideoAd_1._originalBGMMuted) {
+            GameManager_1.default.soundsManager.unmuteMusic();
+            WXRewardVideoAd_1._originalBGMMuted = false;
+        }
+        WXRewardVideoAd_1._isPlaying = false;
+        // if (res) {
+        if (res && res["isEnded"] == true) {
+            GameManager_1.default.eventManager.dispatchEventWith(WXEventType_1.default.REWARD_VIDEO_AD_COMPLETE);
+        }
+        else {
+            GameManager_1.default.eventManager.dispatchEventWith(WXEventType_1.default.REWARD_VIDEO_AD_CLOSE);
+        }
+        // } else {
+        //     //兼容处理
+        //     GameManager.eventManager.dispatchEventWith(WXEventType.REWARD_VIDEO_AD_COMPLETE);
+        // }
+    };
+    /**
+     * 广告错误回调
+     */
+    WXRewardVideoAd.adErrorCallback = function (res) {
+        cc.info("----  微信视频广告 ----");
+        cc.info("-  adErrorCallback  -");
+        cc.info(res);
+        //恢复背景音乐
+        if (!WXRewardVideoAd_1._originalBGMMuted) {
+            GameManager_1.default.soundsManager.unmuteMusic();
+            WXRewardVideoAd_1._originalBGMMuted = false;
+        }
+        WXRewardVideoAd_1._isPlaying = false;
+        GameManager_1.default.eventManager.dispatchEventWith(WXEventType_1.default.REWARD_VIDEO_AD_ERROR);
+    };
+    WXRewardVideoAd = WXRewardVideoAd_1 = __decorate([
+        ccclass
+    ], WXRewardVideoAd);
+    return WXRewardVideoAd;
+    var WXRewardVideoAd_1;
+}(cc.EventTarget));
+exports.default = WXRewardVideoAd;
+
+cc._RF.pop();

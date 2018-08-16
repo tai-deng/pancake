@@ -1,0 +1,165 @@
+import GameManager from "../gamecore/managers/GameManager";
+import Over from "./Over";
+import Game from "../Game/Game";
+import StateManage from "../StateManage/StateManage";
+import Jewel from "../Jewels/Jewels";
+import Json from "../Json/Json";
+
+const {ccclass, property} = cc._decorator;
+// 手臂类执行体
+@ccclass
+export default class Action extends cc.Component {
+
+    @property(cc.Node)
+    pancake:Array<cc.Node> = [];
+    @property(cc.Node)
+    terrace:cc.Node = null;
+    @property(cc.Node)
+    arm:cc.Node = null;
+    @property(cc.Node)
+    jewels:cc.Node = null;
+
+    public score:cc.Node = null;
+    private _isTouching:boolean = false;
+    private pancakePos:Array<cc.Vec2> = [];
+
+    onLoad(){
+        this.initialize(1);
+        StateManage.instance.on("change", this.stateChangeHandler, this);
+    }
+    start(){
+        this.node.parent.on(cc.Node.EventType.TOUCH_START, this.touchStartHandler, this);
+        this.node.parent.on(cc.Node.EventType.TOUCH_END, this.touchEndHandler, this);
+    }
+    // 初始化钢体
+    initialize(cases:number):void{
+        // StateManage.instance.setData(StateManage.KEY_CAKEPOS,this.pancakePos);
+        if(cases == 1){
+            // this.pancake = cc.instantiate(this.pancakPrefab);
+            this.pancake = cc.find("pancakeNode",this.node).children;
+            this.score = cc.find("Canvas/describe/score");
+            this.terrace = cc.find("hands/pot/terrace", this.node);
+            this.arm = cc.find("hands/bigArm",this.node);
+            this.jewels = this.node.getChildByName("jewels");
+            this.pancake.forEach(element => {
+                let temp = element.getComponent(cc.RigidBody)
+                let pos  = element.getPosition()
+                this.pancakePos.push(pos)
+                temp.type = 1;
+                temp.enabledContactListener = true;
+                temp.onBeginContact = this.onBeginContact;
+            });
+        }else if(cases == 2){
+            this.pancake.forEach(element => {
+                let temp = element.getComponent(cc.RigidBody)
+                temp.type = 2;
+            });
+        }else if(cases == 3){
+            this.pancake.forEach(function(element,index){
+                let temp = element.getComponent(cc.RigidBody)
+                element.setPosition(this.pancakePos[index])
+                temp.type = 0;
+            }.bind(this));
+            StateManage.instance.setData(StateManage.KEY_ISOVER,2)
+        }
+    }
+    // 饼碰撞开始
+    private onBeginContact(contact:cc.PhysicsContact,selfCollider:cc.PhysicsCollider,otherCollider:cc.PhysicsCollider){
+        let tag:number = otherCollider["tag"];
+        // 碰撞到锅
+        if(tag != 100){
+            contact.disabled = true;
+            StateManage.instance.setData(StateManage.KEY_JEWEL_STATE,1);
+        }
+        // 碰撞到钻石
+        if(tag == 200 ){
+            let score = Number(StateManage.instance.getData(StateManage.KEY_SCORE)) + 50;
+            StateManage.instance.setData(StateManage.KEY_SCORE,score);
+            
+            let gem = Number(StateManage.instance.getData(StateManage.KEY_GEM)) + 1;
+            StateManage.instance.setData(StateManage.KEY_GEM,gem);
+            StateManage.instance.setData(StateManage.KEY_JEWEL_STATE,2);
+        }
+    }
+    // 加力动作
+    public strength(){
+        this.arm.getComponent(cc.RigidBody).applyLinearImpulse(new cc.Vec2(1000, 0), new cc.Vec2(0, 0), true);
+    }
+    // 检测
+    public crash(){
+        if(this.pancake[5] && StateManage.instance.getData(StateManage.KEY_ISOVER)==2){
+            let pans = this.pancake[5].getComponent(cc.RigidBody).getWorldCenter();
+            let pot = this.terrace.getComponent(cc.RigidBody).getWorldCenter();
+            if(pans.y < pot.y-50){
+                StateManage.instance.setData(StateManage.KEY_ISOVER,1);
+            }
+        }
+    }
+    // 开始触摸
+    private touchStartHandler(e:cc.Event):void {
+        this._isTouching = true;
+        this.initialize(2);
+        this.changeSkin();
+    }
+    // 触摸结束
+    private touchEndHandler(e:cc.Event):void {
+        this._isTouching = false;
+    }
+    // 改变皮肤 
+    private changeSkin(){
+        let resName = StateManage.instance.getData(StateManage.KEY_SKIN);
+        let res = new Json().skins;
+        let newSkin = {};
+        res.forEach(el =>{
+            if(el["name"] == resName){
+                newSkin = el;
+            }
+        })
+        cc.log(resName,newSkin)
+
+        let currentBigArm = cc.url.raw(newSkin["bigArm"]);
+        let currentLittleArm = cc.url.raw(newSkin["lowerArm"]);
+        let currentPot = cc.url.raw(newSkin["hand"]);
+
+        this.arm.getChildByName("arm1").getComponent(cc.Sprite).spriteFrame.setTexture(currentBigArm);
+        this.node.getChildByName("hands").getChildByName("littleArm").getChildByName("arm2").getComponent(cc.Sprite).spriteFrame.setTexture(currentLittleArm);
+        this.node.getChildByName("hands").getChildByName("pot").getChildByName("potImg").getComponent(cc.Sprite).spriteFrame.setTexture(currentPot);
+        
+    }
+    // 数据值监控
+    private stateChangeHandler(e:cc.Event):void {
+        let key:string = StateManage.instance.lastChangedKey;
+        // 随机宝石
+        if (key == StateManage.KEY_JEWEL_STATE && StateManage.instance.jewel == 1) {
+            this.jewels.getComponent(Jewel).create();
+        }
+        if (key == StateManage.KEY_JEWEL_STATE && StateManage.instance.jewel == 2) {
+            this.jewels.active = false;
+        }
+        // 当前得分
+        if (key == StateManage.KEY_SCORE) {
+            this.score.getComponent(cc.Label).string = StateManage.instance.getData(StateManage.KEY_SCORE);
+        }
+        // 换皮肤
+        if (key == StateManage.KEY_SKIN) {
+            // this.changeSkin();
+        }
+        // 监控游戏是否结束 1 游戏结束展示页面 2 隐藏游戏结束页面
+        if (key == StateManage.KEY_ISOVER && StateManage.instance.isOver == 1) {
+            cc.find("Canvas/over").getComponent('Over').show();
+        }else if (key == StateManage.KEY_ISOVER && StateManage.instance.isOver == 0){
+            this.initialize(3);
+        }
+    }
+    update (dt) {
+        if (this._isTouching) {
+           this.strength();
+        }
+       this.crash();
+    }
+
+
+    onDestroy() {
+        StateManage.instance.off("change", this.stateChangeHandler);
+    }
+}

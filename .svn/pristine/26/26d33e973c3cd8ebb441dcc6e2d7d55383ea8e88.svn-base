@@ -1,0 +1,758 @@
+2018-07-16T06:21:22.863Z - normal: Load ~/.CocosCreator/settings.json
+2018-07-16T06:21:22.867Z - normal: checking language setting...
+2018-07-16T06:21:22.867Z - normal: Language: zh
+2018-07-16T06:21:24.645Z - success: protocol editor-framework registered
+2018-07-16T06:21:24.645Z - success: protocol app registered
+2018-07-16T06:21:24.645Z - success: protocol theme registered
+2018-07-16T06:21:24.645Z - success: protocol packages registered
+2018-07-16T06:21:24.645Z - success: protocol unpack registerred
+2018-07-16T06:21:24.645Z - success: protocol disable-commonjs registerred
+2018-07-16T06:21:24.841Z - normal: connected!
+2018-07-16T06:21:24.842Z - normal: Check project E:\items\pancakeSource\cc_sub\pancakesubproject
+2018-07-16T06:21:24.844Z - normal: Initializing Cocos2d
+2018-07-16T06:21:25.039Z - normal: Initializing Asset Database
+2018-07-16T06:21:25.072Z - success: protocol uuid registerred
+2018-07-16T06:21:25.073Z - success: protocol db registerred
+2018-07-16T06:21:25.073Z - success: protocol thumbnail registerred
+2018-07-16T06:21:25.073Z - normal: Loading editor/builtin packages
+2018-07-16T06:21:25.091Z - success: anysdk loaded
+2018-07-16T06:21:25.204Z - success: assets loaded
+2018-07-16T06:21:25.206Z - success: builder loaded
+2018-07-16T06:21:25.208Z - success: cocos-analytics loaded
+2018-07-16T06:21:25.210Z - success: console loaded
+2018-07-16T06:21:25.246Z - success: fb-instant-games loaded
+2018-07-16T06:21:25.249Z - success: hierarchy loaded
+2018-07-16T06:21:25.252Z - success: inspector loaded
+2018-07-16T06:21:25.253Z - success: keystore loaded
+2018-07-16T06:21:25.255Z - success: node-library loaded
+2018-07-16T06:21:25.256Z - success: package-asset loaded
+2018-07-16T06:21:25.257Z - success: preferences loaded
+2018-07-16T06:21:25.258Z - success: project-exporter loaded
+2018-07-16T06:21:25.272Z - success: project-importer loaded
+2018-07-16T06:21:25.274Z - success: project-settings loaded
+2018-07-16T06:21:25.276Z - success: ui-kit loaded
+2018-07-16T06:21:25.278Z - success: ui-grid loaded
+2018-07-16T06:21:25.282Z - success: scene loaded
+2018-07-16T06:21:25.283Z - success: sprite-editor loaded
+2018-07-16T06:21:25.286Z - success: store loaded
+2018-07-16T06:21:25.289Z - success: timeline loaded
+2018-07-16T06:21:25.289Z - normal: Loading builtin packages
+2018-07-16T06:21:25.291Z - success: asset-db-debugger loaded
+2018-07-16T06:21:25.292Z - success: code-editor loaded
+2018-07-16T06:21:25.293Z - success: color-picker loaded
+2018-07-16T06:21:25.295Z - success: package-manager loaded
+2018-07-16T06:21:25.298Z - success: qqplay-adapter loaded
+2018-07-16T06:21:25.301Z - success: sdkbox loaded
+2018-07-16T06:21:25.304Z - success: tester loaded
+2018-07-16T06:21:25.306Z - success: ui-kit-preview-extra loaded
+2018-07-16T06:21:25.307Z - success: ui-kit-preview loaded
+2018-07-16T06:21:25.309Z - success: ui-tree loaded
+2018-07-16T06:21:25.309Z - success: weapp-adapter loaded
+2018-07-16T06:21:26.388Z - normal: Initializing project E:\items\pancakeSource\cc_sub\pancakesubproject
+2018-07-16T06:21:26.392Z - normal: Loading packages
+2018-07-16T06:21:26.397Z - normal: Watching packages
+2018-07-16T06:21:26.749Z - normal: Run Application
+2018-07-16T06:21:27.114Z - warn: [db-task][init] Backup unused meta file: db://assets/resources/sounds.meta
+2018-07-16T06:21:27.459Z - success: preview server running at http://localhost:7457
+2018-07-16T06:21:32.441Z - normal: 1.9.3
+2018-07-16T06:21:32.598Z - warn: Please specifiy a default value for "medalNode" property at its declaration: 😂
+    // Before:
+    @property(...)
+    value;
+
+    // After:
+    @property(...)
+    value = 0;
+2018-07-16T06:21:32.599Z - warn: Please specifiy a default value for "medalNode" property at its declaration: 😂
+    // Before:
+    @property(...)
+    value;
+
+    // After:
+    @property(...)
+    value = 0;
+2018-07-16T06:26:18.894Z - normal: Simulator: SCREEN DPI = 96, SCREEN SCALE = 1.00
+2018-07-16T06:26:18.897Z - normal: Simulator: WORKAREA WIDTH 1912.00, HEIGHT 990.00
+2018-07-16T06:26:18.898Z - normal: Simulator: FRAME SCALE = 0.50
+2018-07-16T06:26:19.047Z - normal: Simulator: Ready for GLSL
+2018-07-16T06:26:19.047Z - normal: Simulator: Ready for OpenGL 2.0
+2018-07-16T06:26:19.052Z - normal: Simulator: 
+2018-07-16T06:26:19.052Z - normal: Simulator: {
+2018-07-16T06:26:19.052Z - normal: Simulator: 	gl.version: 4.4.0 NVIDIA 344.11
+2018-07-16T06:26:19.052Z - normal: Simulator: 	gl.supports_NPOT: true
+2018-07-16T06:26:19.052Z - normal: Simulator: 	cocos2d.x.version: Cocos2d-x-lite v1.8.2
+2018-07-16T06:26:19.052Z - normal: Simulator: 	cocos2d.x.compiled_with_profiler: false
+2018-07-16T06:26:19.052Z - normal: Simulator: 	cocos2d.x.build_type: DEBUG
+2018-07-16T06:26:19.052Z - normal: Simulator: 	cocos2d.x.compiled_with_gl_state_cache: true
+2018-07-16T06:26:19.053Z - normal: Simulator: 	gl.max_texture_size: 16384
+2018-07-16T06:26:19.053Z - normal: Simulator: 	gl.supports_OES_packed_depth_stencil: false
+2018-07-16T06:26:19.054Z - normal: Simulator: 	gl.vendor: NVIDIA Corporation
+2018-07-16T06:26:19.054Z - normal: Simulator: 	gl.renderer: GeForce GT 610/PCIe/SSE2
+2018-07-16T06:26:19.054Z - normal: Simulator: 	gl.max_texture_units: 192
+2018-07-16T06:26:19.054Z - normal: Simulator: 	gl.supports_ETC1: false
+2018-07-16T06:26:19.055Z - normal: Simulator: 	gl.supports_PVRTC: false
+2018-07-16T06:26:19.055Z - normal: Simulator: 	gl.supports_BGRA8888: false
+2018-07-16T06:26:19.055Z - normal: Simulator: 	gl.supports_discard_framebuffer: false
+2018-07-16T06:26:19.055Z - normal: Simulator: 	gl.supports_vertex_array_object: true
+2018-07-16T06:26:19.055Z - normal: Simulator: 	gl.supports_OES_map_buffer: false
+2018-07-16T06:26:19.055Z - normal: Simulator: 	gl.supports_OES_depth24: false
+2018-07-16T06:26:19.055Z - normal: Simulator: }
+2018-07-16T06:26:19.055Z - normal: Simulator: 
+2018-07-16T06:26:19.055Z - normal: Simulator: 
+2018-07-16T06:26:19.055Z - normal: Simulator: cocos2d: warning, Director::setProjection() failed because size is 0
+2018-07-16T06:26:19.060Z - normal: Simulator: Project Config:
+2018-07-16T06:26:19.060Z - normal: Simulator:     project dir: E:\cocos creator\CocosCreator\resources\cocos2d-x\simulator\win32\
+2018-07-16T06:26:19.060Z - normal: Simulator:     writable path: $(PROJDIR)\
+2018-07-16T06:26:19.060Z - normal: Simulator:     script file: $(PROJDIR)\main.js
+2018-07-16T06:26:19.060Z - normal: Simulator:     frame size: 750 x 1334
+2018-07-16T06:26:19.060Z - normal: Simulator:     frame scale: 0.50
+2018-07-16T06:26:19.060Z - normal: Simulator:     show console: NO
+2018-07-16T06:26:19.060Z - normal: Simulator:     write debug log: NO ()
+2018-07-16T06:26:19.060Z - normal: Simulator:     listen: 
+2018-07-16T06:26:19.060Z - normal: Simulator:     debugger: none
+2018-07-16T06:26:19.060Z - normal: Simulator:     add searching path:
+2018-07-16T06:26:19.061Z - normal: Simulator: 
+2018-07-16T06:26:19.061Z - normal: Simulator: 
+2018-07-16T06:26:19.061Z - normal: Simulator: 
+2018-07-16T06:26:19.061Z - normal: Simulator: ------------------------------------------------
+2018-07-16T06:26:19.061Z - normal: Simulator: LOAD Js FILE: main.js
+2018-07-16T06:26:19.061Z - normal: Simulator: ------------------------------------------------
+2018-07-16T06:26:19.061Z - normal: Simulator: D/jswrapper (364): Initializing V8, version: 6.0.286.52
+2018-07-16T06:26:19.347Z - normal: Simulator: D/jswrapper (813): libuv version: 1.13.1
+2018-07-16T06:26:19.348Z - normal: Simulator: D/jswrapper (112): Debugger listening..., visit [ chrome-devtools://devtools/bundled/inspector.html?v8only=true&ws=0.0.0.0:5086/00010002-0003-4004-8005-000600070008 ] in chrome browser to debug!
+2018-07-16T06:26:19.348Z - normal: Simulator: D/jswrapper (115): For help see https://nodejs.org/en/docs/inspector
+2018-07-16T06:26:19.427Z - normal: Simulator: D/jswrapper (125): JS: Cocos2d-x-lite v1.8.2
+2018-07-16T06:26:19.595Z - normal: Simulator: iShow!
+2018-07-16T06:26:19.603Z - normal: Simulator: D/jswrapper (144): JS: [WARN]: Please specifiy a default value for "medalNode" property at its declaration: ??
+2018-07-16T06:26:19.603Z - normal: Simulator:     // Before:
+2018-07-16T06:26:19.603Z - normal: Simulator:     @property(...)
+2018-07-16T06:26:19.603Z - normal: Simulator:     value;
+2018-07-16T06:26:19.603Z - normal: Simulator: 
+2018-07-16T06:26:19.604Z - normal: Simulator:     // After:
+2018-07-16T06:26:19.604Z - normal: Simulator:     @property(...)
+2018-07-16T06:26:19.604Z - normal: Simulator:     value = 0;
+2018-07-16T06:26:19.613Z - normal: Simulator: D/jswrapper (144): JS: [WARN]: Please specifiy a default value for "medalNode" property at its declaration: ??
+2018-07-16T06:26:19.614Z - normal: Simulator:     // Before:
+2018-07-16T06:26:19.614Z - normal: Simulator:     @property(...)
+2018-07-16T06:26:19.614Z - normal: Simulator:     value;
+2018-07-16T06:26:19.614Z - normal: Simulator: 
+2018-07-16T06:26:19.614Z - normal: Simulator:     // After:
+2018-07-16T06:26:19.615Z - normal: Simulator:     @property(...)
+2018-07-16T06:26:19.615Z - normal: Simulator:     value = 0;
+2018-07-16T06:26:19.686Z - normal: Simulator: D/jswrapper (125): JS: InitScene: 3.045000000000016ms
+2018-07-16T06:26:19.686Z - normal: Simulator: D/jswrapper (125): JS: AutoRelease: 0.19099999999997408ms
+2018-07-16T06:26:19.686Z - normal: Simulator: D/jswrapper (125): JS: Destroy: 0.12000000000000455ms
+2018-07-16T06:26:19.686Z - normal: Simulator: D/jswrapper (125): JS: AttachPersist: 0.009999999999990905ms
+2018-07-16T06:26:19.698Z - normal: Simulator: D/jswrapper (125): JS: [WARN]: Sorry, lineHeight of system font not supported on JSB.
+2018-07-16T06:26:19.702Z - normal: Simulator: D/jswrapper (125): JS: [WARN]: Sorry, lineHeight of system font not supported on JSB.
+2018-07-16T06:26:19.705Z - normal: Simulator: D/jswrapper (125): JS: [WARN]: Sorry, lineHeight of system font not supported on JSB.
+2018-07-16T06:26:19.714Z - normal: Simulator: D/jswrapper (125): JS: [WARN]: Sorry, lineHeight of system font not supported on JSB.
+2018-07-16T06:26:19.719Z - normal: Simulator: D/jswrapper (125): JS: Activate: 31.42500000000001ms
+2018-07-16T06:26:19.719Z - normal: Simulator: D/jswrapper (144): JS: 总榜 undefined
+2018-07-16T06:26:19.721Z - normal: Simulator: D/jswrapper (144): JS: 获取总榜排名 
+2018-07-16T06:26:19.729Z - normal: Simulator: D/jswrapper (144): JS:  ranking
+2018-07-16T06:26:19.729Z - normal: Simulator: D/jswrapper (144): JS: 自己的排行 undefined
+2018-07-16T06:26:19.729Z - normal: Simulator: D/jswrapper (144): JS: 获取自己的排名 [object Object]
+2018-07-16T06:26:19.729Z - normal: Simulator: D/jswrapper (125): JS: [INFO]: ----  WX Core ----
+2018-07-16T06:26:19.729Z - normal: Simulator: D/jswrapper (125): JS: [INFO]: -  createImage  -
+2018-07-16T06:26:19.729Z - normal: Simulator: D/jswrapper (125): JS: [INFO]: undefined
+2018-07-16T06:26:19.731Z - normal: Simulator: D/jswrapper (144): JS: self [object Object]
+2018-07-16T06:26:25.685Z - normal: Simulator: D/jswrapper (447): ScriptEngine::cleanup begin ...
+2018-07-16T06:26:25.685Z - normal: Simulator: D/jswrapper (588): GC begin ..., (js->native map) size: 133, all objects: 416
+2018-07-16T06:26:25.719Z - normal: Simulator: D/jswrapper (596): GC end ..., (js->native map) size: 110, all objects: 393
+2018-07-16T06:26:25.719Z - normal: Simulator: D/jswrapper (588): GC begin ..., (js->native map) size: 110, all objects: 393
+2018-07-16T06:26:25.751Z - normal: Simulator: D/jswrapper (596): GC end ..., (js->native map) size: 110, all objects: 393
+2018-07-16T06:26:25.752Z - normal: Simulator: D/jswrapper (588): GC begin ..., (js->native map) size: 0, all objects: 0
+2018-07-16T06:26:25.781Z - normal: Simulator: D/jswrapper (596): GC end ..., (js->native map) size: 0, all objects: 0
+2018-07-16T06:26:25.784Z - normal: Simulator: D/jswrapper (482): Starting to cleanup dragonbones object, count: 0
+2018-07-16T06:26:25.784Z - normal: Simulator: D/jswrapper (501): After first cleanup, dragonbones object remained count: 0
+2018-07-16T06:26:25.785Z - normal: Simulator: D/jswrapper (517): After second cleanup, dragonbones object remained count: 0
+2018-07-16T06:26:25.786Z - normal: Simulator: D/jswrapper (510): ScriptEngine::cleanup end ...
+2018-07-16T06:26:50.038Z - normal: Start building with options : {
+  "androidStudio": true,
+  "apiLevel": "",
+  "appABIs": [],
+  "appKey": "",
+  "appSecret": "",
+  "buildPath": "C:\\Users\\Administrator\\Desktop\\bd\\wechatgame",
+  "debug": false,
+  "dest": "C:\\Users\\Administrator\\Desktop\\bd\\wechatgame\\wechatgame",
+  "encryptJs": true,
+  "excludeScenes": [],
+  "excludedModules": [
+    "CCSpriteDistortion",
+    "LabelOutline",
+    "ParticleSystem",
+    "TiledMap",
+    "Spine Skeleton",
+    "ProgressBar",
+    "Toggle",
+    "PageView",
+    "PageViewIndicator",
+    "EditorBox",
+    "VideoPlayer",
+    "WebView",
+    "RichText",
+    "AudioSource",
+    "Animation",
+    "MotionStreak",
+    "Collider",
+    "Audio",
+    "DragonBones",
+    "Physics",
+    "StudioComponent",
+    "RenderTexture",
+    "Chipmunk",
+    "Camera",
+    "Intersection",
+    "Native NetWork"
+  ],
+  "fb-instant-games": {},
+  "includeAnySDK": false,
+  "includeEruda": false,
+  "includeSDKBox": false,
+  "inlineSpriteFrames": true,
+  "inlineSpriteFrames_native": true,
+  "jailbreakPlatform": false,
+  "md5Cache": false,
+  "mergeStartScene": false,
+  "oauthLoginServer": "",
+  "optimizeHotUpdate": false,
+  "orientation": {
+    "landscapeLeft": true,
+    "landscapeRight": true,
+    "portrait": false,
+    "upsideDown": false
+  },
+  "packageName": "org.cocos2d.helloworld",
+  "platform": "wechatgame",
+  "previewHeight": "720",
+  "previewWidth": "1280",
+  "privateKey": "",
+  "qqplay": {
+    "REMOTE_SERVER_ROOT": "",
+    "orientation": "portrait"
+  },
+  "renderMode": "1",
+  "scenes": [
+    "7fac2380-080b-4839-a01d-2cd7ee906b16",
+    "2574ad29-b237-4152-9866-42761ac95be4",
+    "ea32655c-5529-4f9f-a341-a53d0c5fa939",
+    "68fb31b1-33ef-4b14-9477-2db1517b6873"
+  ],
+  "sourceMaps": false,
+  "startScene": "7fac2380-080b-4839-a01d-2cd7ee906b16",
+  "template": "link",
+  "title": "subproject",
+  "useDebugKeystore": true,
+  "vsVersion": "auto",
+  "webOrientation": "auto",
+  "wechatgame": {
+    "REMOTE_SERVER_ROOT": "",
+    "appid": "wx6ac3f5090a6b99c5",
+    "isSubdomain": true,
+    "orientation": "portrait",
+    "subContext": ""
+  },
+  "xxteaKey": "080fa0a2-c629-4f",
+  "zipCompressJs": true,
+  "project": "E:\\items\\pancakeSource\\cc_sub\\pancakesubproject",
+  "projectName": "subproject",
+  "debugBuildWorker": false
+}
+2018-07-16T06:26:50.040Z - normal: Building E:\items\pancakeSource\cc_sub\pancakesubproject
+2018-07-16T06:26:50.041Z - normal: Destination C:\Users\Administrator\Desktop\bd\wechatgame\subproject
+2018-07-16T06:26:50.346Z - normal: Delete C:\Users\Administrator\Desktop\bd\wechatgame\subproject\**\*
+2018-07-16T06:27:12.251Z - normal: Compiled project javascript file successfully
+2018-07-16T06:27:12.256Z - normal: Start building assets
+2018-07-16T06:27:12.256Z - normal: Start spawn build-worker
+2018-07-16T06:27:13.011Z - normal: Finish spawn build-worker
+2018-07-16T06:27:13.011Z - normal: Start init build-worker
+2018-07-16T06:27:15.098Z - normal: 1.9.3
+2018-07-16T06:27:15.154Z - normal: Finish init build-worker
+2018-07-16T06:27:15.154Z - normal: Start build-assets in worker
+2018-07-16T06:27:15.437Z - normal: Finish build-assets in worker
+2018-07-16T06:27:15.447Z - normal: Finish building assets
+2018-07-16T06:27:15.464Z - normal: Start building raw assets
+2018-07-16T06:27:15.469Z - normal: Start building plugin scripts
+2018-07-16T06:27:15.573Z - normal: Finish building raw assets
+2018-07-16T06:27:15.578Z - normal: Generating main.js from E:\cocos creator\CocosCreator\resources\static\build-templates\shares\main.js
+2018-07-16T06:27:17.368Z - normal: Built to "C:\Users\Administrator\Desktop\bd\wechatgame\wechatgame" successfully
+2018-07-16T06:32:30.876Z - normal: Start building with options : {
+  "androidStudio": true,
+  "apiLevel": "",
+  "appABIs": [],
+  "appKey": "",
+  "appSecret": "",
+  "buildPath": "C:\\Users\\Administrator\\Desktop\\bd\\wechatgame",
+  "debug": false,
+  "dest": "C:\\Users\\Administrator\\Desktop\\bd\\wechatgame\\wechatgame",
+  "encryptJs": true,
+  "excludeScenes": [],
+  "excludedModules": [
+    "CCSpriteDistortion",
+    "LabelOutline",
+    "ParticleSystem",
+    "TiledMap",
+    "Spine Skeleton",
+    "ProgressBar",
+    "Toggle",
+    "PageView",
+    "PageViewIndicator",
+    "EditorBox",
+    "VideoPlayer",
+    "WebView",
+    "RichText",
+    "AudioSource",
+    "Animation",
+    "MotionStreak",
+    "Collider",
+    "Audio",
+    "DragonBones",
+    "Physics",
+    "StudioComponent",
+    "RenderTexture",
+    "Chipmunk",
+    "Camera",
+    "Intersection",
+    "Native NetWork"
+  ],
+  "fb-instant-games": {},
+  "includeAnySDK": false,
+  "includeEruda": false,
+  "includeSDKBox": false,
+  "inlineSpriteFrames": true,
+  "inlineSpriteFrames_native": true,
+  "jailbreakPlatform": false,
+  "md5Cache": false,
+  "mergeStartScene": false,
+  "oauthLoginServer": "",
+  "optimizeHotUpdate": false,
+  "orientation": {
+    "landscapeLeft": true,
+    "landscapeRight": true,
+    "portrait": false,
+    "upsideDown": false
+  },
+  "packageName": "org.cocos2d.helloworld",
+  "platform": "wechatgame",
+  "previewHeight": "720",
+  "previewWidth": "1280",
+  "privateKey": "",
+  "qqplay": {
+    "REMOTE_SERVER_ROOT": "",
+    "orientation": "portrait"
+  },
+  "renderMode": "1",
+  "scenes": [
+    "7fac2380-080b-4839-a01d-2cd7ee906b16",
+    "2574ad29-b237-4152-9866-42761ac95be4",
+    "ea32655c-5529-4f9f-a341-a53d0c5fa939",
+    "68fb31b1-33ef-4b14-9477-2db1517b6873"
+  ],
+  "sourceMaps": false,
+  "startScene": "7fac2380-080b-4839-a01d-2cd7ee906b16",
+  "template": "link",
+  "title": "subproject",
+  "useDebugKeystore": true,
+  "vsVersion": "auto",
+  "webOrientation": "auto",
+  "wechatgame": {
+    "REMOTE_SERVER_ROOT": "",
+    "appid": "wx6ac3f5090a6b99c5",
+    "isSubdomain": true,
+    "orientation": "portrait",
+    "subContext": ""
+  },
+  "xxteaKey": "080fa0a2-c629-4f",
+  "zipCompressJs": true,
+  "project": "E:\\items\\pancakeSource\\cc_sub\\pancakesubproject",
+  "projectName": "subproject",
+  "debugBuildWorker": false
+}
+2018-07-16T06:32:30.882Z - normal: Building E:\items\pancakeSource\cc_sub\pancakesubproject
+2018-07-16T06:32:30.882Z - normal: Destination C:\Users\Administrator\Desktop\bd\wechatgame\subproject
+2018-07-16T06:32:30.883Z - normal: Delete C:\Users\Administrator\Desktop\bd\wechatgame\subproject\**\*
+2018-07-16T06:32:51.465Z - normal: Compiled project javascript file successfully
+2018-07-16T06:32:51.466Z - normal: Start building assets
+2018-07-16T06:32:51.466Z - normal: Start spawn build-worker
+2018-07-16T06:32:52.111Z - normal: Finish spawn build-worker
+2018-07-16T06:32:52.111Z - normal: Start init build-worker
+2018-07-16T06:32:54.070Z - normal: 1.9.3
+2018-07-16T06:32:54.123Z - normal: Finish init build-worker
+2018-07-16T06:32:54.124Z - normal: Start build-assets in worker
+2018-07-16T06:32:54.369Z - normal: Finish build-assets in worker
+2018-07-16T06:32:54.376Z - normal: Finish building assets
+2018-07-16T06:32:54.388Z - normal: Start building raw assets
+2018-07-16T06:32:54.389Z - normal: Start building plugin scripts
+2018-07-16T06:32:54.495Z - normal: Finish building raw assets
+2018-07-16T06:32:54.497Z - normal: Generating main.js from E:\cocos creator\CocosCreator\resources\static\build-templates\shares\main.js
+2018-07-16T06:32:55.671Z - normal: Built to "C:\Users\Administrator\Desktop\bd\wechatgame\wechatgame" successfully
+2018-07-16T06:35:09.204Z - normal: Start building with options : {
+  "androidStudio": true,
+  "apiLevel": "",
+  "appABIs": [],
+  "appKey": "",
+  "appSecret": "",
+  "buildPath": "C:\\Users\\Administrator\\Desktop\\bd\\wechatgame",
+  "debug": false,
+  "dest": "C:\\Users\\Administrator\\Desktop\\bd\\wechatgame\\wechatgame",
+  "encryptJs": true,
+  "excludeScenes": [],
+  "excludedModules": [
+    "CCSpriteDistortion",
+    "LabelOutline",
+    "ParticleSystem",
+    "TiledMap",
+    "Spine Skeleton",
+    "ProgressBar",
+    "Toggle",
+    "PageView",
+    "PageViewIndicator",
+    "EditorBox",
+    "VideoPlayer",
+    "WebView",
+    "RichText",
+    "AudioSource",
+    "Animation",
+    "MotionStreak",
+    "Collider",
+    "Audio",
+    "DragonBones",
+    "Physics",
+    "StudioComponent",
+    "RenderTexture",
+    "Chipmunk",
+    "Camera",
+    "Intersection",
+    "Native NetWork"
+  ],
+  "fb-instant-games": {},
+  "includeAnySDK": false,
+  "includeEruda": false,
+  "includeSDKBox": false,
+  "inlineSpriteFrames": true,
+  "inlineSpriteFrames_native": true,
+  "jailbreakPlatform": false,
+  "md5Cache": false,
+  "mergeStartScene": false,
+  "oauthLoginServer": "",
+  "optimizeHotUpdate": false,
+  "orientation": {
+    "landscapeLeft": true,
+    "landscapeRight": true,
+    "portrait": false,
+    "upsideDown": false
+  },
+  "packageName": "org.cocos2d.helloworld",
+  "platform": "wechatgame",
+  "previewHeight": "720",
+  "previewWidth": "1280",
+  "privateKey": "",
+  "qqplay": {
+    "REMOTE_SERVER_ROOT": "",
+    "orientation": "portrait"
+  },
+  "renderMode": "1",
+  "scenes": [
+    "7fac2380-080b-4839-a01d-2cd7ee906b16",
+    "2574ad29-b237-4152-9866-42761ac95be4",
+    "ea32655c-5529-4f9f-a341-a53d0c5fa939",
+    "68fb31b1-33ef-4b14-9477-2db1517b6873"
+  ],
+  "sourceMaps": false,
+  "startScene": "7fac2380-080b-4839-a01d-2cd7ee906b16",
+  "template": "link",
+  "title": "subproject",
+  "useDebugKeystore": true,
+  "vsVersion": "auto",
+  "webOrientation": "auto",
+  "wechatgame": {
+    "REMOTE_SERVER_ROOT": "",
+    "appid": "wx6ac3f5090a6b99c5",
+    "isSubdomain": true,
+    "orientation": "portrait",
+    "subContext": ""
+  },
+  "xxteaKey": "080fa0a2-c629-4f",
+  "zipCompressJs": true,
+  "project": "E:\\items\\pancakeSource\\cc_sub\\pancakesubproject",
+  "projectName": "subproject",
+  "debugBuildWorker": false
+}
+2018-07-16T06:35:09.209Z - normal: Building E:\items\pancakeSource\cc_sub\pancakesubproject
+2018-07-16T06:35:09.210Z - normal: Destination C:\Users\Administrator\Desktop\bd\wechatgame\subproject
+2018-07-16T06:35:09.211Z - normal: Delete C:\Users\Administrator\Desktop\bd\wechatgame\subproject\**\*
+2018-07-16T06:35:11.303Z - normal: Compiled project javascript file successfully
+2018-07-16T06:35:11.303Z - normal: Start building assets
+2018-07-16T06:35:11.303Z - normal: Start spawn build-worker
+2018-07-16T06:35:11.951Z - normal: Finish spawn build-worker
+2018-07-16T06:35:11.951Z - normal: Start init build-worker
+2018-07-16T06:35:13.870Z - normal: 1.9.3
+2018-07-16T06:35:13.924Z - normal: Finish init build-worker
+2018-07-16T06:35:13.925Z - normal: Start build-assets in worker
+2018-07-16T06:35:14.145Z - normal: Finish build-assets in worker
+2018-07-16T06:35:14.150Z - normal: Finish building assets
+2018-07-16T06:35:14.161Z - normal: Start building raw assets
+2018-07-16T06:35:14.162Z - normal: Start building plugin scripts
+2018-07-16T06:35:14.204Z - normal: Finish building raw assets
+2018-07-16T06:35:14.208Z - normal: Generating main.js from E:\cocos creator\CocosCreator\resources\static\build-templates\shares\main.js
+2018-07-16T06:35:15.180Z - normal: Built to "C:\Users\Administrator\Desktop\bd\wechatgame\wechatgame" successfully
+2018-07-16T06:47:18.751Z - warn: Please specifiy a default value for "medalNode" property at its declaration: 😂
+    // Before:
+    @property(...)
+    value;
+
+    // After:
+    @property(...)
+    value = 0;
+2018-07-16T06:47:18.752Z - warn: Please specifiy a default value for "medalNode" property at its declaration: 😂
+    // Before:
+    @property(...)
+    value;
+
+    // After:
+    @property(...)
+    value = 0;
+2018-07-16T06:49:18.384Z - warn: Please specifiy a default value for "medalNode" property at its declaration: 😂
+    // Before:
+    @property(...)
+    value;
+
+    // After:
+    @property(...)
+    value = 0;
+2018-07-16T06:49:18.386Z - warn: Please specifiy a default value for "medalNode" property at its declaration: 😂
+    // Before:
+    @property(...)
+    value;
+
+    // After:
+    @property(...)
+    value = 0;
+2018-07-16T06:49:20.844Z - normal: Simulator: SCREEN DPI = 96, SCREEN SCALE = 1.00
+2018-07-16T06:49:20.845Z - normal: Simulator: WORKAREA WIDTH 1912.00, HEIGHT 990.00
+2018-07-16T06:49:20.845Z - normal: Simulator: FRAME SCALE = 0.50
+2018-07-16T06:49:21.048Z - normal: Simulator: Ready for GLSL
+2018-07-16T06:49:21.049Z - normal: Simulator: Ready for OpenGL 2.0
+2018-07-16T06:49:21.051Z - normal: Simulator: 
+2018-07-16T06:49:21.051Z - normal: Simulator: {
+2018-07-16T06:49:21.052Z - normal: Simulator: 	gl.version: 4.4.0 NVIDIA 344.11
+2018-07-16T06:49:21.052Z - normal: Simulator: 	gl.supports_NPOT: true
+2018-07-16T06:49:21.052Z - normal: Simulator: 	cocos2d.x.version: Cocos2d-x-lite v1.8.2
+2018-07-16T06:49:21.052Z - normal: Simulator: 	cocos2d.x.compiled_with_profiler: false
+2018-07-16T06:49:21.052Z - normal: Simulator: 	cocos2d.x.build_type: DEBUG
+2018-07-16T06:49:21.052Z - normal: Simulator: 	cocos2d.x.compiled_with_gl_state_cache: true
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.max_texture_size: 16384
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.supports_OES_packed_depth_stencil: false
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.vendor: NVIDIA Corporation
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.renderer: GeForce GT 610/PCIe/SSE2
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.max_texture_units: 192
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.supports_ETC1: false
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.supports_PVRTC: false
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.supports_BGRA8888: false
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.supports_discard_framebuffer: false
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.supports_vertex_array_object: true
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.supports_OES_map_buffer: false
+2018-07-16T06:49:21.053Z - normal: Simulator: 	gl.supports_OES_depth24: false
+2018-07-16T06:49:21.054Z - normal: Simulator: }
+2018-07-16T06:49:21.054Z - normal: Simulator: 
+2018-07-16T06:49:21.054Z - normal: Simulator: 
+2018-07-16T06:49:21.054Z - normal: Simulator: cocos2d: warning, Director::setProjection() failed because size is 0
+2018-07-16T06:49:21.057Z - normal: Simulator: Project Config:
+2018-07-16T06:49:21.057Z - normal: Simulator:     project dir: E:\cocos creator\CocosCreator\resources\cocos2d-x\simulator\win32\
+2018-07-16T06:49:21.057Z - normal: Simulator:     writable path: $(PROJDIR)\
+2018-07-16T06:49:21.057Z - normal: Simulator:     script file: $(PROJDIR)\main.js
+2018-07-16T06:49:21.057Z - normal: Simulator:     frame size: 750 x 1334
+2018-07-16T06:49:21.057Z - normal: Simulator:     frame scale: 0.50
+2018-07-16T06:49:21.057Z - normal: Simulator:     show console: NO
+2018-07-16T06:49:21.057Z - normal: Simulator:     write debug log: NO ()
+2018-07-16T06:49:21.057Z - normal: Simulator:     listen: 
+2018-07-16T06:49:21.058Z - normal: Simulator:     debugger: none
+2018-07-16T06:49:21.058Z - normal: Simulator:     add searching path:
+2018-07-16T06:49:21.058Z - normal: Simulator: 
+2018-07-16T06:49:21.058Z - normal: Simulator: 
+2018-07-16T06:49:21.058Z - normal: Simulator: 
+2018-07-16T06:49:21.058Z - normal: Simulator: ------------------------------------------------
+2018-07-16T06:49:21.058Z - normal: Simulator: LOAD Js FILE: main.js
+2018-07-16T06:49:21.058Z - normal: Simulator: ------------------------------------------------
+2018-07-16T06:49:21.059Z - normal: Simulator: D/jswrapper (364): Initializing V8, version: 6.0.286.52
+2018-07-16T06:49:21.354Z - normal: Simulator: D/jswrapper (813): libuv version: 1.13.1
+2018-07-16T06:49:21.355Z - normal: Simulator: D/jswrapper (112): Debugger listening..., visit [ chrome-devtools://devtools/bundled/inspector.html?v8only=true&ws=0.0.0.0:5086/00010002-0003-4004-8005-000600070008 ] in chrome browser to debug!
+2018-07-16T06:49:21.355Z - normal: Simulator: D/jswrapper (115): For help see https://nodejs.org/en/docs/inspector
+2018-07-16T06:49:21.432Z - normal: Simulator: D/jswrapper (125): JS: Cocos2d-x-lite v1.8.2
+2018-07-16T06:49:21.598Z - normal: Simulator: iShow!
+2018-07-16T06:49:21.605Z - normal: Simulator: D/jswrapper (144): JS: [WARN]: Please specifiy a default value for "medalNode" property at its declaration: ??
+2018-07-16T06:49:21.605Z - normal: Simulator:     // Before:
+2018-07-16T06:49:21.606Z - normal: Simulator:     @property(...)
+2018-07-16T06:49:21.606Z - normal: Simulator:     value;
+2018-07-16T06:49:21.606Z - normal: Simulator: 
+2018-07-16T06:49:21.606Z - normal: Simulator:     // After:
+2018-07-16T06:49:21.606Z - normal: Simulator:     @property(...)
+2018-07-16T06:49:21.606Z - normal: Simulator:     value = 0;
+2018-07-16T06:49:21.610Z - normal: Simulator: D/jswrapper (144): JS: [WARN]: Please specifiy a default value for "medalNode" property at its declaration: ??
+2018-07-16T06:49:21.610Z - normal: Simulator:     // Before:
+2018-07-16T06:49:21.610Z - normal: Simulator:     @property(...)
+2018-07-16T06:49:21.610Z - normal: Simulator:     value;
+2018-07-16T06:49:21.611Z - normal: Simulator: 
+2018-07-16T06:49:21.611Z - normal: Simulator:     // After:
+2018-07-16T06:49:21.611Z - normal: Simulator:     @property(...)
+2018-07-16T06:49:21.612Z - normal: Simulator:     value = 0;
+2018-07-16T06:49:21.697Z - normal: Simulator: D/jswrapper (125): JS: InitScene: 1.882000000000005ms
+2018-07-16T06:49:21.697Z - normal: Simulator: D/jswrapper (125): JS: AutoRelease: 0.12700000000000955ms
+2018-07-16T06:49:21.697Z - normal: Simulator: D/jswrapper (125): JS: Destroy: 0.08199999999999363ms
+2018-07-16T06:49:21.697Z - normal: Simulator: D/jswrapper (125): JS: AttachPersist: 0.0049999999999954525ms
+2018-07-16T06:49:21.705Z - normal: Simulator: D/jswrapper (125): JS: [WARN]: Sorry, lineHeight of system font not supported on JSB.
+2018-07-16T06:49:21.709Z - normal: Simulator: D/jswrapper (125): JS: Activate: 11.415999999999997ms
+2018-07-16T06:49:21.709Z - normal: Simulator: D/jswrapper (125): JS: 游戏场景
+2018-07-16T06:49:21.710Z - normal: Simulator: D/jswrapper (144): JS: 主游戏页面渲染---2 [object Object]
+2018-07-16T06:49:21.717Z - normal: Simulator: jsb: ERROR: File ..\auto\jsb_cocos2dx_auto.cpp: Line: 2910, Function: js_cocos2dx_Node_setPositionX
+2018-07-16T06:49:21.717Z - normal: Simulator: js_cocos2dx_Node_setPositionX : Error processing arguments
+2018-07-16T06:49:21.717Z - normal: Simulator: E/jswrapper (2917): [ERROR] Failed to invoke js_cocos2dx_Node_setPositionX, location: ..\auto\jsb_cocos2dx_auto.cpp:2917
+2018-07-16T06:49:21.717Z - normal: Simulator: jsb: ERROR: File ..\auto\jsb_cocos2dx_auto.cpp: Line: 2891, Function: js_cocos2dx_Node_setPositionY
+2018-07-16T06:49:21.717Z - normal: Simulator: js_cocos2dx_Node_setPositionY : Error processing arguments
+2018-07-16T06:49:21.717Z - normal: Simulator: E/jswrapper (2898): [ERROR] Failed to invoke js_cocos2dx_Node_setPositionY, location: ..\auto\jsb_cocos2dx_auto.cpp:2898
+2018-07-16T06:49:21.718Z - normal: Simulator: D/jswrapper (125): JS: [INFO]: ----  WX Core ----
+2018-07-16T06:49:21.718Z - normal: Simulator: D/jswrapper (125): JS: [INFO]: -  createImage  -
+2018-07-16T06:49:21.718Z - normal: Simulator: D/jswrapper (125): JS: [INFO]: undefined
+2018-07-16T06:49:21.718Z - normal: Simulator: D/jswrapper (144): JS: 主游戏页面渲染---1 [object Object]
+2018-07-16T06:49:25.700Z - normal: Simulator: D/jswrapper (447): ScriptEngine::cleanup begin ...
+2018-07-16T06:49:25.701Z - normal: Simulator: D/jswrapper (588): GC begin ..., (js->native map) size: 68, all objects: 350
+2018-07-16T06:49:25.739Z - normal: Simulator: D/jswrapper (596): GC end ..., (js->native map) size: 46, all objects: 328
+2018-07-16T06:49:25.741Z - normal: Simulator: D/jswrapper (588): GC begin ..., (js->native map) size: 46, all objects: 328
+2018-07-16T06:49:25.769Z - normal: Simulator: D/jswrapper (596): GC end ..., (js->native map) size: 46, all objects: 328
+2018-07-16T06:49:25.769Z - normal: Simulator: D/jswrapper (588): GC begin ..., (js->native map) size: 0, all objects: 0
+2018-07-16T06:49:25.789Z - normal: Simulator: D/jswrapper (596): GC end ..., (js->native map) size: 0, all objects: 0
+2018-07-16T06:49:25.791Z - normal: Simulator: D/jswrapper (482): Starting to cleanup dragonbones object, count: 0
+2018-07-16T06:49:25.791Z - normal: Simulator: D/jswrapper (501): After first cleanup, dragonbones object remained count: 0
+2018-07-16T06:49:25.792Z - normal: Simulator: D/jswrapper (517): After second cleanup, dragonbones object remained count: 0
+2018-07-16T06:49:25.793Z - normal: Simulator: D/jswrapper (510): ScriptEngine::cleanup end ...
+2018-07-16T06:49:38.144Z - warn: Please specifiy a default value for "medalNode" property at its declaration: 😂
+    // Before:
+    @property(...)
+    value;
+
+    // After:
+    @property(...)
+    value = 0;
+2018-07-16T06:49:38.145Z - warn: Please specifiy a default value for "medalNode" property at its declaration: 😂
+    // Before:
+    @property(...)
+    value;
+
+    // After:
+    @property(...)
+    value = 0;
+2018-07-16T06:49:39.774Z - normal: Simulator: SCREEN DPI = 96, SCREEN SCALE = 1.00
+2018-07-16T06:49:39.775Z - normal: Simulator: WORKAREA WIDTH 1912.00, HEIGHT 990.00
+2018-07-16T06:49:39.775Z - normal: Simulator: FRAME SCALE = 0.50
+2018-07-16T06:49:39.982Z - normal: Simulator: Ready for GLSL
+2018-07-16T06:49:39.982Z - normal: Simulator: Ready for OpenGL 2.0
+2018-07-16T06:49:39.984Z - normal: Simulator: 
+2018-07-16T06:49:39.984Z - normal: Simulator: {
+2018-07-16T06:49:39.984Z - normal: Simulator: 	gl.version: 4.4.0 NVIDIA 344.11
+2018-07-16T06:49:39.984Z - normal: Simulator: 	gl.supports_NPOT: true
+2018-07-16T06:49:39.984Z - normal: Simulator: 	cocos2d.x.version: Cocos2d-x-lite v1.8.2
+2018-07-16T06:49:39.984Z - normal: Simulator: 	cocos2d.x.compiled_with_profiler: false
+2018-07-16T06:49:39.984Z - normal: Simulator: 	cocos2d.x.build_type: DEBUG
+2018-07-16T06:49:39.984Z - normal: Simulator: 	cocos2d.x.compiled_with_gl_state_cache: true
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.max_texture_size: 16384
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.supports_OES_packed_depth_stencil: false
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.vendor: NVIDIA Corporation
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.renderer: GeForce GT 610/PCIe/SSE2
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.max_texture_units: 192
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.supports_ETC1: false
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.supports_PVRTC: false
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.supports_BGRA8888: false
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.supports_discard_framebuffer: false
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.supports_vertex_array_object: true
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.supports_OES_map_buffer: false
+2018-07-16T06:49:39.985Z - normal: Simulator: 	gl.supports_OES_depth24: false
+2018-07-16T06:49:39.985Z - normal: Simulator: }
+2018-07-16T06:49:39.986Z - normal: Simulator: 
+2018-07-16T06:49:39.986Z - normal: Simulator: 
+2018-07-16T06:49:39.986Z - normal: Simulator: cocos2d: warning, Director::setProjection() failed because size is 0
+2018-07-16T06:49:39.989Z - normal: Simulator: Project Config:
+2018-07-16T06:49:39.989Z - normal: Simulator:     project dir: E:\cocos creator\CocosCreator\resources\cocos2d-x\simulator\win32\
+2018-07-16T06:49:39.990Z - normal: Simulator:     writable path: $(PROJDIR)\
+2018-07-16T06:49:39.991Z - normal: Simulator:     script file: $(PROJDIR)\main.js
+2018-07-16T06:49:39.991Z - normal: Simulator:     frame size: 750 x 1334
+2018-07-16T06:49:39.991Z - normal: Simulator:     frame scale: 0.50
+2018-07-16T06:49:39.991Z - normal: Simulator:     show console: NO
+2018-07-16T06:49:39.992Z - normal: Simulator:     write debug log: NO ()
+2018-07-16T06:49:39.992Z - normal: Simulator:     listen: 
+2018-07-16T06:49:39.992Z - normal: Simulator:     debugger: none
+2018-07-16T06:49:39.992Z - normal: Simulator:     add searching path:
+2018-07-16T06:49:39.992Z - normal: Simulator: 
+2018-07-16T06:49:39.992Z - normal: Simulator: 
+2018-07-16T06:49:39.992Z - normal: Simulator: 
+2018-07-16T06:49:39.992Z - normal: Simulator: ------------------------------------------------
+2018-07-16T06:49:39.993Z - normal: Simulator: LOAD Js FILE: main.js
+2018-07-16T06:49:39.993Z - normal: Simulator: ------------------------------------------------
+2018-07-16T06:49:39.993Z - normal: Simulator: D/jswrapper (364): Initializing V8, version: 6.0.286.52
+2018-07-16T06:49:40.269Z - normal: Simulator: D/jswrapper (813): libuv version: 1.13.1
+2018-07-16T06:49:40.271Z - normal: Simulator: D/jswrapper (112): Debugger listening..., visit [ chrome-devtools://devtools/bundled/inspector.html?v8only=true&ws=0.0.0.0:5086/00010002-0003-4004-8005-000600070008 ] in chrome browser to debug!
+2018-07-16T06:49:40.271Z - normal: Simulator: D/jswrapper (115): For help see https://nodejs.org/en/docs/inspector
+2018-07-16T06:49:40.345Z - normal: Simulator: D/jswrapper (125): JS: Cocos2d-x-lite v1.8.2
+2018-07-16T06:49:40.510Z - normal: Simulator: iShow!
+2018-07-16T06:49:40.522Z - normal: Simulator: D/jswrapper (144): JS: [WARN]: Please specifiy a default value for "medalNode" property at its declaration: ??
+2018-07-16T06:49:40.523Z - normal: Simulator:     // Before:
+2018-07-16T06:49:40.524Z - normal: Simulator:     @property(...)
+2018-07-16T06:49:40.524Z - normal: Simulator:     value;
+2018-07-16T06:49:40.524Z - normal: Simulator: 
+2018-07-16T06:49:40.524Z - normal: Simulator:     // After:
+2018-07-16T06:49:40.524Z - normal: Simulator:     @property(...)
+2018-07-16T06:49:40.524Z - normal: Simulator:     value = 0;
+2018-07-16T06:49:40.525Z - normal: Simulator: D/jswrapper (144): JS: [WARN]: Please specifiy a default value for "medalNode" property at its declaration: ??
+2018-07-16T06:49:40.525Z - normal: Simulator:     // Before:
+2018-07-16T06:49:40.525Z - normal: Simulator:     @property(...)
+2018-07-16T06:49:40.525Z - normal: Simulator:     value;
+2018-07-16T06:49:40.525Z - normal: Simulator: 
+2018-07-16T06:49:40.525Z - normal: Simulator:     // After:
+2018-07-16T06:49:40.526Z - normal: Simulator:     @property(...)
+2018-07-16T06:49:40.526Z - normal: Simulator:     value = 0;
+2018-07-16T06:49:40.605Z - normal: Simulator: D/jswrapper (125): JS: InitScene: 1.56899999999996ms
+2018-07-16T06:49:40.605Z - normal: Simulator: D/jswrapper (125): JS: AutoRelease: 0.1209999999999809ms
+2018-07-16T06:49:40.606Z - normal: Simulator: D/jswrapper (125): JS: Destroy: 0.07699999999999818ms
+2018-07-16T06:49:40.606Z - normal: Simulator: D/jswrapper (125): JS: AttachPersist: 0.006000000000028649ms
+2018-07-16T06:49:40.617Z - normal: Simulator: D/jswrapper (125): JS: [WARN]: Sorry, lineHeight of system font not supported on JSB.
+2018-07-16T06:49:40.617Z - normal: Simulator: D/jswrapper (125): JS: Activate: 10.156000000000006ms
+2018-07-16T06:49:40.617Z - normal: Simulator: D/jswrapper (125): JS: 游戏场景
+2018-07-16T06:49:40.618Z - normal: Simulator: D/jswrapper (144): JS: 主游戏页面渲染---2 [object Object]
+2018-07-16T06:49:40.618Z - normal: Simulator: jsb: ERROR: File ..\auto\jsb_cocos2dx_auto.cpp: Line: 2910, Function: js_cocos2dx_Node_setPositionX
+2018-07-16T06:49:40.618Z - normal: Simulator: js_cocos2dx_Node_setPositionX : Error processing arguments
+2018-07-16T06:49:40.618Z - normal: Simulator: E/jswrapper (2917): [ERROR] Failed to invoke js_cocos2dx_Node_setPositionX, location: ..\auto\jsb_cocos2dx_auto.cpp:2917
+2018-07-16T06:49:40.618Z - normal: Simulator: jsb: ERROR: File ..\auto\jsb_cocos2dx_auto.cpp: Line: 2891, Function: js_cocos2dx_Node_setPositionY
+2018-07-16T06:49:40.618Z - normal: Simulator: js_cocos2dx_Node_setPositionY : Error processing arguments
+2018-07-16T06:49:40.618Z - normal: Simulator: E/jswrapper (2898): [ERROR] Failed to invoke js_cocos2dx_Node_setPositionY, location: ..\auto\jsb_cocos2dx_auto.cpp:2898
+2018-07-16T06:49:40.618Z - normal: Simulator: D/jswrapper (125): JS: [INFO]: ----  WX Core ----
+2018-07-16T06:49:40.619Z - normal: Simulator: D/jswrapper (125): JS: [INFO]: -  createImage  -
+2018-07-16T06:49:40.619Z - normal: Simulator: D/jswrapper (125): JS: [INFO]: undefined
+2018-07-16T06:49:40.619Z - normal: Simulator: D/jswrapper (144): JS: 主游戏页面渲染---1 [object Object]
+2018-07-16T06:49:41.959Z - normal: Simulator: D/jswrapper (447): ScriptEngine::cleanup begin ...
+2018-07-16T06:49:41.959Z - normal: Simulator: D/jswrapper (588): GC begin ..., (js->native map) size: 68, all objects: 350
+2018-07-16T06:49:41.993Z - normal: Simulator: D/jswrapper (596): GC end ..., (js->native map) size: 46, all objects: 328
+2018-07-16T06:49:41.993Z - normal: Simulator: D/jswrapper (588): GC begin ..., (js->native map) size: 46, all objects: 328
+2018-07-16T06:49:42.023Z - normal: Simulator: D/jswrapper (596): GC end ..., (js->native map) size: 46, all objects: 328
+2018-07-16T06:49:42.024Z - normal: Simulator: D/jswrapper (588): GC begin ..., (js->native map) size: 0, all objects: 0
+2018-07-16T06:49:42.055Z - normal: Simulator: D/jswrapper (596): GC end ..., (js->native map) size: 0, all objects: 0
+2018-07-16T06:49:42.057Z - normal: Simulator: D/jswrapper (482): Starting to cleanup dragonbones object, count: 0
+2018-07-16T06:49:42.058Z - normal: Simulator: D/jswrapper (501): After first cleanup, dragonbones object remained count: 0
+2018-07-16T06:49:42.058Z - normal: Simulator: D/jswrapper (517): After second cleanup, dragonbones object remained count: 0
+2018-07-16T06:49:42.059Z - normal: Simulator: D/jswrapper (510): ScriptEngine::cleanup end ...
+2018-07-16T06:51:35.771Z - warn: Please specifiy a default value for "medalNode" property at its declaration: 😂
+    // Before:
+    @property(...)
+    value;
+
+    // After:
+    @property(...)
+    value = 0;
+2018-07-16T06:51:35.772Z - warn: Please specifiy a default value for "medalNode" property at its declaration: 😂
+    // Before:
+    @property(...)
+    value;
+
+    // After:
+    @property(...)
+    value = 0;

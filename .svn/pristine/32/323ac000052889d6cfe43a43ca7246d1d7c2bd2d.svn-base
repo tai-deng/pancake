@@ -1,0 +1,108 @@
+{
+  "version": "1.1.1",
+  "windows": {
+    "main": {
+      "main": true,
+      "url": "app://editor/index.html",
+      "windowType": "dockable",
+      "x": -8,
+      "y": -8,
+      "width": 1932,
+      "height": 1056,
+      "layout": {
+        "children": [
+          {
+            "children": [
+              {
+                "active": 0,
+                "children": [
+                  "hierarchy"
+                ],
+                "height": 463,
+                "type": "panel",
+                "width": 207
+              },
+              {
+                "active": 0,
+                "children": [
+                  "assets"
+                ],
+                "height": 463,
+                "type": "panel",
+                "width": 207
+              }
+            ],
+            "height": 929,
+            "type": "dock-v",
+            "width": 207
+          },
+          {
+            "children": [
+              {
+                "active": 0,
+                "children": [
+                  "scene"
+                ],
+                "height": 463,
+                "type": "panel",
+                "width": 1014
+              },
+              {
+                "active": 0,
+                "children": [
+                  "console",
+                  "timeline"
+                ],
+                "height": 463,
+                "type": "panel",
+                "width": 1014
+              }
+            ],
+            "height": 929,
+            "type": "dock-v",
+            "width": 1014
+          },
+          {
+            "active": 0,
+            "children": [
+              "inspector"
+            ],
+            "height": 929,
+            "type": "panel",
+            "width": 683
+          }
+        ],
+        "type": "dock-h"
+      },
+      "panels": [
+        "console",
+        "timeline",
+        "inspector",
+        "hierarchy",
+        "assets",
+        "scene"
+      ]
+    },
+    "window-1531722863311": {}
+  },
+  "panels": {
+    "builder": {
+      "x": 1072,
+      "y": 89,
+      "width": 522,
+      "height": 738
+    },
+    "project-settings": {
+      "x": 897,
+      "y": 125,
+      "width": 600,
+      "height": 564
+    },
+    "sprite-editor": {
+      "x": 702,
+      "y": 241,
+      "width": 516,
+      "height": 538
+    }
+  }
+}

@@ -1,0 +1,15 @@
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class GameEventNames {
+
+    //游戏结束
+    static GAME_OVER:string = "gameOver";
+
+    //显示alert面板
+    static SHOW_ALERT:string = "showAlert";
+
+
+
+}

@@ -1,0 +1,9 @@
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class GameEventNames {
+
+    //显示alert面板
+    static SHOW_ALERT:string = "showAlert";
+}

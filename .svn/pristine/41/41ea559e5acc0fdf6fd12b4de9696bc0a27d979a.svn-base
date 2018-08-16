@@ -1,0 +1,60 @@
+import StateManage from "../StateManage/StateManage";
+import GameManager from "../gamecore/managers/GameManager";
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class TopNavigationBar extends cc.Component {
+    /**
+     * 顶部导航三个元素
+     */
+    @property(cc.Node)
+    back: cc.Node = null;
+    @property(cc.Label)
+    grade: cc.Label = null;
+    @property(cc.Label)
+    score: cc.Label = null;
+    @property(cc.Animation)
+    animation:cc.Animation=null;
+
+    backHome(){
+        cc.director.loadScene("indexScene");
+        GameManager.soundsManager.playTapSound();
+    }
+
+    // onLoad () {}
+
+    start () {
+        if(!this._isOnLoadCalled) return;
+        StateManage.instance.on("change",this.stateChangeHandler,this);
+        this.score.string = StateManage.instance.getData(StateManage.KEY_GEM);
+        this.grade.string = StateManage.instance.getData(StateManage.KEY_GRADE)
+        if(cc.director.getScene().name == "indexScene"){
+            this.back.active = false;
+        }
+        
+        // let winSize:cc.Size = cc.director.getWinSize();
+        // let viewSize:cc.Size = cc.view.getFrameSize();
+        // let ratio:number = winSize.width / 750;
+        // this.node.setContentSize(cc.size(200, this.node.height));
+        // this.back.setPosition(this.back.x * ratio,this.back.y);
+        // this.grade.node.setPosition(this.grade.node.x * ratio,this.grade.node.y);
+        // this.score.node.parent.setPosition(this.score.node.parent.x * ratio,this.score.node.parent.y);
+
+    }
+
+    // update (dt) {}
+    private stateChangeHandler(e:cc.Event):void {
+        let key:string = StateManage.instance.lastChangedKey;
+        // 监控钻石
+        if (key == StateManage.KEY_GEM) {
+            this.score.string = StateManage.instance.getData(key);
+            // if(cc.director.getScene().name == "indexScene"){
+                this.animation.play();
+            // }
+        }
+        if (key == StateManage.KEY_GRADE) {
+            this.grade.string = StateManage.instance.getData(key);
+        }
+    }
+}

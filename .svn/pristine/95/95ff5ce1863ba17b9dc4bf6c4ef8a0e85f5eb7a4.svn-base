@@ -1,0 +1,299 @@
+import GameConfig from "../GameConfig";
+
+// Learn TypeScript:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+
+const {ccclass, property} = cc._decorator;
+
+/**
+ * 煎饼
+ */
+@ccclass
+export default class Pancake extends cc.Component {
+
+    @property(cc.SpriteFrame)
+    pancakeSF:cc.SpriteFrame = null;
+
+    //获取到宝石
+    public static EVENT_GET_DIAMOND:string = "getDiamond"
+
+    //落在了铁盘上
+    public static EVENT_ON_PAN:string = "onPan";
+
+    //死亡
+    public static EVENT_DIE:string = "die";
+
+    //获得分数
+    public static EVENT_GET_SCORE:string = "getScore";
+
+
+    //中间节点
+    private _centerNode:cc.Node;
+
+
+    //片段节点
+    private _slices:Array<cc.Node> = []
+
+    start () {
+        this.createRigidBodies();
+
+        //中间节点
+        this._centerNode = this._slices[Math.floor(this._slices.length / 2)];
+    }
+
+
+    /**
+     * 创建结构
+     * 
+     */
+    private createRigidBodies():void {
+        //煎饼宽
+        let pancakeW:number = 168;
+        //煎饼高
+        let pancakeH:number = 28;
+        //煎饼分块数量
+        let sliceCount:number = GameConfig.PANCAKE_SLICE_COUNT;
+        // let sliceContentW:number = 4;//真实宽
+
+        let sliceW:number = pancakeW/sliceCount;
+        let lastSliceBody:cc.RigidBody;
+
+        let script:Pancake = this;
+
+        for (let i:number = 0; i < sliceCount; i++) {
+            let sliceNode:cc.Node = new cc.Node();
+            sliceNode.x = i * sliceW - pancakeW / 2;
+            cc.info("====  createRigidBodies  ====");
+            // let rigidBody:cc.RigidBody = sliceNode.addComponent(cc.RigidBody);
+            let collider:cc.PhysicsBoxCollider = sliceNode.addComponent(cc.PhysicsBoxCollider);
+            let rigidBody:cc.RigidBody = sliceNode.getComponent(cc.RigidBody);
+            //类型
+            // rigidBody.type = cc.RigidBodyType.Dynamic;
+            rigidBody.type = cc.RigidBodyType.Static;
+            //角速度衰减
+            rigidBody.angularDamping = GameConfig.PANCAKE_ANGULAR_DAMPING;
+            rigidBody.gravityScale = GameConfig.PANCAKE_GRAVITY_SCALE;//重力系数
+            //不旋转
+            // rigidBody.fixedRotation = true;
+            collider.size = new cc.Size(sliceW, pancakeH);
+            collider.friction = GameConfig.PANCAKE_FRICTION;//摩擦系数
+            collider.restitution = GameConfig.PANCAKE_RESTITUTION;//弹性系数
+            collider.apply();
+
+
+            if (!lastSliceBody) {
+                lastSliceBody = rigidBody;
+            } else {
+                //创建连接点
+                let revoluteJoint:cc.RevoluteJoint = sliceNode.addComponent(cc.RevoluteJoint);
+                revoluteJoint.anchor = new cc.Vec2(-sliceW/2, 0);
+                revoluteJoint.connectedAnchor = new cc.Vec2(sliceW/2, 0);
+                revoluteJoint.connectedBody = lastSliceBody;
+                revoluteJoint.collideConnected = false;//连接的两个钢体不碰撞
+                revoluteJoint.apply();
+                
+                //上头绳索
+                let ropeJoint:cc.RopeJoint = sliceNode.addComponent(cc.RopeJoint);
+                ropeJoint.anchor = new cc.Vec2(0, pancakeH / 2 - 2);
+                ropeJoint.connectedAnchor = new cc.Vec2(0, pancakeH / 2 - 2);
+                ropeJoint.connectedBody = lastSliceBody;
+                ropeJoint.maxLength = sliceW + GameConfig.PANCAKE_BEND;
+                ropeJoint.collideConnected = false;
+                ropeJoint.apply();
+                
+                //下头绳索
+                ropeJoint = sliceNode.addComponent(cc.RopeJoint);
+                ropeJoint.anchor = new cc.Vec2(0, -pancakeH / 2 + 2);
+                ropeJoint.connectedAnchor = new cc.Vec2(0, -pancakeH / 2 + 2);
+                ropeJoint.connectedBody = lastSliceBody;
+                ropeJoint.maxLength = sliceW + GameConfig.PANCAKE_BEND;
+                ropeJoint.collideConnected = false;
+                ropeJoint.apply();
+
+                lastSliceBody = rigidBody;
+            }
+
+
+
+
+            //======================================================
+            //监听事件
+            //======================================================
+            // body.fixedRotation = true;
+            rigidBody.enabledContactListener = true;
+            rigidBody.onBeginContact = function(contact:cc.PhysicsContact,selfCollider:cc.PhysicsCollider,otherCollider:cc.PhysicsCollider){
+                script.onBeginContact(contact, selfCollider, otherCollider);
+            }
+            // rigidBody.onEndContact = function(contact:cc.PhysicsContact,selfCollider:cc.PhysicsCollider,otherCollider:cc.PhysicsCollider){
+                //     script.onEndContact(contact, selfCollider, otherCollider);
+                // }
+            rigidBody.onPostSolve = function(contact:cc.PhysicsContact,selfCollider:cc.PhysicsCollider,otherCollider:cc.PhysicsCollider){
+                script.onPostSolve(contact, selfCollider, otherCollider);
+            }
+            //======================================================
+                    
+            this.node.addChild(sliceNode);
+            this._slices.push(sliceNode);
+        }
+    }
+
+
+    public get centerNode():cc.Node {
+        return this._centerNode;
+    }
+    
+
+
+    //0 静止
+    //1 下落
+    //2 上抛
+    private _state:number = 0;
+
+
+    //上一次停止的时候的旋转度
+    private _lastRotation:number = 0;
+
+
+    update (dt) {
+        let frames:number = cc.director.getTotalFrames();
+
+        if (frames % 10 == 0) {
+            //检查煎饼的线性速度
+            let centerBody:cc.RigidBody = this._centerNode.getComponent(cc.RigidBody);
+            let velocity:cc.Vec2 = centerBody.getWorldPoint(new cc.Vec2(0, 0), null);
+            velocity = centerBody.getLinearVelocityFromWorldPoint(velocity, null);
+            if (velocity) {
+                // cc.info(this._state, velocity.x, velocity.y);
+                
+                //=====================================================
+                //计算获得分数
+                //=====================================================
+                let v:number = this.centerNode.rotation;
+                v = v - this._lastRotation;
+                v = Math.abs(Math.round(v/180));
+                if (v > 0) {
+                    //获得分数
+                    let evt:cc.Event = new cc.Event(Pancake.EVENT_GET_SCORE, false);
+                    evt["data"] = v;
+                    this.node.dispatchEvent(evt);
+                    this._lastRotation = this.centerNode.rotation;
+                }
+                //=====================================================
+                
+                //0 静止, 1 下落, 2 上抛
+                let xv:number = Math.abs(velocity.x);
+                let yv:number = Math.abs(velocity.y);
+                if (this._state != 0 && xv < 1 && yv < 1) {
+                    if (this._state == 1) {
+                        //落在铁盘上
+                        this.node.dispatchEvent(new cc.Event(Pancake.EVENT_ON_PAN, false));
+                    }
+                    this._state = 0;
+                } else if (velocity.y > 5) {
+                    this._state = 2;
+                } else if (velocity.y < -5) {
+                    this._state = 1;
+                }
+            }
+        }
+    }
+
+
+    //是否已激活
+
+    private _actived:boolean;
+
+    public get actived():boolean {
+        return this._actived;
+    }
+
+
+
+    /**
+     * 让煎饼掉落
+     * 
+     */
+    public active():void {
+        if (this._actived) return;
+        this._actived = true;
+
+        this._slices.forEach(function(ele:cc.Node):void {
+            let body:cc.RigidBody = ele.getComponent(cc.RigidBody);
+            body.type = cc.RigidBodyType.Dynamic;
+        });
+    }
+
+    // 饼碰撞开始
+    private onBeginContact(contact:cc.PhysicsContact,selfCollider:cc.PhysicsCollider,otherCollider:cc.PhysicsCollider){
+        let tag:number = otherCollider["tag"];
+        // cc.info("【Pancake onBeginContact】", tag);
+
+        // 碰撞到锅
+        if(tag != 100){
+            contact.disabled = true;
+        }
+
+        // 碰撞到钻石
+        if(tag == 200 ){
+            cc.info(otherCollider)
+            let e:any = new cc.Event(Pancake.EVENT_GET_DIAMOND, false);
+            e["data"] = otherCollider.body.node;
+            this.node.dispatchEvent(e);
+        }
+
+        //碰撞到墙壁
+        if (tag >= 300 && tag < 400) {
+            this.node.dispatchEvent(new cc.Event(Pancake.EVENT_DIE, false));
+        }
+    }
+
+    // 饼碰撞结束
+    private onEndContact(contact:cc.PhysicsContact,selfCollider:cc.PhysicsCollider,otherCollider:cc.PhysicsCollider){
+        // let tag:number = otherCollider["tag"];
+        // cc.info("【Pancake onEndContact】", tag);
+
+        // // 碰撞到锅
+        // if(tag == 100){
+        // }
+    }
+
+    //一次接触
+    private onPostSolve(contact:cc.PhysicsContact, selfCollider:cc.PhysicsCollider, otherCollider:cc.PhysicsCollider){
+        let tag:number = otherCollider["tag"];
+        cc.info("【Pancake onPostSolve】", tag);
+
+        // 碰撞到锅
+        if(tag == 100){
+            cc.info("@@@@@@@@@@@@@@@@@@@@@");
+            let theBody:cc.RigidBody = selfCollider.body;
+            let velocity:cc.Vec2;//= theBody.getWorldPoint(new cc.Vec2(0, 0), null);
+            // velocity = theBody.getLinearVelocityFromWorldPoint(velocity, null);
+            // cc.info(velocity.x, velocity.y);
+            velocity = theBody.linearVelocity;
+            cc.info(velocity.x, velocity.y, "theBody.linearVelocity");
+            // velocity.x = 100;
+            if (velocity.y > 100) {
+                cc.info("施加力");
+
+                // let sc:number = 0.5;
+                // theBody.applyLinearImpulse(new cc.Vec2(60 * sc, 30 * sc), new cc.Vec2(0, 0), true);
+                // let velocity:cc.Vec2 = theBody.getWorldPoint(new cc.Vec2(0, 0), null);
+                // velocity = theBody.getLinearVelocityFromWorldPoint(velocity, null);
+                // cc.info("施加力后", velocity.x, velocity.y);
+
+                let sc:number = 0.5;
+                theBody.linearVelocity = new cc.Vec2(10, velocity.y * 0.9);
+                velocity = theBody.linearVelocity;
+                cc.info("施加力后", velocity.x, velocity.y);
+            }
+        }
+    }
+
+}

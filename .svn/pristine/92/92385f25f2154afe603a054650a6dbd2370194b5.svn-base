@@ -1,0 +1,70 @@
+"use strict";
+cc._RF.push(module, '216c3512ZtCZa3Zj7Q0Bb1V', 'TopNavigationBar');
+// Script/TopNavigationBar/TopNavigationBar.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var StateManage_1 = require("../StateManage/StateManage");
+var GameManager_1 = require("../gamecore/managers/GameManager");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var TopNavigationBar = /** @class */ (function (_super) {
+    __extends(TopNavigationBar, _super);
+    function TopNavigationBar() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        /**
+         * 顶部导航三个元素
+         */
+        _this.back = null;
+        _this.grade = null;
+        _this.score = null;
+        _this.animation = null;
+        return _this;
+    }
+    TopNavigationBar.prototype.backHome = function () {
+        cc.director.loadScene("indexSence");
+        GameManager_1.default.soundsManager.playTapSound();
+    };
+    // onLoad () {}
+    TopNavigationBar.prototype.start = function () {
+        if (!this._isOnLoadCalled)
+            return;
+        StateManage_1.default.instance.on("change", this.stateChangeHandler, this);
+        this.score.string = StateManage_1.default.instance.getData(StateManage_1.default.KEY_GEM);
+        this.grade.string = StateManage_1.default.instance.getData(StateManage_1.default.KEY_GRADE);
+        if (cc.director.getScene().name == "indexSence") {
+            this.back.active = false;
+        }
+    };
+    // update (dt) {}
+    TopNavigationBar.prototype.stateChangeHandler = function (e) {
+        var key = StateManage_1.default.instance.lastChangedKey;
+        // 监控钻石
+        if (key == StateManage_1.default.KEY_GEM) {
+            this.score.string = StateManage_1.default.instance.getData(key);
+            // if(cc.director.getScene().name == "indexSence"){
+            this.animation.play();
+            // }
+        }
+        if (key == StateManage_1.default.KEY_GRADE) {
+            this.grade.string = StateManage_1.default.instance.getData(key);
+        }
+    };
+    __decorate([
+        property(cc.Node)
+    ], TopNavigationBar.prototype, "back", void 0);
+    __decorate([
+        property(cc.Label)
+    ], TopNavigationBar.prototype, "grade", void 0);
+    __decorate([
+        property(cc.Label)
+    ], TopNavigationBar.prototype, "score", void 0);
+    __decorate([
+        property(cc.Animation)
+    ], TopNavigationBar.prototype, "animation", void 0);
+    TopNavigationBar = __decorate([
+        ccclass
+    ], TopNavigationBar);
+    return TopNavigationBar;
+}(cc.Component));
+exports.default = TopNavigationBar;
+
+cc._RF.pop();

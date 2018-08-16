@@ -1,0 +1,54 @@
+2018-06-14T14:02:29.316Z - normal: Load ~/.CocosCreator/settings.json
+2018-06-14T14:02:29.321Z - normal: checking language setting...
+2018-06-14T14:02:29.322Z - normal: Language: zh
+2018-06-14T14:02:30.486Z - success: protocol editor-framework registered
+2018-06-14T14:02:30.486Z - success: protocol app registered
+2018-06-14T14:02:30.486Z - success: protocol theme registered
+2018-06-14T14:02:30.486Z - success: protocol packages registered
+2018-06-14T14:02:30.487Z - success: protocol unpack registerred
+2018-06-14T14:02:30.487Z - success: protocol disable-commonjs registerred
+2018-06-14T14:02:33.475Z - normal: failed to connect login server due to request timeout
+2018-06-14T14:02:33.476Z - normal: Check project /Users/laan/Desktop/LocalSVN/gamecore/test
+2018-06-14T14:02:33.477Z - normal: Initializing Cocos2d
+2018-06-14T14:02:33.745Z - normal: Initializing Asset Database
+2018-06-14T14:02:33.786Z - success: protocol uuid registerred
+2018-06-14T14:02:33.786Z - success: protocol db registerred
+2018-06-14T14:02:33.786Z - success: protocol thumbnail registerred
+2018-06-14T14:02:33.786Z - normal: Loading editor/builtin packages
+2018-06-14T14:02:33.809Z - success: anysdk loaded
+2018-06-14T14:02:33.957Z - success: assets loaded
+2018-06-14T14:02:33.961Z - success: builder loaded
+2018-06-14T14:02:33.964Z - success: cocos-analytics loaded
+2018-06-14T14:02:33.970Z - success: console loaded
+2018-06-14T14:02:34.014Z - success: fb-instant-games loaded
+2018-06-14T14:02:34.019Z - success: hierarchy loaded
+2018-06-14T14:02:34.027Z - success: inspector loaded
+2018-06-14T14:02:34.028Z - success: keystore loaded
+2018-06-14T14:02:34.037Z - success: node-library loaded
+2018-06-14T14:02:34.039Z - success: package-asset loaded
+2018-06-14T14:02:34.042Z - success: preferences loaded
+2018-06-14T14:02:34.045Z - success: project-exporter loaded
+2018-06-14T14:02:34.069Z - success: project-importer loaded
+2018-06-14T14:02:34.073Z - success: project-settings loaded
+2018-06-14T14:02:34.077Z - success: ui-kit loaded
+2018-06-14T14:02:34.083Z - success: ui-grid loaded
+2018-06-14T14:02:34.088Z - success: scene loaded
+2018-06-14T14:02:34.089Z - success: sprite-editor loaded
+2018-06-14T14:02:34.094Z - success: store loaded
+2018-06-14T14:02:34.102Z - success: timeline loaded
+2018-06-14T14:02:34.102Z - normal: Loading builtin packages
+2018-06-14T14:02:34.106Z - success: asset-db-debugger loaded
+2018-06-14T14:02:34.107Z - success: color-picker loaded
+2018-06-14T14:02:34.111Z - success: package-manager loaded
+2018-06-14T14:02:34.119Z - success: sdkbox loaded
+2018-06-14T14:02:34.125Z - success: tester loaded
+2018-06-14T14:02:34.130Z - success: ui-kit-preview-extra loaded
+2018-06-14T14:02:34.134Z - success: ui-kit-preview loaded
+2018-06-14T14:02:34.138Z - success: ui-tree loaded
+2018-06-14T14:02:35.406Z - normal: Initializing project /Users/laan/Desktop/LocalSVN/gamecore/test
+2018-06-14T14:02:35.409Z - normal: Loading packages
+2018-06-14T14:02:35.414Z - normal: Watching packages
+2018-06-14T14:02:35.433Z - normal: Run Application
+2018-06-14T14:02:36.553Z - success: preview server running at http://localhost:7456
+2018-06-14T14:02:45.279Z - normal: 1.9.1
+2018-06-15T05:34:18.888Z - info: shutdown preview server

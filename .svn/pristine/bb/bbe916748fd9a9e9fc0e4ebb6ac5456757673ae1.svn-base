@@ -1,0 +1,100 @@
+"use strict";
+cc._RF.push(module, 'd00e2SUWKRNSZfoJyXckADI', 'RankingItem');
+// Script/RankingItem.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var WXCore_1 = require("./WXCore");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var RankingItem = /** @class */ (function (_super) {
+    __extends(RankingItem, _super);
+    function RankingItem() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.integral = null;
+        _this.userPic = null;
+        _this.userName = null;
+        _this.medalOne = null;
+        _this.medalTwo = null;
+        _this.medalThree = null;
+        _this.medalFour = null;
+        _this.place = null;
+        return _this;
+        // update (dt) {}
+    }
+    Object.defineProperty(RankingItem.prototype, "data", {
+        get: function () {
+            return this._data;
+        },
+        set: function (v) {
+            if (this._data != v) {
+                this._data = v;
+                this.refreshUI();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    // onLoad () {}
+    RankingItem.prototype.start = function () {
+        if (!this._isOnLoadCalled)
+            return;
+        this.refreshUI();
+    };
+    RankingItem.prototype.refreshUI = function () {
+        // console.log(this.data,"rankingItem")
+        this.integral.string = this.data["maxScore"];
+        this.userPic.spriteFrame = WXCore_1.default.createImage(this.data["avatarUrl"]);
+        this.place.string = this.data["rank"];
+        this.userName.string = this.data["nickname"];
+        if (this.data["rank"] == 1) {
+            this.medalNode.spriteFrame = this.medalOne;
+            this.place.node.color = new cc.Color(255, 0, 0);
+        }
+        if (this.data["rank"] == 2) {
+            this.medalNode.spriteFrame = this.medalTwo;
+            this.place.node.color = new cc.Color(255, 255, 255);
+        }
+        if (this.data["rank"] == 3) {
+            this.medalNode.spriteFrame = this.medalThree;
+            this.place.node.color = new cc.Color(255, 255, 255);
+        }
+        if (this.data["rank"] > 3) {
+            this.medalNode.spriteFrame = this.medalFour;
+            this.place.node.color = new cc.Color(255, 255, 255);
+            this.place.node.y = 0;
+        }
+    };
+    __decorate([
+        property(cc.Label) // 积分
+    ], RankingItem.prototype, "integral", void 0);
+    __decorate([
+        property(cc.Sprite) // 用户头像
+    ], RankingItem.prototype, "userPic", void 0);
+    __decorate([
+        property(cc.Label) // 用户昵称
+    ], RankingItem.prototype, "userName", void 0);
+    __decorate([
+        property(cc.Sprite) // 奖牌节点
+    ], RankingItem.prototype, "medalNode", void 0);
+    __decorate([
+        property(cc.SpriteFrame) // 第一名
+    ], RankingItem.prototype, "medalOne", void 0);
+    __decorate([
+        property(cc.SpriteFrame) // 第二名
+    ], RankingItem.prototype, "medalTwo", void 0);
+    __decorate([
+        property(cc.SpriteFrame) // 第三名
+    ], RankingItem.prototype, "medalThree", void 0);
+    __decorate([
+        property(cc.SpriteFrame) // 其他名次奖牌
+    ], RankingItem.prototype, "medalFour", void 0);
+    __decorate([
+        property(cc.Label) // 其他名次
+    ], RankingItem.prototype, "place", void 0);
+    RankingItem = __decorate([
+        ccclass
+    ], RankingItem);
+    return RankingItem;
+}(cc.Component));
+exports.default = RankingItem;
+
+cc._RF.pop();

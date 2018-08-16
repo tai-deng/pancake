@@ -1,0 +1,107 @@
+"use strict";
+cc._RF.push(module, '7522bRF+dlDdIwS5V+p0CHe', 'LevelInfoMain');
+// Script/gameScene/LevelInfoMain.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var GameManager_1 = require("../gamecore/managers/GameManager");
+var GameEventNames_1 = require("../GameEventNames");
+// Learn TypeScript:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * 游戏等级信息
+ */
+var LevelInfoMain = /** @class */ (function (_super) {
+    __extends(LevelInfoMain, _super);
+    function LevelInfoMain() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        //进度条
+        _this.progressSprite = null;
+        //等级名称
+        _this.levelName = null;
+        //等级详情
+        _this.levelDetail = null;
+        _this._score = 0;
+        return _this;
+    }
+    // LIFE-CYCLE CALLBACKS:
+    // onLoad () {}
+    LevelInfoMain.prototype.start = function () {
+        cc.info("【LevelInfoMain start】");
+        this.node.on(cc.Node.EventType.TOUCH_END, this.tapHandler, this);
+    };
+    LevelInfoMain.prototype.tapHandler = function (e) {
+        //音效
+        GameManager_1.default.soundsManager.playTapSound();
+        GameManager_1.default.eventManager.dispatchEventWith(GameEventNames_1.default.SHOW_LEVEL_DETAIL, this._levelData);
+    };
+    Object.defineProperty(LevelInfoMain.prototype, "score", {
+        /**
+         * 设置分数
+         */
+        set: function (value) {
+            if (this._score == value)
+                return;
+            this._score = value;
+            this.refreshUI();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LevelInfoMain.prototype, "levelData", {
+        /**
+         * 设置等级信息
+         */
+        set: function (value) {
+            if (!value)
+                return;
+            if (this._levelData == value)
+                return;
+            this._levelData = value;
+            this.refreshUI();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * 刷新UI
+     */
+    LevelInfoMain.prototype.refreshUI = function () {
+        if (!this._levelData) {
+            return;
+        }
+        cc.info(JSON.stringify(this._levelData));
+        this.levelName.string = "等级 " + this._levelData["level"];
+        var scoreValues = this._levelData["score"];
+        // this.levelDetail.string = "" + (scoreValues[1] - this._score) + "分后升级";
+        this.levelDetail.string = this._levelData["desc"];
+        //显示进度
+        this.progressSprite.fillRange = (this._score - scoreValues[0]) / (scoreValues[1] - scoreValues[0]);
+    };
+    // update (dt) {}
+    LevelInfoMain.prototype.onDestroy = function () {
+    };
+    __decorate([
+        property(cc.Sprite)
+    ], LevelInfoMain.prototype, "progressSprite", void 0);
+    __decorate([
+        property(cc.Label)
+    ], LevelInfoMain.prototype, "levelName", void 0);
+    __decorate([
+        property(cc.Label)
+    ], LevelInfoMain.prototype, "levelDetail", void 0);
+    LevelInfoMain = __decorate([
+        ccclass
+    ], LevelInfoMain);
+    return LevelInfoMain;
+}(cc.Component));
+exports.default = LevelInfoMain;
+
+cc._RF.pop();

@@ -1,0 +1,314 @@
+"use strict";
+cc._RF.push(module, '9983bwliydOjK9fzjA3gf8p', 'Json');
+// Script/Json/Json.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var Json = /** @class */ (function () {
+    function Json() {
+        /**
+         * 皮肤资源
+         */
+        this.skins = [
+            {
+                name: "defult",
+                bigArm: 'resources/action/defult/bigArm.png',
+                lowerArm: 'resources/action/defult/lowerArm.png',
+                hand: 'resources/action/defult/hand.png',
+                pancake: 'resources/action/defult/pancake.png',
+            },
+            {
+                name: "woman",
+                bigArm: 'resources/action/woman/bigArm.png',
+                lowerArm: 'resources/action/woman/lowerArm.png',
+                hand: 'resources/action/woman/hand.png',
+                pancake: 'resources/action/woman/pancake.png',
+            }
+        ];
+        /**
+         * 商品配置
+         */
+        this.goods = [
+            {
+                id: "0001",
+                // 皮肤资源
+                skinsRes: this.skins[0]["name"],
+                // 价格
+                price: 0,
+                // 是否购买 1 购买 2 未购买
+                isBuy: 1,
+                // 是否使用中 1 使用中  2 未使用
+                isUse: 1,
+                // 是否解锁   1 已经解锁    2 待解锁
+                waitBuy: 2,
+                // 新品 1 是的 2 不是的
+                newPro: 2,
+            },
+            {
+                id: "0002",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 1,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0003",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 1,
+                newPro: 1,
+            },
+            {
+                id: "0004",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0005",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0006",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0007",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0008",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0009",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0010",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0011",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0012",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0013",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0014",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0015",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0016",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0017",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            },
+            {
+                id: "0018",
+                skinsRes: this.skins[1]["name"],
+                price: 50,
+                isBuy: 2,
+                isUse: 2,
+                waitBuy: 2,
+                newPro: 1,
+            }
+        ];
+        /**
+         * 任务配置
+         */
+        this.tasks = [
+            {
+                id: "0001",
+                title: "翻转煎饼20次",
+                content: "累计得分200分",
+                goal: 20,
+                plan: 0,
+                value: "overturn",
+                awardName: "gem",
+                awardNum: 50,
+            },
+            {
+                id: "0002",
+                title: "获得20个钻石",
+                content: "累计获得钻石个",
+                goal: 20,
+                plan: 18,
+                value: "tagem",
+                awardName: "gem",
+                awardNum: 50,
+            },
+            {
+                id: "0003",
+                title: "完成10次一周转体",
+                content: "累计完成10次在一次抛接中获得2分的情况",
+                goal: 10,
+                plan: 5,
+                value: "turn",
+                awardName: "gem",
+                awardNum: 50,
+            },
+            {
+                id: "0004",
+                title: "在10秒内翻转10次",
+                content: "记录10秒内获得的分数的最大值",
+                goal: 10,
+                plan: 0,
+                value: "tmturn",
+                awardName: "gem",
+                awardNum: 50,
+            },
+            {
+                id: "0005",
+                title: "升级到2级",
+                content: "所能达到的等级",
+                goal: 2,
+                plan: 0,
+                value: "tagrade",
+                awardName: "gem",
+                awardNum: 50,
+            },
+            {
+                id: "0006",
+                title: "使用X次复活卡",
+                content: "累计使用复活卡X次",
+                goal: 20,
+                plan: 0,
+                value: "resurgenceCar",
+                awardName: "gem",
+                awardNum: 50,
+            },
+            {
+                id: "0007",
+                title: "20个好友参与接龙比赛",
+                content: "累计20个好友点击链接参与了接龙比赛",
+                goal: 20,
+                plan: 20,
+                value: "fdrelay",
+                awardName: "gem",
+                awardNum: 50,
+            },
+            {
+                id: "0008",
+                title: "疯狂点击中点击20次",
+                content: "累计疯狂点击次数",
+                goal: 20,
+                plan: 0,
+                value: "crazyTap",
+                awardName: "gem",
+                awardNum: 50,
+            },
+            {
+                id: "0009",
+                title: "分享20次",
+                content: "累计任意类型分享次数20次",
+                goal: 20,
+                plan: 0,
+                value: "anyShare",
+                awardName: "gem",
+                awardNum: 50,
+            },
+            {
+                id: "0010",
+                title: "将20位好友煎至X成熟并分享",
+                content: "在煎烤好友模式中，获得X分及以上（得X分即X成熟），并进行分享",
+                goal: 20,
+                plan: 10,
+                value: "ripeShare",
+                awardName: "gem",
+                awardNum: 50,
+            },
+        ];
+    }
+    Json = __decorate([
+        ccclass
+    ], Json);
+    return Json;
+}());
+exports.default = Json;
+
+cc._RF.pop();

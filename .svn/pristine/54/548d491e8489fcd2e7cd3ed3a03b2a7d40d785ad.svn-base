@@ -1,0 +1,155 @@
+import GameManager from "../gamecore/managers/GameManager";
+import GameEventNames from "../GameEventNames";
+import AlertCommand from "../commands/AlertCommand";
+import StateManage from "../StateManage/StateManage";
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class index extends cc.Component {
+    @property(cc.Node)
+    starBar:cc.Node = null;
+    @property(cc.Node)
+    luckyMoneyBar:cc.Node = null;
+    @property(cc.Node)
+    rankingBar:cc.Node = null;
+    @property(cc.Node)
+    resurgenceBar:cc.Node = null;
+    @property(cc.Node)
+    shoppingBar:cc.Node = null;
+    @property(cc.Node)
+    soundBar:cc.Node = null;
+    @property(cc.Node)
+    taskBar:cc.Node = null;
+    // LIFE-CYCLE CALLBACKS:
+
+    // onLoad () {}
+
+    start () {
+        this.starBar.on(cc.Node.EventType.TOUCH_END,this.startGame,this);
+        this.luckyMoneyBar.on(cc.Node.EventType.TOUCH_END,this.luckyMoney,this);
+        this.rankingBar.on(cc.Node.EventType.TOUCH_END,this.ranking,this);
+        this.resurgenceBar.on(cc.Node.EventType.TOUCH_END,this.resurgence,this);
+        this.shoppingBar.on(cc.Node.EventType.TOUCH_END,this.shopping,this);
+        this.soundBar.on(cc.Node.EventType.TOUCH_END,this.sound,this);
+        this.taskBar.on(cc.Node.EventType.TOUCH_END,this.task,this);
+
+        this.initSystem();
+
+    }
+
+
+    private static _systemInitialized:boolean;
+    private initSystem():void {
+        if (index._systemInitialized) return;
+        index._systemInitialized = true;
+
+       //綁定事件到命令
+       GameManager.context.mapEvent(GameEventNames.SHOW_ALERT, AlertCommand);
+
+    }
+    // 开始
+    startGame(e:cc.Event):void{
+        cc.director.loadScene("game");
+    }
+    // 红包
+    luckyMoney(e:cc.Event):void{
+        cc.director.loadScene("luckyMoney");
+    }
+    // 排行
+    ranking(e:cc.Event):void{
+        cc.director.loadScene("ranking");
+    }
+    // 复活
+    resurgence(e:cc.Event):void{
+        cc.director.loadScene("resurgence");
+    }
+    // 商店
+    shopping(e:cc.Event):void{
+        cc.director.loadScene("shopping");
+    }
+    // 音效
+    sound(e:cc.Event):void{
+        cc.director.loadScene("sound");
+    }
+    // 任务
+    task(e:cc.Event):void{
+        cc.director.loadScene("task");
+    }
+    // update (dt) {}
+
+
+    onDestroy() {
+        cc.info("@@@@@@@@@@@@@@@@@@@@ index destroied"); 
+    }
+    // 宝石 +10
+    public gem(){
+        let gem = StateManage.instance.getData(StateManage.KEY_GEM) + 10;
+        StateManage.instance.setData(StateManage.KEY_GEM,gem)
+    }
+    // 翻转次数 + 5
+    public overturn(){
+        let overturn = StateManage.instance.getData(StateManage.KEY_OVERTURN) + 5;
+        StateManage.instance.setData(StateManage.KEY_OVERTURN,overturn)
+    }
+    // 一周转体次数 + 5
+    public turn(){
+        let turn = StateManage.instance.getData(StateManage.KEY_TURN) + 5;
+        StateManage.instance.setData(StateManage.KEY_TURN,turn)
+    }
+    // 十秒内翻转次数 + 5
+    public tmturn(){
+        let tmturn = StateManage.instance.getData(StateManage.KEY_TMTURN) + 5;
+        StateManage.instance.setData(StateManage.KEY_TMTURN,tmturn)
+    }
+    // 等级 + 1
+    public grade(){
+        let grade = StateManage.instance.getData(StateManage.KEY_GRADE) + 1;
+        StateManage.instance.setData(StateManage.KEY_GRADE,grade)
+    }
+    // 累计使用复活卡次数 + 1
+    public resurgenceCar(){
+        let resurgenceCar = StateManage.instance.getData(StateManage.KEY_RESURGENCECAR) + 1;
+        StateManage.instance.setData(StateManage.KEY_RESURGENCECAR,resurgenceCar)
+    }
+    // 好友接力次数 + 1
+    public fdrelay(){
+        let fdrelay = StateManage.instance.getData(StateManage.KEY_FDRELAY) + 1;
+        StateManage.instance.setData(StateManage.KEY_FDRELAY,fdrelay)
+    }
+    // 疯狂点击中点次数 + 10
+    public crazyTap(){
+        let crazyTap = StateManage.instance.getData(StateManage.KEY_CRAZYTAP) + 10;
+        StateManage.instance.setData(StateManage.KEY_CRAZYTAP,crazyTap)
+    }
+    // 累计任意分享 + 1
+    public anyShare(){
+        let anyShare = StateManage.instance.getData(StateManage.KEY_ANYSHARE) + 1;
+        StateManage.instance.setData(StateManage.KEY_ANYSHARE,anyShare)
+    }
+    // 煎烤好友并分享 + 1
+    public ripeShare(){
+        let ripeShare = StateManage.instance.getData(StateManage.KEY_RIPESHARE) + 1;
+        StateManage.instance.setData(StateManage.KEY_RIPESHARE,ripeShare)
+    }
+    // A栏剩余任务次数 + 1
+    public tasknuma(){
+        let tasknuma = StateManage.instance.getData(StateManage.KEY_TASKNUMA) + 1;
+        StateManage.instance.setData(StateManage.KEY_TASKNUMA,tasknuma)
+    }
+    // B栏剩余任务次数 + 1
+    public tasknumb(){
+        let tasknumb = StateManage.instance.getData(StateManage.KEY_TASKNUMB) + 1;
+        StateManage.instance.setData(StateManage.KEY_TASKNUMB,tasknumb)
+    }
+    // C栏剩余任务次数 + 1
+    public tasknumc(){
+        let tasknumc = StateManage.instance.getData(StateManage.KEY_TASKNUMC) + 1;
+        StateManage.instance.setData(StateManage.KEY_TASKNUMC,tasknumc)
+    }
+    // 第二天 + 1
+    public nextDay(){
+        let nextDay = StateManage.instance.getData(StateManage.KEY_NEXTDAY) + 86400000;
+        StateManage.instance.setData(StateManage.KEY_NEXTDAY,nextDay)
+    }
+}

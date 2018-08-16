@@ -1,0 +1,237 @@
+"use strict";
+cc._RF.push(module, '06cdeg0ua9CoI9+IJsRGEjC', 'ActionMain');
+// Script/gameScene/ActionMain.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Pancake_1 = require("./Pancake");
+var GameSceneEvents_1 = require("./GameSceneEvents");
+var GameConfig_1 = require("../GameConfig");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+// 手臂类执行体
+var ActionMain = /** @class */ (function (_super) {
+    __extends(ActionMain, _super);
+    function ActionMain() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        //煎饼初始化时，离锅底的距离
+        _this.cakeInitDistance = 300;
+        //钻石预制体
+        _this.diamondPrefab = null;
+        //煎饼预制体
+        _this.pancakePrefab = null;
+        //钻石容器
+        _this.diamondContainer = null;
+        //锅底碰撞体
+        _this.panBottomNode = null;
+        //手臂一段
+        _this.theArm = null;
+        //是否正在触摸
+        _this._isTouching = false;
+        //宝石
+        _this._diamonds = [];
+        /**
+         * 宝石数量
+         */
+        _this._diamondCount = 0;
+        /**
+         * 分数
+         */
+        _this._score = 0;
+        return _this;
+    }
+    ActionMain.prototype.onLoad = function () {
+        this.changeSkin();
+    };
+    ActionMain.prototype.start = function () {
+        this.createNewPancake();
+        //设置平板锅底相关属性
+        // let panCollider:cc.PhysicsBoxCollider = this.panBottomNode.getComponent(cc.PhysicsBoxCollider);
+        // panCollider.restitution = 0.2;//弹性系数
+        // panCollider.friction = 0.9;//摩擦系数
+        this.node.parent.on(cc.Node.EventType.TOUCH_START, this.touchStartHandler, this);
+        this.node.parent.on(cc.Node.EventType.TOUCH_END, this.touchEndHandler, this);
+    };
+    /**
+     * 创建新的蛋糕
+     *
+     */
+    ActionMain.prototype.createNewPancake = function () {
+        if (this._pancake)
+            this._pancake.removeFromParent(true);
+        //删除所有钻石
+        while (this._diamonds.length) {
+            this._diamonds.pop().removeFromParent();
+        }
+        this._pancake = cc.instantiate(this.pancakePrefab);
+        this._pancake.x = this.panBottomNode.x;
+        this._pancake.y = this.panBottomNode.y + this.cakeInitDistance;
+        this.node.addChild(this._pancake);
+        //监听事件
+        this._pancake.on(Pancake_1.default.EVENT_ON_PAN, this.pancakeEventsHandler, this);
+        this._pancake.on(Pancake_1.default.EVENT_GET_DIAMOND, this.pancakeEventsHandler, this);
+        this._pancake.on(Pancake_1.default.EVENT_GET_SCORE, this.pancakeEventsHandler, this);
+        this._pancake.on(Pancake_1.default.EVENT_DIE, this.pancakeEventsHandler, this);
+    };
+    /**
+     * 创建一个新的钻石
+     */
+    ActionMain.prototype.createNewDiamond = function () {
+        if (this._diamonds.length > 0)
+            return;
+        var diam = cc.instantiate(this.diamondPrefab);
+        diam.x = this.diamondContainer.width / 2 - Math.random() * this.diamondContainer.width;
+        diam.y = this.diamondContainer.height / 2 - Math.random() * this.diamondContainer.height;
+        this.diamondContainer.addChild(diam);
+        this._diamonds.push(diam);
+        //TODO:NEXT 新宝石特效
+    };
+    /**
+     * 移除宝石
+     */
+    ActionMain.prototype.removeADiamond = function (diam) {
+        var index = this._diamonds.indexOf(diam);
+        if (index >= 0) {
+            this._diamonds.splice(index, 1);
+            //TODO:NEXT 宝石移除特效
+            diam.removeFromParent(true);
+        }
+    };
+    //开始触摸
+    ActionMain.prototype.touchStartHandler = function (e) {
+        this._isTouching = true;
+        this.activeCake();
+        if (!this._doneFirstTap) {
+            this._doneFirstTap = true;
+            this.node.dispatchEvent(new cc.Event(GameSceneEvents_1.default.GAME_START, true));
+        }
+    };
+    // 触摸结束
+    ActionMain.prototype.touchEndHandler = function (e) {
+        this._isTouching = false;
+    };
+    Object.defineProperty(ActionMain.prototype, "cakeActived", {
+        /**
+         * 获取饼是否已激活
+         */
+        get: function () {
+            return this._pancake.getComponent(Pancake_1.default).actived;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * 激活饼
+     *
+     */
+    ActionMain.prototype.activeCake = function () {
+        //让煎饼落下。
+        this._pancake.getComponent(Pancake_1.default).active();
+    };
+    // 改变皮肤 
+    ActionMain.prototype.changeSkin = function () {
+        // let resName = StateManage.instance.getData(StateManage.KEY_SKIN);
+        // let res = new Json().skins;
+        // let newSkin = {};
+        // res.forEach(el =>{
+        //     if(el["name"] == resName){
+        //         newSkin = el;
+        //     }
+        // })
+        // cc.log(resName,newSkin)
+        // let currentBigArm = cc.url.raw(newSkin["bigArm"]);
+        // let currentLittleArm = cc.url.raw(newSkin["lowerArm"]);
+        // let currentPot = cc.url.raw(newSkin["hand"]);
+        // this.arm.getChildByName("arm1").getComponent(cc.Sprite).spriteFrame.setTexture(currentBigArm);
+        // this.node.getChildByName("hands").getChildByName("littleArm").getChildByName("arm2").getComponent(cc.Sprite).spriteFrame.setTexture(currentLittleArm);
+        // this.node.getChildByName("hands").getChildByName("pot").getChildByName("potImg").getComponent(cc.Sprite).spriteFrame.setTexture(currentPot);
+    };
+    Object.defineProperty(ActionMain.prototype, "diamondCount", {
+        get: function () {
+            return this._diamondCount;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ActionMain.prototype, "score", {
+        get: function () {
+            return this._score;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     *
+     * @param e
+     */
+    ActionMain.prototype.pancakeEventsHandler = function (e) {
+        cc.info("【ActionMain pancakeEventsHandler】", e.type);
+        var eType = e.type;
+        switch (eType) {
+            case Pancake_1.default.EVENT_ON_PAN:
+                this.createNewDiamond();
+                break;
+            case Pancake_1.default.EVENT_GET_SCORE:
+                var score = parseInt(e["data"]);
+                if (!isNaN(score) && score > 0) {
+                    cc.info("获得分数", score);
+                    this._score += score;
+                    //抛出事件
+                    this.node.dispatchEvent(new cc.Event(GameSceneEvents_1.default.SCORE_CHANGED, true));
+                }
+                break;
+            case Pancake_1.default.EVENT_GET_DIAMOND:
+                var theDiamond = e["data"];
+                this.removeADiamond(theDiamond);
+                this._diamondCount++;
+                //抛出事件
+                this.node.dispatchEvent(new cc.Event(GameSceneEvents_1.default.DIAMONDS_CHANGED, true));
+                break;
+            case Pancake_1.default.EVENT_DIE:
+                this.createNewPancake();
+                break;
+        }
+    };
+    ActionMain.prototype.update = function (dt) {
+        //如果有触发
+        if (this._isTouching) {
+            var body = this.theArm.getComponent(cc.RigidBody);
+            body.applyLinearImpulse(new cc.Vec2(GameConfig_1.default.PANCAKE_FORCE_VALUE, 0), new cc.Vec2(0, 0), true);
+            // body.applyForceToCenter(new cc.Vec2(this.forceValue, 0), true);
+            // body.applyForce(new cc.Vec2(this.forceValue, 0), new cc.Vec2(0, 0), true);
+        }
+        // let frames:number = cc.director.getTotalFrames();
+        // cc.info(frames, frames % 10);
+        // if (frames % 10 == 0) {
+        //     if (this._pancake) {
+        //         let minY:number = this.panBottomNode.y + this.panBottomNode.height;
+        //         cc.info(this._pancake.y, minY);
+        //         if (this._pancake.y <  minY) {
+        //             this.node.dispatchEvent(new cc.Event(GameSceneEvents.GAME_OVER, false));
+        //         }
+        //     }
+        // }
+    };
+    ActionMain.prototype.onDestroy = function () {
+    };
+    __decorate([
+        property(cc.Prefab)
+    ], ActionMain.prototype, "diamondPrefab", void 0);
+    __decorate([
+        property(cc.Prefab)
+    ], ActionMain.prototype, "pancakePrefab", void 0);
+    __decorate([
+        property(cc.Node)
+    ], ActionMain.prototype, "diamondContainer", void 0);
+    __decorate([
+        property(cc.Node)
+    ], ActionMain.prototype, "panBottomNode", void 0);
+    __decorate([
+        property(cc.Node)
+    ], ActionMain.prototype, "theArm", void 0);
+    ActionMain = __decorate([
+        ccclass
+    ], ActionMain);
+    return ActionMain;
+}(cc.Component));
+exports.default = ActionMain;
+
+cc._RF.pop();

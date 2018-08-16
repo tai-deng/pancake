@@ -1,0 +1,51 @@
+import StateManage from "../StateManage/StateManage";
+import GameManager from "../gamecore/managers/GameManager";
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class TopNavigationBar extends cc.Component {
+    /**
+     * 顶部导航三个元素
+     */
+    @property(cc.Node)
+    back: cc.Node = null;
+    @property(cc.Label)
+    grade: cc.Label = null;
+    @property(cc.Label)
+    score: cc.Label = null;
+    @property(cc.Animation)
+    animation:cc.Animation=null;
+
+    backHome(){
+        cc.director.loadScene("indexSence");
+        GameManager.soundsManager.playTapSound();
+    }
+
+    // onLoad () {}
+
+    start () {
+        if(!this._isOnLoadCalled) return;
+        StateManage.instance.on("change",this.stateChangeHandler,this);
+        this.score.string = StateManage.instance.getData(StateManage.KEY_GEM);
+        this.grade.string = StateManage.instance.getData(StateManage.KEY_GRADE)
+        if(cc.director.getScene().name == "indexSence"){
+            this.back.active = false;
+        }
+    }
+
+    // update (dt) {}
+    private stateChangeHandler(e:cc.Event):void {
+        let key:string = StateManage.instance.lastChangedKey;
+        // 监控钻石
+        if (key == StateManage.KEY_GEM) {
+            this.score.string = StateManage.instance.getData(key);
+            // if(cc.director.getScene().name == "indexSence"){
+                this.animation.play();
+            // }
+        }
+        if (key == StateManage.KEY_GRADE) {
+            this.grade.string = StateManage.instance.getData(key);
+        }
+    }
+}

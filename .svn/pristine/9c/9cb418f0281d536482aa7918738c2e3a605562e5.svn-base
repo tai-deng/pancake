@@ -1,0 +1,50 @@
+import StateManage from "../StateManage/StateManage";
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class NewClass extends cc.Component {
+
+    @property(cc.Node)
+    goods: cc.Node = null;
+
+    @property([cc.SpriteFrame])
+    isUse:Array<cc.SpriteFrame> = [];
+
+    @property
+    goodsIndex:number = 0;
+
+    private _siblings:Array<cc.Node> = null;
+
+    use(){
+        let index = this.goodsIndex;
+        switch(true){
+            case index == 0 :
+                this.switchover();
+            break;
+            case index == 1 :
+                this.switchover();
+            break;
+            case index == 2 :
+            cc.log(index);
+            break;
+            case index == 3 :
+            cc.log(index);
+            break;
+        }
+    }
+    switchover(){
+        this._siblings.forEach(element => {
+            element.getChildByName("use").getComponent(cc.Sprite).spriteFrame = this.isUse[1]
+        });
+        this.node.getChildByName("use").getComponent(cc.Sprite).spriteFrame = this.isUse[0]
+    }
+    /* onLoad () {
+        // StateManage.instance.on("change", this.stateChangeHandler, this);
+    } */
+    start () {
+        this._siblings =  this.node.parent.children;
+    }
+
+    // update (dt) {}
+}

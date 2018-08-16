@@ -1,0 +1,28 @@
+"use strict";
+cc._RF.push(module, '885288A4WVN8rzCZz/LFThg', 'GameOverCommand');
+// Script/commands/GameOverCommand.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Command_1 = require("../gamecore/legs/Command");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * over节点事件执行体
+ */
+var GameOverCommand = /** @class */ (function (_super) {
+    __extends(GameOverCommand, _super);
+    function GameOverCommand() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    GameOverCommand.prototype.execute = function () {
+        var score = this.data["score"];
+        var node = this.data["node"];
+        node.active = true;
+    };
+    GameOverCommand = __decorate([
+        ccclass
+    ], GameOverCommand);
+    return GameOverCommand;
+}(Command_1.default));
+exports.default = GameOverCommand;
+
+cc._RF.pop();

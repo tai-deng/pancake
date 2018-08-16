@@ -1,0 +1,167 @@
+"use strict";
+cc._RF.push(module, '735c4oiUOZHD41bVADC2XsY', 'Task');
+// Script/Task/Task.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Json_1 = require("../Json/Json");
+var StateManage_1 = require("../StateManage/StateManage");
+var TaskItem_1 = require("./TaskItem");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var Task = /** @class */ (function (_super) {
+    __extends(Task, _super);
+    function Task() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.sec = 0;
+        // 任务节点
+        _this.items = [];
+        // 所有任务
+        _this.tasks = [];
+        // 当前任务
+        _this.currentTask = [];
+        _this.date = new Date();
+        return _this;
+    }
+    Task.prototype.onLoad = function () {
+        this.tasks = new Json_1.default().tasks;
+    };
+    Task.prototype.start = function () {
+        this.init();
+    };
+    /**
+     * 初始化任务
+     * 1.如果当前时间过了 0 点增加任务次数 1;
+     */
+    Task.prototype.init = function () {
+        var _this = this;
+        // 判断时间更新任务
+        var tasknuma = StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKA);
+        var tasknumb = StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKB);
+        var tasknumc = StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKC);
+        this.items.forEach(function (el) {
+            var item = el;
+            item.on("getData", _this.itemGetData, _this);
+            cc.log(el.name);
+            if (el.name == "taskItem1") {
+                if (JSON.stringify(tasknuma) == "{}") {
+                    var temp = _this.randomTask(_this.currentTask);
+                    StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKA, temp);
+                    el.getComponent(TaskItem_1.default).itemData = temp;
+                    StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKNUMA, StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKNUMA) + 1);
+                }
+                else {
+                    el.getComponent(TaskItem_1.default).itemData = tasknuma;
+                }
+            }
+            if (el.name == "taskItem2") {
+                if (JSON.stringify(tasknumb) == "{}") {
+                    var temp = _this.randomTask(_this.currentTask);
+                    StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKB, temp);
+                    el.getComponent(TaskItem_1.default).itemData = temp;
+                    StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKNUMB, StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKNUMB) + 1);
+                }
+                else {
+                    el.getComponent(TaskItem_1.default).itemData = tasknumb;
+                }
+            }
+            if (el.name == "taskItem3") {
+                if (JSON.stringify(tasknumc) == "{}") {
+                    var temp = _this.randomTask(_this.currentTask);
+                    StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKC, temp);
+                    el.getComponent(TaskItem_1.default).itemData = temp;
+                    StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKNUMC, StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKNUMC) + 1);
+                }
+                else {
+                    el.getComponent(TaskItem_1.default).itemData = tasknumc;
+                }
+            }
+        });
+    };
+    // 获取任务
+    Task.prototype.itemGetData = function (e) {
+        var item = e.currentTarget;
+        var taskItem = item.getComponent(TaskItem_1.default);
+        var oldId = item.getComponent(TaskItem_1.default).itemData["id"];
+        var arr = [];
+        this.currentTask.forEach(function (el) {
+            if (el["id"] != oldId) {
+                arr.push(el);
+            }
+        });
+        this.currentTask = arr;
+        taskItem.itemData = this.randomTask(this.currentTask);
+    };
+    // 随机任务
+    Task.prototype.randomTask = function (arr) {
+        while (true) {
+            var length = this.tasks.length;
+            var ind = Math.floor(Math.random() * length);
+            ind = ind == length ? length - 1 : ind;
+            var taskI = this.tasks[ind];
+            var hasSame = false;
+            for (var i = 0; i < arr.length; ++i) {
+                if (arr[i]['id'] == taskI['id']) {
+                    hasSame = true;
+                    break;
+                }
+            }
+            if (!hasSame) {
+                this.currentTask.push(taskI);
+                return taskI;
+            }
+        }
+    };
+    Task.prototype.setTimeDay = function () {
+        var isTime = StateManage_1.default.instance.getData(StateManage_1.default.KEY_NEXTDAY);
+        if (isTime == null) {
+            this.renewal();
+            cc.log("^^^^^^^^^^^^^^^^^^^^^^^^");
+        }
+        else if (this.date.getTime() > StateManage_1.default.instance.getData(StateManage_1.default.KEY_NEXTDAY)) {
+            this.newNextDay();
+        }
+    };
+    /**
+     * 定时更新任务
+     * 1.获取当前的日期 年月日
+     * 2.获取下一天0点的时间戳
+     * 3.当前的时间大于这个时间就给一个刷新机会
+     * 4.给过机会之后重新获取当前的日期 年月日
+     */
+    Task.prototype.renewal = function () {
+        var time = this.date.getTime();
+        var newDate = new Date(time + 86400000);
+        newDate.setHours(0, 0, 0);
+        var nextDay = newDate.getTime();
+        StateManage_1.default.instance.setData(StateManage_1.default.KEY_NEXTDAY, nextDay);
+        StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKNUMA, 1);
+        StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKNUMB, 1);
+        StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKNUMC, 1);
+    };
+    /**
+     * 更新目标时间
+     */
+    Task.prototype.newNextDay = function () {
+        var time = this.date.getTime();
+        var newDate = new Date(time + 86400000);
+        newDate.setHours(0, 0, 0);
+        var nextDay = newDate.getTime();
+        StateManage_1.default.instance.setData(StateManage_1.default.KEY_NEXTDAY, nextDay);
+    };
+    Task.prototype.update = function (dt) {
+        this.sec += dt;
+        if (Math.floor(this.sec) == 1) {
+            this.setTimeDay();
+            this.sec = 0;
+        }
+    };
+    __decorate([
+        property([cc.Node])
+    ], Task.prototype, "items", void 0);
+    Task = __decorate([
+        ccclass
+    ], Task);
+    return Task;
+}(cc.Component));
+exports.default = Task;
+
+cc._RF.pop();

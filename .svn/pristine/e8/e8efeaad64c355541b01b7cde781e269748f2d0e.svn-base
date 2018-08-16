@@ -1,0 +1,152 @@
+import Json from "../Json/Json";
+import StateManage from "../StateManage/StateManage";
+import TaskItem from "./TaskItem";
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class Task extends cc.Component {
+    private sec:number = 0;
+    
+    // 任务节点
+    @property([cc.Node])
+    items:Array<cc.Node> = [];
+    // 所有任务
+    private tasks:Array<object> = [];
+    // 当前任务
+    private currentTask:Array<object> = [];
+    private date:Date = new Date();
+
+    onLoad () {
+        this.tasks = new Json().tasks;
+    }
+
+    start () {
+        this.init();
+    }
+
+    /**
+     * 初始化任务   
+     * 1.如果当前时间过了 0 点增加任务次数 1;
+     */
+    public init(){
+        // 判断时间更新任务
+        let tasknuma = StateManage.instance.getData(StateManage.KEY_TASKA);
+        let tasknumb = StateManage.instance.getData(StateManage.KEY_TASKB);
+        let tasknumc = StateManage.instance.getData(StateManage.KEY_TASKC);
+        this.items.forEach(el =>{
+            let  item:cc.Node = el as cc.Node;
+            item.on("getData", this.itemGetData, this);
+            cc.log(el.name)
+            if(el.name == "taskItem1"){
+                if(JSON.stringify(tasknuma) == "{}"){
+                    let temp = this.randomTask(this.currentTask);
+                    StateManage.instance.setData(StateManage.KEY_TASKA,temp);
+                    el.getComponent(TaskItem).itemData = temp;
+                    StateManage.instance.setData(StateManage.KEY_TASKNUMA,StateManage.instance.getData(StateManage.KEY_TASKNUMA)+1);
+                }else{
+                    el.getComponent(TaskItem).itemData = tasknuma;
+                }
+            }
+            if(el.name == "taskItem2"){
+                if(JSON.stringify(tasknumb) == "{}"){
+                    let temp = this.randomTask(this.currentTask);
+                    StateManage.instance.setData(StateManage.KEY_TASKB,temp);
+                    el.getComponent(TaskItem).itemData = temp;
+                    StateManage.instance.setData(StateManage.KEY_TASKNUMB,StateManage.instance.getData(StateManage.KEY_TASKNUMB)+1);
+                }else{
+                    el.getComponent(TaskItem).itemData = tasknumb;
+                }
+            }
+            if(el.name == "taskItem3"){
+                if(JSON.stringify(tasknumc) == "{}"){
+                    let temp = this.randomTask(this.currentTask);
+                    StateManage.instance.setData(StateManage.KEY_TASKC,temp);
+                    el.getComponent(TaskItem).itemData = temp;
+                    StateManage.instance.setData(StateManage.KEY_TASKNUMC,StateManage.instance.getData(StateManage.KEY_TASKNUMC)+1);
+                }else{
+                    el.getComponent(TaskItem).itemData = tasknumc;
+                }
+            }
+        })
+    }
+    // 获取任务
+    private itemGetData(e:cc.Event):void {
+        let item:cc.Node = e.currentTarget as cc.Node;
+        let taskItem:TaskItem = item.getComponent(TaskItem);
+        let oldId =  item.getComponent(TaskItem).itemData["id"];
+        let arr = [];
+        this.currentTask.forEach(el => {
+            if(el["id"] != oldId){
+                arr.push(el);
+            }
+        });
+        this.currentTask = arr;
+        taskItem.itemData = this.randomTask(this.currentTask);
+    }
+
+    // 随机任务
+    public randomTask(arr:Array<object>){
+        while (true){
+            let length = this.tasks.length;
+            let ind = Math.floor(Math.random() * length);
+            ind = ind == length ? length - 1 : ind;
+            let taskI = this.tasks[ind];
+            let hasSame:boolean = false;
+            
+            for(let i = 0;i < arr.length;++i){
+                if(arr[i]['id'] == taskI['id']) {
+                    hasSame = true;
+                    break;
+                }
+            }
+            if (!hasSame) {
+                this.currentTask.push(taskI);
+                return taskI;
+            }
+        }
+    }
+    public setTimeDay(){
+        let isTime = StateManage.instance.getData(StateManage.KEY_NEXTDAY);
+        if(isTime == null){
+            this.renewal();
+            cc.log("^^^^^^^^^^^^^^^^^^^^^^^^")
+        }else if(this.date.getTime() > StateManage.instance.getData(StateManage.KEY_NEXTDAY)){
+            this.newNextDay()
+        }
+    }
+    /**
+     * 定时更新任务
+     * 1.获取当前的日期 年月日
+     * 2.获取下一天0点的时间戳
+     * 3.当前的时间大于这个时间就给一个刷新机会
+     * 4.给过机会之后重新获取当前的日期 年月日
+     */
+    public renewal(){
+        let time = this.date.getTime();
+        let newDate = new Date(time+86400000);
+        newDate.setHours(0,0,0);
+        let nextDay = newDate.getTime();
+        StateManage.instance.setData(StateManage.KEY_NEXTDAY,nextDay);
+        StateManage.instance.setData(StateManage.KEY_TASKNUMA,1);
+        StateManage.instance.setData(StateManage.KEY_TASKNUMB,1);
+        StateManage.instance.setData(StateManage.KEY_TASKNUMC,1);
+    }
+    /**
+     * 更新目标时间
+     */
+    public newNextDay(){
+        let time = this.date.getTime();
+        let newDate = new Date(time+86400000);
+        newDate.setHours(0,0,0);
+        let nextDay = newDate.getTime();
+        StateManage.instance.setData(StateManage.KEY_NEXTDAY,nextDay);
+    }
+    update (dt) {
+        this.sec += dt;
+        if(Math.floor(this.sec) == 1){
+            this.setTimeDay();
+            this.sec = 0;
+        }
+    }
+}

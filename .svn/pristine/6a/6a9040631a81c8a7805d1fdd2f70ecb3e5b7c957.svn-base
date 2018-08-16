@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "lower_arm",
+    "texture": "42d2b532-0404-4f37-b848-f35bb2f31bda",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      143,
+      206
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      143,
+      206
+    ]
+  }
+}

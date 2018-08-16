@@ -1,0 +1,18 @@
+
+import Command from "../gamecore/legs/Command";
+
+const {ccclass, property} = cc._decorator;
+/**
+ * over节点事件执行体
+ */
+@ccclass
+export default class GameOverCommand extends Command {
+
+    execute() {
+        let score:number = this.data["score"];
+
+        let node:cc.Node = this.data["node"];
+        
+        node.active = true;
+    }
+}

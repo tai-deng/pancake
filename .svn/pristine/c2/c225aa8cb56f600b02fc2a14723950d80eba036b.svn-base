@@ -1,0 +1,131 @@
+"use strict";
+cc._RF.push(module, '986e1ciQi1DVqOH9zxeLhHX', 'StateManage');
+// Script/StateManage/StateManage.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var StateManage = /** @class */ (function (_super) {
+    __extends(StateManage, _super);
+    function StateManage() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.shopdata = {};
+        _this.taskdata = {};
+        _this.resurgenceCardNum = 0;
+        _this.skin = {};
+        _this.score = "0";
+        _this.jewel = 0;
+        _this.shoppingTab = 0;
+        _this.isOver = 2;
+        _this.cakePos = null;
+        _this.gem = 0;
+        _this.trade = {};
+        _this.overturn = 0;
+        _this.turn = 0;
+        _this.tmturn = 0;
+        _this.grade = 0;
+        _this.resurgenceCar = 0;
+        _this.fdrelay = 0;
+        _this.crazyTap = 0;
+        _this.anyShare = 0;
+        _this.ripeShare = 0;
+        _this.tasknum0 = 0;
+        _this.tasknum1 = 0;
+        _this.tasknum2 = 0;
+        _this.nextDay = 0;
+        _this.currentTask = [];
+        _this.task0 = {};
+        _this.task1 = {};
+        _this.task2 = {};
+        _this.isgaina0 = 0;
+        _this.isgaina1 = 0;
+        _this.isgaina2 = 0;
+        _this.tagrade = 0;
+        _this.tagem = 0;
+        _this.isMidnight = 0;
+        _this.today = 0;
+        return _this;
+    }
+    StateManage_1 = StateManage;
+    Object.defineProperty(StateManage, "instance", {
+        get: function () {
+            if (!StateManage_1._instance)
+                StateManage_1._instance = new StateManage_1();
+            return StateManage_1._instance;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StateManage.prototype, "lastChangedKey", {
+        /**
+         *  被修改的 KEY
+         */
+        get: function () {
+            return this._lastChangedKey;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    // KEY 抛出改变事件
+    StateManage.prototype.setData = function (key, value) {
+        if (this[key] !== value && this[key] != void 0) {
+            this[key] = value;
+            this._lastChangedKey = key;
+            this.dispatchEvent(new cc.Event("change", false));
+        }
+    };
+    // 获取状态
+    StateManage.prototype.getData = function (key) {
+        /* let value = WXCore.getStorage(key);
+        if(this[key] && value){
+            return value;
+        } */
+        if (this[key] != void 0) {
+            return this[key];
+        }
+    };
+    StateManage._instance = null;
+    StateManage.KEY_SHOPDATA = "shopdata"; // 商品数据
+    StateManage.KEY_TASKDATA = "taskdata"; // 任务数据
+    StateManage.KEY_SKIN = "skin"; // 皮肤
+    StateManage.KEY_SCORE = "score"; // 得分
+    StateManage.KEY_JEWEL_STATE = "jewel"; // 新钻石
+    StateManage.KEY_ISOVER = 'isOver'; // 是否结束
+    StateManage.KEY_CAKEPOS = "cakePos"; // 初始化饼的位置
+    StateManage.KEY_GEM = "gem"; // 宝石数量
+    StateManage.KEY_RESURGENCECARDNUM = "resurgenceCardNum"; // 复活卡数量
+    // 商店
+    StateManage.KEY_SHOPING_TAB = "shoppingTab"; // 商店 TAB 
+    StateManage.KEY_TRADE = "trade"; // 商品价格 
+    // 任务
+    StateManage.KEY_TAGEM = "tagem"; // 钻石任务
+    StateManage.KEY_TAGRADE = "tagrade"; // 等级任务
+    StateManage.KEY_OVERTURN = "overturn"; // 翻转次数
+    StateManage.KEY_TURN = "turn"; // 一周转体次数
+    StateManage.KEY_TMTURN = "tmturn"; // 十秒内翻转次数
+    StateManage.KEY_GRADE = "grade"; // 等级
+    StateManage.KEY_RESURGENCECAR = "resurgenceCar"; // 累计使用复活卡次数
+    StateManage.KEY_FDRELAY = "fdrelay"; // 好友接力数量
+    StateManage.KEY_CRAZYTAP = "crazyTap"; // 疯狂点击中点次数
+    StateManage.KEY_ANYSHARE = "anyShare"; // 累计任意分享
+    StateManage.KEY_RIPESHARE = "ripeShare"; // 煎烤好友并分享
+    StateManage.KEY_TASKNUM0 = "tasknum0"; // A栏剩余任务次数
+    StateManage.KEY_TASKNUM1 = "tasknum1"; // B栏剩余任务次数
+    StateManage.KEY_TASKNUM2 = "tasknum2"; // C栏剩余任务次数
+    StateManage.KEY_NEXTDAY = "nextDay"; // 第二天 0 点
+    StateManage.KEY_TASK0 = "task0"; // A栏任务内容
+    StateManage.KEY_TASK1 = "task1"; // B栏任务内容
+    StateManage.KEY_TASK2 = "task2"; // C栏任务内容
+    StateManage.KEY_ISGAIN0 = "isgaina0"; // A栏是否领取
+    StateManage.KEY_ISGAIN1 = "isgaina1"; // B栏是否领取
+    StateManage.KEY_ISGAIN2 = "isgaina2"; // C栏是否领取
+    StateManage.KEY_MIDNIGHT = "isMidnight"; // 是否午夜更新 
+    StateManage.KEY_TODAY = "today"; // 现在的时间
+    StateManage = StateManage_1 = __decorate([
+        ccclass
+    ], StateManage);
+    return StateManage;
+    var StateManage_1;
+}(cc.Node));
+exports.default = StateManage;
+
+cc._RF.pop();

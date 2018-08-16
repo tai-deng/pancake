@@ -1,0 +1,53 @@
+"use strict";
+cc._RF.push(module, '8b6d36+1bdDQLkyuaKDFcOw', 'AlertMain');
+// Script/AlertMain.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var GameManager_1 = require("./gamecore/managers/GameManager");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var AlertMain = /** @class */ (function (_super) {
+    __extends(AlertMain, _super);
+    function AlertMain() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.okBtn = null;
+        _this.offBtn = null;
+        _this.titleLabel = null;
+        return _this;
+    }
+    AlertMain.prototype.start = function () {
+        this.okBtn.on(cc.Node.EventType.TOUCH_END, this.okBtnTapHandler, this);
+        this.offBtn.on(cc.Node.EventType.TOUCH_END, this.offBtnTapHandler, this);
+        this.titleLabel.string = this.title;
+    };
+    // update (dt) {}
+    AlertMain.prototype.okBtnTapHandler = function (e) {
+        if (this.callbak != null) {
+            this.callbak.call(null, "ok");
+        }
+        // this.node.dispatchEvent(new cc.Event(GameCoreEvent.COMMON_CLOSE, false));
+        GameManager_1.default.popUpManager.removePopUp(this.node);
+    };
+    AlertMain.prototype.offBtnTapHandler = function (e) {
+        if (this.callbak != null) {
+            this.callbak.call(null, "off");
+        }
+        // 执行完毕移除这个几点
+        GameManager_1.default.popUpManager.removePopUp(this.node);
+    };
+    __decorate([
+        property(cc.Node)
+    ], AlertMain.prototype, "okBtn", void 0);
+    __decorate([
+        property(cc.Node)
+    ], AlertMain.prototype, "offBtn", void 0);
+    __decorate([
+        property(cc.Label)
+    ], AlertMain.prototype, "titleLabel", void 0);
+    AlertMain = __decorate([
+        ccclass
+    ], AlertMain);
+    return AlertMain;
+}(cc.Component));
+exports.default = AlertMain;
+
+cc._RF.pop();

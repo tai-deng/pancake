@@ -1,0 +1,101 @@
+(function() {"use strict";var __module = CC_EDITOR ? module : {exports:{}};var __filename = 'preview-scripts/assets/Script/startsence/StartSence.js';var __require = CC_EDITOR ? function (request) {return cc.require(request, require);} : function (request) {return cc.require(request, __filename);};function __define (exports, require, module) {"use strict";
+cc._RF.push(module, 'e1b90/rohdEk4SdmmEZANaD', 'StartSence', __filename);
+// Script/startsence/StartSence.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var GameManager_1 = require("../gamecore/managers/GameManager");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * 启动场景
+ */
+var StartSence = /** @class */ (function (_super) {
+    __extends(StartSence, _super);
+    function StartSence() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        //声音控制按钮
+        _this.soundBtn = null;
+        //进入游戏场景按钮
+        _this.toGameSenceBtn = null;
+        return _this;
+    }
+    StartSence.prototype.onLoad = function () {
+        //设置版本号
+        GameManager_1.default.gameVersion = "1.0";
+        //设置常用的音乐素材
+        GameManager_1.default.soundsManager.tapSoundSource = "/resources/sounds/tap.mp3";
+    };
+    StartSence.prototype.start = function () {
+        //设置主场景背景音乐
+        GameManager_1.default.soundsManager.pushSenceBgSound("/resources/sounds/startsence.mp3");
+        //显示UI
+        this.refreshSoundBtn();
+        //事件监听
+        this.soundBtn.on(cc.Node.EventType.TOUCH_END, this.soundBtnTapHandler, this);
+        this.toGameSenceBtn.on(cc.Node.EventType.TOUCH_END, this.toGameSenceBtnTapHandler, this);
+    };
+    /**
+     * 声音控制按钮点击
+     *
+     * @param e
+     */
+    StartSence.prototype.soundBtnTapHandler = function (e) {
+        //播放点击音效
+        GameManager_1.default.soundsManager.playTapSound();
+        if (GameManager_1.default.soundsManager.musicMuted) {
+            GameManager_1.default.soundsManager.unmuteMusic();
+        }
+        else {
+            GameManager_1.default.soundsManager.muteMusic();
+        }
+        this.refreshSoundBtn();
+    };
+    /**
+     * 场景控制按钮点击
+     *
+     * @param e
+     */
+    StartSence.prototype.toGameSenceBtnTapHandler = function (e) {
+        //播放点击音效
+        GameManager_1.default.soundsManager.playTapSound();
+        //进入游戏场景
+        cc.director.loadScene("GameSence");
+    };
+    /**
+     * 刷新按钮显示
+     */
+    StartSence.prototype.refreshSoundBtn = function () {
+        var btnLabel = this.soundBtn.getChildByName("btnLabel");
+        //检查是否已关闭背景音乐
+        if (GameManager_1.default.soundsManager.musicMuted) {
+            btnLabel.getComponent(cc.Label).string = "开启音乐";
+        }
+        else {
+            btnLabel.getComponent(cc.Label).string = "关闭音乐";
+        }
+    };
+    __decorate([
+        property(cc.Node)
+    ], StartSence.prototype, "soundBtn", void 0);
+    __decorate([
+        property(cc.Node)
+    ], StartSence.prototype, "toGameSenceBtn", void 0);
+    StartSence = __decorate([
+        ccclass
+    ], StartSence);
+    return StartSence;
+}(cc.Component));
+exports.default = StartSence;
+
+cc._RF.pop();
+        }
+        if (CC_EDITOR) {
+            __define(__module.exports, __require, __module);
+        }
+        else {
+            cc.registerModuleFunc(__filename, function () {
+                __define(__module.exports, __require, __module);
+            });
+        }
+        })();
+        //# sourceMappingURL=StartSence.js.map
+        

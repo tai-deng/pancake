@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "fdScore",
+    "texture": "dd0db677-5da2-42d6-b8c3-1701f8e3ac92",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      178,
+      60
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      178,
+      60
+    ]
+  }
+}

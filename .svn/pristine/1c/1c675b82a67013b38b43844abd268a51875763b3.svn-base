@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "marvel",
+    "texture": "0bf34186-f99d-4750-a27f-c7456340e4ad",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      12,
+      43
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      12,
+      43
+    ]
+  }
+}

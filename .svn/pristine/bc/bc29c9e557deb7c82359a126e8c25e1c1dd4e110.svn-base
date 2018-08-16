@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "resurgenceBar",
+    "texture": "15f019ab-754d-46a6-a32e-3e3463a519b7",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      490,
+      102
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      490,
+      102
+    ]
+  }
+}

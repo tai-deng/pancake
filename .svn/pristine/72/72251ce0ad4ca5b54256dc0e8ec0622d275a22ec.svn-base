@@ -1,0 +1,156 @@
+"use strict";
+cc._RF.push(module, '15469COGp5A0455pD4HJEei', 'TaskItem');
+// Script/Task/TaskItem.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var GameManager_1 = require("../gamecore/managers/GameManager");
+var GameEventNames_1 = require("../GameEventNames");
+var StateManage_1 = require("../StateManage/StateManage");
+var TaskMode_1 = require("./TaskMode");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var TaskItem = /** @class */ (function (_super) {
+    __extends(TaskItem, _super);
+    function TaskItem() {
+        // public data:object=null;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.taskName = null;
+        _this.taskDetails = null;
+        _this.plan = null;
+        _this.progress = null;
+        // 未领取
+        _this.rewardedBtnY = null;
+        // 能领取
+        _this.rewardedBtnN = null;
+        // 进行中
+        _this.playbar = null;
+        // 刷新按钮
+        _this.refreshBtn = null;
+        return _this;
+        // update (dt) {}
+    }
+    Object.defineProperty(TaskItem.prototype, "data", {
+        get: function () {
+            return this._itemData;
+        },
+        set: function (v) {
+            if (this._itemData != v) {
+                this._itemData = v;
+                this.refreshUI();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    // onLoad () {}
+    // start () {}
+    // 更新UI
+    TaskItem.prototype.refreshUI = function () {
+        var data = this.data;
+        this.taskName.string = data["taskContent"]["title"];
+        this.taskDetails.string = "任务奖励：宝石×" + data["taskContent"]["awardNum"];
+        cc.log("isFinish", this.data["isFinish"]);
+        if (this.data["isFinish"]) {
+            this.playbar.active = false;
+            if (this.data["isgaina"]) {
+                cc.log("不能领取");
+                this.rewardedBtnN.active = true;
+                this.rewardedBtnY.active = false;
+                if (this.data["tasknum"] > 0) {
+                    this.refreshBtn.active = true;
+                }
+                else {
+                    this.refreshBtn.active = false;
+                }
+            }
+            else {
+                cc.log("能领取");
+                this.refreshBtn.active = false;
+                this.rewardedBtnY.active = true;
+                this.rewardedBtnN.active = false;
+            }
+        }
+        else {
+            this.playbar.active = true;
+            this.rewardedBtnN.active = false;
+            this.rewardedBtnY.active = false;
+            if (this.data["tasknum"] > 0) {
+                this.refreshBtn.active = true;
+            }
+            else {
+                this.refreshBtn.active = false;
+            }
+        }
+        var selfPlan = StateManage_1.default.instance.getData(data["taskContent"]["value"]);
+        var goal = data["taskContent"]["goal"];
+        selfPlan = selfPlan > goal ? goal : selfPlan;
+        this.plan.string = selfPlan + "/" + goal;
+        this.progress.width = (116 / goal) * selfPlan;
+    };
+    /**
+     * 完成任务获取指定奖励
+     * 任务状态 1 完成了    2 未完成    finish
+     * 完成了   1 已领取    2 未领取    gain
+     */
+    TaskItem.prototype.affirmBtn = function (event) {
+        GameManager_1.default.soundsManager.playTapSound();
+        TaskMode_1.default.instance.receiveAward(this.data);
+        this.refreshUI();
+    };
+    // 开始游戏或者分享
+    TaskItem.prototype.playbarBtn = function (event) {
+        GameManager_1.default.soundsManager.playTapSound();
+        cc.log("开始游戏或者分享");
+    };
+    // 刷新任务
+    TaskItem.prototype.refresh = function () {
+        var title = "";
+        var script = this;
+        var callback = function () { };
+        title = "要观看一次广告来替换这个任务吗？";
+        callback = function (label) {
+            cc.info(label);
+            if (label == "ok") {
+                script.affirm();
+            }
+            if (label == "off") { }
+            GameManager_1.default.soundsManager.playTapSound();
+        };
+        GameManager_1.default.eventManager.dispatchEventWith(GameEventNames_1.default.SHOW_ALERT, [title, callback]);
+        GameManager_1.default.soundsManager.playTapSound();
+    };
+    // 确认更新
+    TaskItem.prototype.affirm = function () {
+        TaskMode_1.default.instance.refreshTask(this.data);
+    };
+    __decorate([
+        property(cc.Label)
+    ], TaskItem.prototype, "taskName", void 0);
+    __decorate([
+        property(cc.Label)
+    ], TaskItem.prototype, "taskDetails", void 0);
+    __decorate([
+        property(cc.Label)
+    ], TaskItem.prototype, "plan", void 0);
+    __decorate([
+        property(cc.Node)
+    ], TaskItem.prototype, "progress", void 0);
+    __decorate([
+        property(cc.Node)
+    ], TaskItem.prototype, "rewardedBtnY", void 0);
+    __decorate([
+        property(cc.Node)
+    ], TaskItem.prototype, "rewardedBtnN", void 0);
+    __decorate([
+        property(cc.Node)
+    ], TaskItem.prototype, "playbar", void 0);
+    __decorate([
+        property(cc.Node)
+    ], TaskItem.prototype, "refreshBtn", void 0);
+    TaskItem = __decorate([
+        ccclass
+    ], TaskItem);
+    return TaskItem;
+}(cc.Component));
+exports.default = TaskItem;
+
+cc._RF.pop();

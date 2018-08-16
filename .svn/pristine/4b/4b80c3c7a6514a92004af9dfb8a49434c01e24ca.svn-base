@@ -1,0 +1,21 @@
+"use strict";
+cc._RF.push(module, '9c49dVkrvBCILTQx/q/IzCE', 'ShopItem');
+// Script/shopping/ShopItem.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var ShopItem = /** @class */ (function () {
+    function ShopItem() {
+        // 皮肤资源
+        this.skinsRes = {};
+        // 价格
+        this.price = 0;
+    }
+    ShopItem = __decorate([
+        ccclass
+    ], ShopItem);
+    return ShopItem;
+}());
+exports.default = ShopItem;
+
+cc._RF.pop();

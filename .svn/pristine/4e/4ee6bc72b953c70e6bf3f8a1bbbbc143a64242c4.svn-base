@@ -1,0 +1,13 @@
+"use strict";
+cc._RF.push(module, '9c49dVkrvBCILTQx/q/IzCE', 'ShopItem');
+// Script/shopping/ShopItem.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var ShopItem = /** @class */ (function () {
+    function ShopItem() {
+    }
+    return ShopItem;
+}());
+exports.default = ShopItem;
+
+cc._RF.pop();

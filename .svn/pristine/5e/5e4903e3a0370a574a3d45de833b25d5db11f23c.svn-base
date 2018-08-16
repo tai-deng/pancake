@@ -1,0 +1,229 @@
+"use strict";
+cc._RF.push(module, '07d14J4R6tHM5TJ2WPScwQC', 'ShopMod');
+// Script/shopping/ShopMod.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var StateManage_1 = require("../StateManage/StateManage");
+var gameData_1 = require("../gameData");
+var ShopItem_1 = require("./ShopItem");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var ShopMod = /** @class */ (function (_super) {
+    __extends(ShopMod, _super);
+    function ShopMod() {
+        var _this = _super.call(this) || this;
+        // 渲染页面的数据
+        _this._potList = [];
+        _this._pancakeList = [];
+        // json 数据
+        _this.sumPotRes = new gameData_1.default().pot;
+        _this.sumCakeRes = new gameData_1.default().cake;
+        // 用户使用数据 - 存本地
+        _this._potStore = [];
+        _this._cakeStore = [];
+        // Tab true 锅 false 饼
+        _this.isTab = true;
+        _this.getData();
+        return _this;
+    }
+    ShopMod_1 = ShopMod;
+    Object.defineProperty(ShopMod, "instance", {
+        get: function () {
+            if (!ShopMod_1._instance)
+                ShopMod_1._instance = new ShopMod_1();
+            return ShopMod_1._instance;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    // 第一次初始化数据
+    ShopMod.prototype.initData = function () {
+        for (var i = 0; i < this.sumPotRes.length; ++i) {
+            var shopItem = this.initNewItem(i, this.sumPotRes);
+            this._potList.push(shopItem);
+        }
+        for (var i = 0; i < this.sumCakeRes.length; ++i) {
+            var shopItem = this.initNewItem(i, this.sumCakeRes);
+            this._pancakeList.push(shopItem);
+        }
+    };
+    // 获取仓库数据
+    ShopMod.prototype.getData = function () {
+        var data = StateManage_1.default.instance.getData(StateManage_1.default.KEY_SHOPDATA);
+        if (JSON.stringify(data) == "{}") {
+            this.initData();
+        }
+        else {
+            this._potStore = data["potSkin"];
+            this._cakeStore = data["cakeSkin"];
+            this._potList = this.updaNewItem(this._potStore, this._potList);
+            this._pancakeList = this.updaNewItem(this._cakeStore, this._pancakeList);
+        }
+    };
+    // 序列化每一个商品
+    ShopMod.prototype.initNewItem = function (index, res) {
+        var shopItem = new ShopItem_1.default();
+        shopItem.id = index;
+        shopItem.skinsRes = res[index];
+        shopItem.price = res[index]["price"];
+        if (index == 0) {
+            shopItem.isBuy = true;
+            shopItem.isUse = true;
+            shopItem.waitBuy = true;
+            shopItem.newPro = false;
+        }
+        else if (index == 1) {
+            shopItem.isBuy = false;
+            shopItem.isUse = false;
+            shopItem.waitBuy = true;
+            shopItem.newPro = true;
+        }
+        else {
+            shopItem.isBuy = false;
+            shopItem.isUse = false;
+            shopItem.waitBuy = false;
+            shopItem.newPro = false;
+        }
+        return shopItem;
+    };
+    // 把缓存里的用户使用信息更新出来
+    ShopMod.prototype.updaNewItem = function (storageRes, newRes) {
+        for (var i = 0; i < newRes.length; i++) {
+            for (var j = 0; j < storageRes.length; j++) {
+                if (storageRes[j]["id"] == newRes[i]["id"]) {
+                    newRes[i] = storageRes[i];
+                }
+            }
+        }
+        return newRes;
+    };
+    // 获取锅数据
+    ShopMod.prototype.getPotList = function () {
+        return this._potList.concat();
+    };
+    // 获取饼数据
+    ShopMod.prototype.getCakeList = function () {
+        return this._pancakeList.concat();
+    };
+    // 购买锅皮肤
+    ShopMod.prototype.buyShopPot = function (current) {
+        var updatePot = [];
+        this._potList.forEach(function (ele, ind) {
+            // 待解锁改成 已解锁,已购买,取消新品  下个商品改成 待解锁 未购买 新品
+            ele["isUse"] = false;
+            if (current["isBuy"]) {
+                if (!current["isUse"]) {
+                    current["isUse"] = true;
+                }
+            }
+            else if (current["waitBuy"]) {
+                current["isBuy"] = true;
+                current["isUse"] = true;
+                current["iswaitBuy"] = true;
+                current["newPRO"] = false;
+            }
+            if (ele["id"] == current["id"]) {
+                ele = current;
+                if (this._potList.length > ind + 1) {
+                    this._potList[ind + 1]["isBuy"] = false;
+                    this._potList[ind + 1]["isUse"] = false;
+                    this._potList[ind + 1]["waitBuy"] = true;
+                    this._potList[ind + 1]["newPro"] = true;
+                }
+            }
+        }.bind(this));
+        this._potStore = this.updateLocality(this._potStore, updatePot);
+        this.dispatchEvent(new cc.Event("potDataChanged", false));
+    };
+    // 购买饼皮肤
+    ShopMod.prototype.buyShopCake = function (current) {
+        cc.log(current, this._pancakeList, "被点击的ITEM");
+        var updateCake = [];
+        this._pancakeList.forEach(function (ele, ind) {
+            // 待解锁改成 已解锁,已购买,取消新品  下个商品改成 待解锁 未购买 新品
+            ele["isUse"] = false;
+            if (current["isBuy"]) {
+                if (!current["isUse"]) {
+                    current["isUse"] = true;
+                }
+            }
+            else if (current["waitBuy"]) {
+                current["isBuy"] = true;
+                current["isUse"] = true;
+                current["iswaitBuy"] = true;
+                current["newPRO"] = false;
+            }
+            if (ele["id"] == current["id"]) {
+                ele = current;
+                if (this._pancakeList.length > ind + 1) {
+                    this._pancakeList[ind + 1]["isBuy"] = false;
+                    this._pancakeList[ind + 1]["isUse"] = false;
+                    this._pancakeList[ind + 1]["waitBuy"] = true;
+                    this._pancakeList[ind + 1]["newPro"] = true;
+                }
+            }
+        }.bind(this));
+        this._pancakeList = this.updateLocality(this._pancakeList, updateCake);
+        this.dispatchEvent(new cc.Event("cakeDataChanged", false));
+    };
+    // USE 锅皮肤
+    ShopMod.prototype.usePot = function (current) {
+        var updatePot = [];
+        this._potList.forEach(function (ele, ind) {
+            ele["isUse"] = false;
+            if (current["isBuy"]) {
+                if (!current["isUse"]) {
+                    current["isUse"] = true;
+                }
+            }
+            if (ele["id"] == current["id"]) {
+                ele = current;
+            }
+        }.bind(this));
+        this._potStore = this.updateLocality(this._potStore, updatePot);
+        this.dispatchEvent(new cc.Event("potDataChanged", false));
+    };
+    // USE 饼皮肤
+    ShopMod.prototype.useCake = function (current) {
+        var updateCake = [];
+        this._pancakeList.forEach(function (ele, ind) {
+            ele["isUse"] = false;
+            if (current["isBuy"]) {
+                if (!current["isUse"]) {
+                    current["isUse"] = true;
+                }
+            }
+            if (ele["id"] == current["id"]) {
+                ele = current;
+            }
+        }.bind(this));
+        this._pancakeList = this.updateLocality(this._pancakeList, updateCake);
+        this.dispatchEvent(new cc.Event("cakeDataChanged", false));
+    };
+    // 更新本地缓存数据
+    ShopMod.prototype.updateLocality = function (locRes, newRes) {
+        for (var i = 0; i < locRes.length; i++) {
+            for (var j = 0; j < newRes.length; j++) {
+                if (locRes[i]["id"] == newRes[j]) {
+                    locRes[i] = newRes[j];
+                }
+            }
+        }
+        return locRes;
+    };
+    // 更新仓库数据
+    ShopMod.prototype.updateData = function () {
+        var temp = {};
+        temp['potSkin'] = this._potStore;
+        temp['cakeSkin'] = this._cakeStore;
+        StateManage_1.default.instance.setData(StateManage_1.default.KEY_SHOPDATA, temp);
+    };
+    var ShopMod_1;
+    ShopMod._instance = null;
+    ShopMod = ShopMod_1 = __decorate([
+        ccclass
+    ], ShopMod);
+    return ShopMod;
+}(cc.Node));
+exports.default = ShopMod;
+
+cc._RF.pop();

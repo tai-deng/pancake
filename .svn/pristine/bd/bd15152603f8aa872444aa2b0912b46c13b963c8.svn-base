@@ -1,0 +1,122 @@
+"use strict";
+cc._RF.push(module, '5fcb1YhOTJADJxplhnYTTcy', 'AdButton');
+// Script/gamecore/xiaoyaoji/AdButton.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var TweenLite_1 = require("../libs/TweenLite");
+var EasePack_1 = require("../libs/EasePack");
+var GameManager_1 = require("../managers/GameManager");
+var XYJAPI_1 = require("./XYJAPI");
+var WXCore_1 = require("../wechat/WXCore");
+// Learn TypeScript:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * 广告按钮
+ */
+var AdButton = /** @class */ (function (_super) {
+    __extends(AdButton, _super);
+    function AdButton() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.button = null;
+        /**
+         * 动画间隔
+         */
+        _this.effectDelay = 3;
+        //交叉推广图url
+        _this._adImageURL = null;
+        return _this;
+    }
+    AdButton.prototype.start = function () {
+        this.button.on(cc.Node.EventType.TOUCH_END, this.adBtnClickHandler, this);
+        this.showEffect();
+        //默认不可见
+        this.node.active = false;
+        //请求数据
+        var script = this;
+        XYJAPI_1.default.getAdImage(function (data) {
+            if (data && data["imageurl"]) {
+                script._adImageURL = data["imageurl"];
+                script.node.active = true;
+            }
+        });
+    };
+    // update (dt) {}
+    /**
+     * 广告按钮点击
+     * @param e
+     */
+    AdButton.prototype.adBtnClickHandler = function (e) {
+        GameManager_1.default.soundsManager.playTapSound();
+        //预览图片
+        WXCore_1.default.previewImage([this._adImageURL]);
+    };
+    /**
+     * 播放效果
+     */
+    AdButton.prototype.showEffect = function () {
+        if (this.zoomTween)
+            this.zoomTween.kill();
+        if (this.shakeTween)
+            this.zoomTween.kill();
+        if (Math.random() > 0.5) {
+            this.effectZoom();
+        }
+        else {
+            this.effectShake();
+        }
+        this.schedule(this.showEffect, this.effectDelay + Math.random(), 1);
+    };
+    /**
+     * 晃动
+     */
+    AdButton.prototype.effectShake = function () {
+        var toR = (40 + Math.random() * 10) * (Math.random() > 0.5 ? 1 : -1);
+        TweenLite_1.TweenLite.to(this.button, 0.5, { "rotation": toR });
+        TweenLite_1.TweenLite.to(this.button, 0.8, {
+            "delay": 0.5,
+            "rotation": 0,
+            "ease": EasePack_1.Elastic.easeOut
+        });
+    };
+    /**
+     * 缩放
+     */
+    AdButton.prototype.effectZoom = function () {
+        if (this.zoomTween)
+            this.zoomTween.kill();
+        if (this.shakeTween)
+            this.zoomTween.kill();
+        var toS = 0.6 + Math.random() * 0.2;
+        TweenLite_1.TweenLite.to(this.button, 0.5, { "scale": toS });
+        TweenLite_1.TweenLite.to(this.button, 0.8, {
+            "delay": 0.5,
+            "scale": 1,
+            "ease": EasePack_1.Elastic.easeOut
+        });
+    };
+    AdButton.prototype.onDestroy = function () {
+        if (this.zoomTween)
+            this.zoomTween.kill();
+        if (this.shakeTween)
+            this.zoomTween.kill();
+        this.unschedule(this.showEffect);
+    };
+    __decorate([
+        property(cc.Node)
+    ], AdButton.prototype, "button", void 0);
+    AdButton = __decorate([
+        ccclass
+    ], AdButton);
+    return AdButton;
+}(cc.Component));
+exports.default = AdButton;
+
+cc._RF.pop();

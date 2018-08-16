@@ -1,0 +1,92 @@
+import GameManager from "../gamecore/managers/GameManager";
+import Over from "./Over";
+import Game from "../Game/Game";
+import StateManage from "../StateManage/StateManage";
+import Jewel from "../Jewels/Jewels";
+
+const {ccclass, property} = cc._decorator;
+// 手臂类执行体
+@ccclass
+export default class Action extends cc.Component {
+
+    @property(cc.Node)
+    pancake:Array<cc.Node> = [];
+    @property(cc.Node)
+    terrace:cc.Node = null;
+    @property(cc.Node)
+    arm:cc.Node = null;
+    @property(cc.Node)
+    jewels:cc.Node = null;
+
+    public score:cc.Node = null;
+    private _isTouching:boolean = false;
+
+    onLoad(){
+        this.initialize();
+    }
+    update (dt) {
+        if (this._isTouching) {
+           this.strength();
+        }
+       this.crash();
+    }
+    start(){
+        this.node.parent.on(cc.Node.EventType.TOUCH_START, this.touchStartHandler, this);
+        this.node.parent.on(cc.Node.EventType.TOUCH_END, this.touchEndHandler, this);
+    }
+    initialize():void{
+        this.pancake = this.node.getChildByName("pancakeNode").children;
+        this.score = this.node.parent.getChildByName("describe").getChildByName("score");
+        this.terrace = this.node.getChildByName("hands").getChildByName("pot").getChildByName("terrace");
+        this.arm = this.node.getChildByName("hands").getChildByName("bigArm");
+        this.jewels = this.node.getChildByName("jewels");
+
+        this.pancake.forEach(element => {
+            let temp = element.getComponent(cc.RigidBody)
+            temp.enabledContactListener = true;
+            temp.onBeginContact = this.onBeginContact;
+        });
+    }
+    private onBeginContact(contact:cc.PhysicsContact,selfCollider:cc.PhysicsCollider,otherCollider:cc.PhysicsCollider){
+        let tag:number = otherCollider["tag"];
+        // 碰撞到锅
+        if(tag != 100){
+            contact.disabled = true;
+
+            StateManage.instance.setData(StateManage.KEY_JEWEL_STATE,1);
+
+            if (!this.jewels.active) this.jewels.getComponent(Jewel).create();
+        }
+        // 碰撞到钻石,加上当前砖石分数,重新生成钻石
+        if(tag == 200 ){
+            // otherCollider["node"].active = false;
+
+            let score = Number(StateManage.instance.getData(StateManage.KEY_SCORE)) + 50;
+            StateManage.instance.setData(StateManage.KEY_SCORE,score);
+            StateManage.instance.setData(StateManage.KEY_JEWEL_STATE,1);
+        }
+    }
+    // 加力动作
+    public strength(){
+        this.arm.getComponent(cc.RigidBody).applyLinearImpulse(new cc.Vec2(1000, 0), new cc.Vec2(0, 0), true);
+    }
+    //over 检测
+    public crash(){
+        if(this.score){
+            this.score.getComponent(cc.Label).string = StateManage.instance.getData(StateManage.KEY_SCORE);
+        }
+        if(this.pancake[5]){
+            let pans = this.pancake[5].getComponent(cc.RigidBody).getWorldCenter();
+            let pot = this.terrace.getComponent(cc.RigidBody).getWorldCenter();
+            if(pans.y < pot.y-50 && pans.x < pot.x+188 && pot.x > pot.x-188){
+                Over.instance.show();
+            }
+        }
+    }
+    private touchStartHandler(e:cc.Event):void {
+        this._isTouching = true;
+    }
+    private touchEndHandler(e:cc.Event):void {
+        this._isTouching = false;
+    }
+}

@@ -1,0 +1,108 @@
+"use strict";
+cc._RF.push(module, '06cdeg0ua9CoI9+IJsRGEjC', 'Action');
+// Script/commands/Action.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Over_1 = require("./Over");
+var StateManage_1 = require("../StateManage/StateManage");
+var Jewels_1 = require("../Jewels/Jewels");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+// 手臂类执行体
+var Action = /** @class */ (function (_super) {
+    __extends(Action, _super);
+    function Action() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.pancake = [];
+        _this.terrace = null;
+        _this.arm = null;
+        _this.jewels = null;
+        _this.score = null;
+        _this._isTouching = false;
+        return _this;
+    }
+    Action.prototype.onLoad = function () {
+        this.initialize();
+    };
+    Action.prototype.update = function (dt) {
+        if (this._isTouching) {
+            this.strength();
+        }
+        this.crash();
+    };
+    Action.prototype.start = function () {
+        this.node.parent.on(cc.Node.EventType.TOUCH_START, this.touchStartHandler, this);
+        this.node.parent.on(cc.Node.EventType.TOUCH_END, this.touchEndHandler, this);
+    };
+    Action.prototype.initialize = function () {
+        var _this = this;
+        this.pancake = this.node.getChildByName("pancakeNode").children;
+        this.score = this.node.parent.getChildByName("describe").getChildByName("score");
+        this.terrace = this.node.getChildByName("hands").getChildByName("pot").getChildByName("terrace");
+        this.arm = this.node.getChildByName("hands").getChildByName("bigArm");
+        this.jewels = this.node.getChildByName("jewels");
+        this.pancake.forEach(function (element) {
+            var temp = element.getComponent(cc.RigidBody);
+            temp.enabledContactListener = true;
+            temp.onBeginContact = _this.onBeginContact;
+        });
+    };
+    Action.prototype.onBeginContact = function (contact, selfCollider, otherCollider) {
+        var tag = otherCollider["tag"];
+        // 碰撞到锅
+        if (tag != 100) {
+            contact.disabled = true;
+            StateManage_1.default.instance.setData(StateManage_1.default.KEY_JEWEL_STATE, 1);
+            if (!this.jewels.active)
+                this.jewels.getComponent(Jewels_1.default).create();
+        }
+        // 碰撞到钻石,加上当前砖石分数,重新生成钻石
+        if (tag == 200) {
+            // otherCollider["node"].active = false;
+            var score = Number(StateManage_1.default.instance.getData(StateManage_1.default.KEY_SCORE)) + 50;
+            StateManage_1.default.instance.setData(StateManage_1.default.KEY_SCORE, score);
+            StateManage_1.default.instance.setData(StateManage_1.default.KEY_JEWEL_STATE, 1);
+        }
+    };
+    // 加力动作
+    Action.prototype.strength = function () {
+        this.arm.getComponent(cc.RigidBody).applyLinearImpulse(new cc.Vec2(1000, 0), new cc.Vec2(0, 0), true);
+    };
+    //over 检测
+    Action.prototype.crash = function () {
+        if (this.score) {
+            this.score.getComponent(cc.Label).string = StateManage_1.default.instance.getData(StateManage_1.default.KEY_SCORE);
+        }
+        if (this.pancake[5]) {
+            var pans = this.pancake[5].getComponent(cc.RigidBody).getWorldCenter();
+            var pot = this.terrace.getComponent(cc.RigidBody).getWorldCenter();
+            if (pans.y < pot.y - 50 && pans.x < pot.x + 188 && pot.x > pot.x - 188) {
+                Over_1.default.instance.show();
+            }
+        }
+    };
+    Action.prototype.touchStartHandler = function (e) {
+        this._isTouching = true;
+    };
+    Action.prototype.touchEndHandler = function (e) {
+        this._isTouching = false;
+    };
+    __decorate([
+        property(cc.Node)
+    ], Action.prototype, "pancake", void 0);
+    __decorate([
+        property(cc.Node)
+    ], Action.prototype, "terrace", void 0);
+    __decorate([
+        property(cc.Node)
+    ], Action.prototype, "arm", void 0);
+    __decorate([
+        property(cc.Node)
+    ], Action.prototype, "jewels", void 0);
+    Action = __decorate([
+        ccclass
+    ], Action);
+    return Action;
+}(cc.Component));
+exports.default = Action;
+
+cc._RF.pop();

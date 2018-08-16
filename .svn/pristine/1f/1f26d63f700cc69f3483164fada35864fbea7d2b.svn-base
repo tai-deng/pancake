@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "bidArm",
+    "texture": "9bd132df-a733-4b6b-b65e-36554dd09186",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      152,
+      324
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      152,
+      324
+    ]
+  }
+}

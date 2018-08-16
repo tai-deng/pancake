@@ -1,0 +1,100 @@
+(function() {"use strict";var __module = CC_EDITOR ? module : {exports:{}};var __filename = 'preview-scripts/assets/Script/index/index.js';var __require = CC_EDITOR ? function (request) {return cc.require(request, require);} : function (request) {return cc.require(request, __filename);};function __define (exports, require, module) {"use strict";
+cc._RF.push(module, '0ba25Y3bMRJpbOK+EJPWzHx', 'index', __filename);
+// Script/index/index.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var NewClass = /** @class */ (function (_super) {
+    __extends(NewClass, _super);
+    function NewClass() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.starBar = null;
+        _this.luckyMoneyBar = null;
+        _this.rankingBar = null;
+        _this.resurgenceBar = null;
+        _this.shoppingBar = null;
+        _this.soundBar = null;
+        _this.taskBar = null;
+        return _this;
+        // update (dt) {}
+    }
+    // LIFE-CYCLE CALLBACKS:
+    // onLoad () {}
+    NewClass.prototype.start = function () {
+        this.starBar.on(cc.Node.EventType.TOUCH_END, this.startGame, this);
+        this.luckyMoneyBar.on(cc.Node.EventType.TOUCH_END, this.luckyMoney, this);
+        this.rankingBar.on(cc.Node.EventType.TOUCH_END, this.ranking, this);
+        this.resurgenceBar.on(cc.Node.EventType.TOUCH_END, this.resurgence, this);
+        this.shoppingBar.on(cc.Node.EventType.TOUCH_END, this.shopping, this);
+        this.soundBar.on(cc.Node.EventType.TOUCH_END, this.sound, this);
+        this.taskBar.on(cc.Node.EventType.TOUCH_END, this.task, this);
+    };
+    // 开始
+    NewClass.prototype.startGame = function (e) {
+        cc.director.loadScene("game");
+    };
+    // 红包
+    NewClass.prototype.luckyMoney = function (e) {
+        cc.director.loadScene("luckyMoney");
+    };
+    // 排行
+    NewClass.prototype.ranking = function (e) {
+        cc.director.loadScene("ranking");
+    };
+    // 复活
+    NewClass.prototype.resurgence = function (e) {
+        cc.director.loadScene("resurgence");
+    };
+    // 商店
+    NewClass.prototype.shopping = function (e) {
+        cc.director.loadScene("shopping");
+    };
+    // 音效
+    NewClass.prototype.sound = function (e) {
+        cc.director.loadScene("sound");
+    };
+    // 任务
+    NewClass.prototype.task = function (e) {
+        cc.director.loadScene("task");
+    };
+    __decorate([
+        property(cc.Node)
+    ], NewClass.prototype, "starBar", void 0);
+    __decorate([
+        property(cc.Node)
+    ], NewClass.prototype, "luckyMoneyBar", void 0);
+    __decorate([
+        property(cc.Node)
+    ], NewClass.prototype, "rankingBar", void 0);
+    __decorate([
+        property(cc.Node)
+    ], NewClass.prototype, "resurgenceBar", void 0);
+    __decorate([
+        property(cc.Node)
+    ], NewClass.prototype, "shoppingBar", void 0);
+    __decorate([
+        property(cc.Node)
+    ], NewClass.prototype, "soundBar", void 0);
+    __decorate([
+        property(cc.Node)
+    ], NewClass.prototype, "taskBar", void 0);
+    NewClass = __decorate([
+        ccclass
+    ], NewClass);
+    return NewClass;
+}(cc.Component));
+exports.default = NewClass;
+
+cc._RF.pop();
+        }
+        if (CC_EDITOR) {
+            __define(__module.exports, __require, __module);
+        }
+        else {
+            cc.registerModuleFunc(__filename, function () {
+                __define(__module.exports, __require, __module);
+            });
+        }
+        })();
+        //# sourceMappingURL=index.js.map
+        

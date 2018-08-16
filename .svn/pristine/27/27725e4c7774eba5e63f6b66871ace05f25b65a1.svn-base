@@ -1,0 +1,100 @@
+import Json from "../Json/Json";
+import StateManage from "../StateManage/StateManage";
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class ShopMod extends cc.Node {
+
+    private static _instance:ShopMod = null;
+    public static get instance():ShopMod {
+        if (!ShopMod._instance) ShopMod._instance = new ShopMod();
+        
+        return ShopMod._instance;
+    }
+    
+    constructor(){
+        super();
+        this.initData();
+    }
+
+    private _potList:Array<any> = [];
+    private _pancakeList:Array<any> = [];
+    private _showTab:boolean;    // true 显示 pot false  显示 cake
+    
+
+
+    private initData(){
+        let goods = new Json().goods;
+        for(let i = 0;i < goods.length; ++i){
+            let item = this.createShopNode();
+            this._potList.push(item);
+        }
+    }
+    private createShopNode(){
+        cc.loader.loadRes("shopping/item", function(err, prefab){
+            return cc.instantiate(prefab);
+        });
+    }
+    // 获取锅数据
+    public getPotList():Array<any> {
+        return this._potList.concat();
+    }
+    // 获取饼数据
+    public getCakeList(){
+        return this._pancakeList;
+    }
+    // 购买物品
+    public buyShop(){
+        if(this._showTab){
+            this._potList.forEach(function(ele,ind) {
+                // 待解锁改成 已解锁,已购买,取消新品  下个商品改成 待解锁 未购买 新品
+                if(ele["isUse"]==2){
+                    ele["isUse"]==1;
+                    ele["isBuy"]==1;
+                    ele["newPro"]==2;
+                    this._potList[ind+1]["isUse"] = 2;
+                    this._potList[ind+1]["isBuy"] = 2;
+                    this._potList[ind+1]["newPro"] = 1;
+                    return;
+                }
+            }.bind(this));
+        }else{
+            this._pancakeList.forEach(function(ele,ind) {
+                if(ele["isUse"]==2){
+                    ele["isUse"]==1;
+                    ele["isBuy"]==1;
+                    ele["newPro"]==2;
+                    this._potList[ind+1]["isUse"] = 2;
+                    this._potList[ind+1]["isBuy"] = 2;
+                    this._potList[ind+1]["newPro"] = 1;
+                    return;
+                }
+            }.bind(this));
+        }
+    }
+
+
+
+
+
+    public useSkin(skil:any):void {
+        
+
+        this.dispatchEvent(new cc.Event("currentUseChanged", false));
+    }
+
+
+    public purchaseSkin(skin:any):void {
+
+
+        this.dispatchEvent(new cc.Event("purchase", false));
+    }
+
+
+
+
+
+
+
+}

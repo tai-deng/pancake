@@ -1,0 +1,41 @@
+"use strict";
+cc._RF.push(module, 'b3bd9gieU5MnKZc9igjObnm', 'ShowLevelDetailCommand');
+// Script/commands/ShowLevelDetailCommand.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Command_1 = require("../gamecore/legs/Command");
+var LevelDetailPanelMain_1 = require("../gameScene/LevelDetailPanelMain");
+var GameManager_1 = require("../gamecore/managers/GameManager");
+// Learn TypeScript:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * 显示等级详细信息
+ */
+var ShowLevelDetailCommand = /** @class */ (function (_super) {
+    __extends(ShowLevelDetailCommand, _super);
+    function ShowLevelDetailCommand() {
+        var _this = _super.call(this) || this;
+        _this._prefabURL = "gameScene/levelDetailPanel";
+        return _this;
+    }
+    ShowLevelDetailCommand.prototype.execute = function () {
+        var panel = cc.instantiate(this.prefab);
+        panel.getComponent(LevelDetailPanelMain_1.default).currentLevelData = this.data;
+        GameManager_1.default.popUpManager.addPopUp(panel, true, true);
+    };
+    ShowLevelDetailCommand = __decorate([
+        ccclass
+    ], ShowLevelDetailCommand);
+    return ShowLevelDetailCommand;
+}(Command_1.default));
+exports.default = ShowLevelDetailCommand;
+
+cc._RF.pop();

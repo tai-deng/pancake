@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "fire",
+    "texture": "8d2a6eb1-80aa-4a63-8c31-ada88fac861b",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      569,
+      178
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      569,
+      178
+    ]
+  }
+}

@@ -1,0 +1,186 @@
+"use strict";
+cc._RF.push(module, '15469COGp5A0455pD4HJEei', 'TaskItem');
+// Script/Task/TaskItem.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var WXCore_1 = require("../gamecore/wechat/WXCore");
+var GameManager_1 = require("../gamecore/managers/GameManager");
+var GameEventNames_1 = require("../GameEventNames");
+var StateManage_1 = require("../StateManage/StateManage");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var TaskItem = /** @class */ (function (_super) {
+    __extends(TaskItem, _super);
+    function TaskItem() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.taskName = null;
+        _this.taskDetails = null;
+        _this.plan = null;
+        _this.progress = null;
+        _this.itemTatus = {};
+        return _this;
+        // update (dt) {}
+    }
+    // public itemData:object =null;
+    TaskItem.prototype.onLoad = function () {
+    };
+    TaskItem.prototype.start = function () {
+        this.init();
+    };
+    Object.defineProperty(TaskItem.prototype, "itemData", {
+        get: function () {
+            return this._itemData;
+        },
+        set: function (v) {
+            if (this._itemData != v) {
+                this._itemData = v;
+                this.init();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TaskItem.prototype.init = function () {
+        if (!this._isOnLoadCalled)
+            return;
+        if (!this._itemData)
+            return;
+        var data = this.itemData;
+        this.taskName.string = data["title"];
+        this.taskDetails.string = data["content"];
+        var planValue = StateManage_1.default.instance.getData(data["value"]);
+        var temp = 0;
+        if (planValue >= data["goal"]) {
+            cc.find("right/bottom/affirm", this.node).active = true;
+            cc.find("right/bottom/playbar", this.node).active = false;
+            temp = data["goal"];
+            this.itemTatus["finish"] = 1;
+            this.itemTatus["gain"] = 2;
+        }
+        else {
+            cc.find("right/bottom/affirm", this.node).active = false;
+            cc.find("right/bottom/playbar", this.node).active = true;
+            temp = planValue;
+            this.itemTatus["finish"] = 2;
+        }
+        this.plan.string = temp + "/" + data["goal"];
+        this.progress.width = (116 / data["goal"]) * temp;
+    };
+    /**
+     * 任务状态 1 完成了    2 未完成    finish
+     * 完成了   1 已领取    2 未领取    gain
+     */
+    // 完成任务获取指定奖励
+    TaskItem.prototype.affirmBtn = function (event) {
+        var script = this;
+        if (this.itemTatus["gain"] == 2) {
+            var temp = StateManage_1.default.instance.getData(this.itemData["awardName"]) + this.itemData["awardNum"];
+            StateManage_1.default.instance.setData(this.itemData["awardName"], temp);
+            WXCore_1.default.showToast("完成任务获取" + this.itemData["awardNum"] + "钻石奖励!");
+        }
+        this.itemTatus["gain"] = 1;
+        var title = "";
+        var taskNum = 0;
+        if (this.node.name == "taskItem1") {
+            taskNum = StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKNUMA);
+        }
+        if (this.node.name == "taskItem2") {
+            taskNum = StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKNUMB);
+        }
+        if (this.node.name == "taskItem3") {
+            taskNum = StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKNUMC);
+        }
+        if (taskNum > 0) {
+            script.affirm(taskNum - 1);
+        }
+        else {
+            title = "今天的任务已经做完了!";
+        }
+        this.rezreo(this.itemData["value"]);
+        WXCore_1.default.showToast(title);
+    };
+    TaskItem.prototype.rezreo = function (el) {
+        switch (el) {
+            case "overturn":
+                StateManage_1.default.instance.setData("overturn", 0);
+                break;
+            case "turn":
+                StateManage_1.default.instance.setData("turn", 0);
+                break;
+            case "tmturn":
+                StateManage_1.default.instance.setData("tmturn", 0);
+                break;
+            case "crazyTap":
+                StateManage_1.default.instance.setData("crazyTap", 0);
+                break;
+        }
+    };
+    // 开始游戏或者分享
+    TaskItem.prototype.playbarBtn = function (event) {
+        cc.log("开始游戏或者分享");
+    };
+    // 刷新任务
+    TaskItem.prototype.refresh = function () {
+        var title = "";
+        var script = this;
+        var callback = function () { };
+        var taskNum = 0;
+        if (this.node.name == "taskItem1") {
+            taskNum = StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKNUMA);
+        }
+        if (this.node.name == "taskItem2") {
+            taskNum = StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKNUMB);
+        }
+        if (this.node.name == "taskItem3") {
+            taskNum = StateManage_1.default.instance.getData(StateManage_1.default.KEY_TASKNUMC);
+        }
+        if (taskNum > 0) {
+            title = "要观看一次广告来替换这个任务吗？";
+            callback = function (label) {
+                cc.info(label);
+                if (label == "ok") {
+                    script.affirm(taskNum - 1);
+                }
+                if (label == "off") {
+                }
+            };
+        }
+        else {
+            title = "今天的任务刷新次数已使用完毕!";
+        }
+        GameManager_1.default.eventManager.dispatchEventWith(GameEventNames_1.default.SHOW_ALERT, [title, callback]);
+    };
+    // 确认更新
+    TaskItem.prototype.affirm = function (num) {
+        console.log("----------------------");
+        this.node.dispatchEvent(new cc.Event("getData", false));
+        if (this.node.name == "taskItem1") {
+            StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKNUMA, num);
+        }
+        if (this.node.name == "taskItem2") {
+            StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKNUMB, num);
+        }
+        if (this.node.name == "taskItem3") {
+            StateManage_1.default.instance.setData(StateManage_1.default.KEY_TASKNUMC, num);
+        }
+        this.init();
+    };
+    __decorate([
+        property(cc.Label)
+    ], TaskItem.prototype, "taskName", void 0);
+    __decorate([
+        property(cc.Label)
+    ], TaskItem.prototype, "taskDetails", void 0);
+    __decorate([
+        property(cc.Label)
+    ], TaskItem.prototype, "plan", void 0);
+    __decorate([
+        property(cc.Node)
+    ], TaskItem.prototype, "progress", void 0);
+    TaskItem = __decorate([
+        ccclass
+    ], TaskItem);
+    return TaskItem;
+}(cc.Component));
+exports.default = TaskItem;
+
+cc._RF.pop();

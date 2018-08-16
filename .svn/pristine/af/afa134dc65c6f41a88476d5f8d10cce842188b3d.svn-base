@@ -1,0 +1,30 @@
+"use strict";
+cc._RF.push(module, '885288A4WVN8rzCZz/LFThg', 'GameOverCommand');
+// Script/commands/GameOverCommand.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Command_1 = require("../gamecore/legs/Command");
+var GameManager_1 = require("../gamecore/managers/GameManager");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ *
+ */
+var GameOverCommand = /** @class */ (function (_super) {
+    __extends(GameOverCommand, _super);
+    function GameOverCommand() {
+        var _this = _super.call(this) || this;
+        _this._prefabURL = "gameScene/gameOverPanel";
+        return _this;
+    }
+    GameOverCommand.prototype.execute = function () {
+        var panel = cc.instantiate(this.prefab);
+        GameManager_1.default.popUpManager.addPopUp(panel, true, false);
+    };
+    GameOverCommand = __decorate([
+        ccclass
+    ], GameOverCommand);
+    return GameOverCommand;
+}(Command_1.default));
+exports.default = GameOverCommand;
+
+cc._RF.pop();

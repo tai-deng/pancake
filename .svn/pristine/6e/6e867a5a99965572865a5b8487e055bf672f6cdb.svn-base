@@ -1,0 +1,22 @@
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class Json {
+    public skins:Array<object> = [
+        {
+            name:"defult",
+            bigArm:'resources/action/defult/bigArm.png',
+            lowerArm:'resources/action/defult/lowerArm.png',
+            hand:'resources/action/defult/hand.png',
+            pancake:'resources/action/defult/pancake.png',
+        },
+        {
+            name:"woman",
+            bigArm:'resources/action/woman/bigArm.png',
+            lowerArm:'resources/action/woman/lowerArm.png',
+            hand:'resources/action/woman/hand.png',
+            pancake:'resources/action/woman/pancake.png',
+        }
+    ]
+}

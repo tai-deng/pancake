@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "bigArm",
+    "texture": "1a8df2d0-65ea-4802-a6bf-8d1b61148be6",
+    "atlas": "",
+    "rect": [
+      1,
+      5,
+      144,
+      319
+    ],
+    "offset": [
+      -3,
+      -2.5
+    ],
+    "originalSize": [
+      152,
+      324
+    ]
+  }
+}

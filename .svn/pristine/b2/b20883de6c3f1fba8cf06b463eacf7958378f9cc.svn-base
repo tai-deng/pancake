@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "affirm",
+    "texture": "3dd92942-b8b1-4bf7-a40f-6f283e6c5280",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      120,
+      47
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      120,
+      47
+    ]
+  }
+}

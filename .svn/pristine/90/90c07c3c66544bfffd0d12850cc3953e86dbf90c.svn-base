@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "price",
+    "texture": "c508bc7b-267c-4a8a-862f-0d14fab2bf3e",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      125,
+      44
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      125,
+      44
+    ]
+  }
+}

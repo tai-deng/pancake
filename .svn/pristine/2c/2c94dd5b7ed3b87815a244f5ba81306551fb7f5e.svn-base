@@ -1,0 +1,265 @@
+import GameManager from "../gamecore/managers/GameManager";
+import Json from "../Json/Json";
+import Pancake from "./Pancake";
+import GameSceneEvents from "./GameSceneEvents";
+import GameEventNames from "../GameEventNames";
+import GameConfig from "../GameConfig";
+
+const {ccclass, property} = cc._decorator;
+
+
+// 手臂类执行体
+@ccclass
+export default class ActionMain extends cc.Component {
+    //煎饼初始化时，离锅底的距离
+    public cakeInitDistance:number = 300;
+
+    //钻石预制体
+    @property(cc.Prefab)
+    diamondPrefab:cc.Prefab = null;
+
+    //煎饼预制体
+    @property(cc.Prefab)
+    pancakePrefab:cc.Prefab = null;
+    
+    //钻石容器
+    @property(cc.Node)
+    diamondContainer:cc.Node = null;
+    
+    
+    //锅底碰撞体
+    @property(cc.Node)
+    panBottomNode:cc.Node = null;
+
+    //手臂一段
+    @property(cc.Node)
+    theArm:cc.Node = null;
+
+
+    //是否正在触摸
+    private _isTouching:boolean = false;
+
+
+    //煎饼
+    private _pancake:cc.Node;
+
+
+    onLoad(){
+        this.changeSkin();
+    }
+
+    start(){
+        this.createNewPancake();
+
+        //设置平板锅底相关属性
+        // let panCollider:cc.PhysicsBoxCollider = this.panBottomNode.getComponent(cc.PhysicsBoxCollider);
+        // panCollider.restitution = 0.2;//弹性系数
+        // panCollider.friction = 0.9;//摩擦系数
+
+        this.node.parent.on(cc.Node.EventType.TOUCH_START, this.touchStartHandler, this);
+        this.node.parent.on(cc.Node.EventType.TOUCH_END, this.touchEndHandler, this);
+    }
+
+
+    /**
+     * 创建新的蛋糕
+     * 
+     */
+    private createNewPancake():void {
+        if (this._pancake) this._pancake.removeFromParent(true);
+
+        //删除所有钻石
+        while (this._diamonds.length) {
+            this._diamonds.pop().removeFromParent();
+        }
+
+        this._pancake = cc.instantiate(this.pancakePrefab);
+        this._pancake.x = this.panBottomNode.x;
+        this._pancake.y = this.panBottomNode.y + this.cakeInitDistance;
+        this.node.addChild(this._pancake);
+
+        //监听事件
+        this._pancake.on(Pancake.EVENT_ON_PAN, this.pancakeEventsHandler, this);
+        this._pancake.on(Pancake.EVENT_GET_DIAMOND, this.pancakeEventsHandler, this);
+        this._pancake.on(Pancake.EVENT_GET_SCORE, this.pancakeEventsHandler, this);
+        this._pancake.on(Pancake.EVENT_DIE, this.pancakeEventsHandler, this);
+    }
+
+    //宝石
+    private _diamonds:Array<cc.Node> = [];
+
+    /**
+     * 创建一个新的钻石
+     */
+    private createNewDiamond():void {
+        if (this._diamonds.length > 0) return;
+
+        let diam:cc.Node = cc.instantiate(this.diamondPrefab);
+        diam.x = this.diamondContainer.width / 2 - Math.random() * this.diamondContainer.width;
+        diam.y = this.diamondContainer.height / 2 - Math.random() * this.diamondContainer.height;
+        this.diamondContainer.addChild(diam);
+
+        this._diamonds.push(diam);
+
+        //TODO:NEXT 新宝石特效
+        
+    }
+
+    /**
+     * 移除宝石
+     */
+    private removeADiamond(diam:cc.Node):void {
+        let index:number = this._diamonds.indexOf(diam);
+        if (index >= 0) {
+            this._diamonds.splice(index, 1);
+            
+            //TODO:NEXT 宝石移除特效
+            diam.removeFromParent(true);
+        }
+    }
+
+
+    //是否是第一次tap
+    private _doneFirstTap:boolean;
+
+    //开始触摸
+    private touchStartHandler(e:cc.Event):void {
+        this._isTouching = true;
+        this.activeCake();
+
+        if (!this._doneFirstTap) {
+            this._doneFirstTap = true;
+            this.node.dispatchEvent(new cc.Event(GameSceneEvents.GAME_START, true));
+        }
+    }
+
+
+    // 触摸结束
+    private touchEndHandler(e:cc.Event):void {
+        this._isTouching = false;
+    }
+
+    /**
+     * 获取饼是否已激活
+     */
+    public get cakeActived():boolean {
+        return this._pancake.getComponent(Pancake).actived;
+    }
+    
+
+    /**
+     * 激活饼
+     * 
+     */
+    public activeCake():void {
+        //让煎饼落下。
+        this._pancake.getComponent(Pancake).active();
+    }
+
+    
+    // 改变皮肤 
+    private changeSkin(){
+        // let resName = StateManage.instance.getData(StateManage.KEY_SKIN);
+        // let res = new Json().skins;
+        // let newSkin = {};
+        // res.forEach(el =>{
+        //     if(el["name"] == resName){
+        //         newSkin = el;
+        //     }
+        // })
+        // cc.log(resName,newSkin)
+
+        // let currentBigArm = cc.url.raw(newSkin["bigArm"]);
+        // let currentLittleArm = cc.url.raw(newSkin["lowerArm"]);
+        // let currentPot = cc.url.raw(newSkin["hand"]);
+
+        // this.arm.getChildByName("arm1").getComponent(cc.Sprite).spriteFrame.setTexture(currentBigArm);
+        // this.node.getChildByName("hands").getChildByName("littleArm").getChildByName("arm2").getComponent(cc.Sprite).spriteFrame.setTexture(currentLittleArm);
+        // this.node.getChildByName("hands").getChildByName("pot").getChildByName("potImg").getComponent(cc.Sprite).spriteFrame.setTexture(currentPot);
+        
+    }
+
+
+    /**
+     * 宝石数量
+     */
+    private _diamondCount:number = 0;
+
+    public get diamondCount():number {
+        return this._diamondCount;
+    }
+
+    /**
+     * 分数
+     */
+    private _score:number = 0;
+
+    public get score():number {
+        return this._score;
+    }
+
+    /**
+     * 
+     * @param e
+     */
+    private pancakeEventsHandler(e:cc.Event):void {
+        cc.info("【ActionMain pancakeEventsHandler】", e.type);
+
+        let eType:string = e.type;
+        switch (eType) {
+            case Pancake.EVENT_ON_PAN:
+                this.createNewDiamond();
+                break;
+            case Pancake.EVENT_GET_SCORE:
+                let score:number = parseInt(e["data"]);
+                if (!isNaN(score) && score > 0) {
+                    cc.info("获得分数", score);
+
+                    this._score += score;
+
+                    //抛出事件
+                    this.node.dispatchEvent(new cc.Event(GameSceneEvents.SCORE_CHANGED, true));
+                }
+                break;
+            case Pancake.EVENT_GET_DIAMOND:
+                let theDiamond:cc.Node = e["data"] as cc.Node;
+                this.removeADiamond(theDiamond);
+                
+                this._diamondCount++;
+
+                //抛出事件
+                this.node.dispatchEvent(new cc.Event(GameSceneEvents.DIAMONDS_CHANGED, true));
+                break;
+            case Pancake.EVENT_DIE:
+                this.createNewPancake();
+                break;
+        }
+    }
+
+    update (dt) {
+        //如果有触发
+        if (this._isTouching) {
+            let body:cc.RigidBody = this.theArm.getComponent(cc.RigidBody);
+            body.applyLinearImpulse(new cc.Vec2(GameConfig.PANCAKE_FORCE_VALUE, 0), new cc.Vec2(0, 0), true);
+            // body.applyForceToCenter(new cc.Vec2(this.forceValue, 0), true);
+            // body.applyForce(new cc.Vec2(this.forceValue, 0), new cc.Vec2(0, 0), true);
+        }
+
+        // let frames:number = cc.director.getTotalFrames();
+        // cc.info(frames, frames % 10);
+        // if (frames % 10 == 0) {
+        //     if (this._pancake) {
+        //         let minY:number = this.panBottomNode.y + this.panBottomNode.height;
+
+        //         cc.info(this._pancake.y, minY);
+        //         if (this._pancake.y <  minY) {
+        //             this.node.dispatchEvent(new cc.Event(GameSceneEvents.GAME_OVER, false));
+        //         }
+        //     }
+        // }
+    }
+
+
+    onDestroy() {
+    }
+}

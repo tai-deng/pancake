@@ -1,0 +1,59 @@
+import GameManager from "../gamecore/managers/GameManager";
+
+// Learn TypeScript:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
+//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class NewClass extends cc.Component {
+
+    @property(cc.Node)
+    clickBtn:cc.Node=null;
+
+    // LIFE-CYCLE CALLBACKS:
+
+    // onLoad () {}
+
+    start () {
+        if(!this._isOnLoadCalled) return;
+        this.addUserData();
+        this.clickBtn.active = true;
+        this.clickBtn.on(cc.Node.EventType.TOUCH_END,this.click,this);
+    }
+    private click(ev:cc.Event){
+        this.clickBtn.active = false;
+        GameManager.soundsManager.playTapSound();
+    }
+    // 添加用户数据
+    private addUserData(){
+        if(typeof wx == "undefined") return;
+        let openData = wx.getOpenDataContext()
+        openData.postMessage({
+            "direction":1,
+        })
+        
+        let timestamp = (new Date()).valueOf();
+        wx.setUserCloudStorage(
+            {
+                "KVDataList":[
+                    {
+                        "key":"score",
+                        "value":'{"wxgame":{"score":' + 80 + ', "update_time":' + timestamp + '}}',
+                    }
+                ]
+            }   
+        );
+        
+        console.log("排行榜子域")
+        
+    }
+    // update (dt) {}
+}

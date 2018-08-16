@@ -1,0 +1,380 @@
+"use strict";
+cc._RF.push(module, '532b8F+a+BIBZt1mvb0RC3U', 'RankCtrl');
+// Script/RankCtrl.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var WXCore_1 = require("./WXCore");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var RankCtrl = /** @class */ (function (_super) {
+    __extends(RankCtrl, _super);
+    function RankCtrl() {
+        var _this = _super.call(this) || this;
+        // 即将超越下一位
+        _this._detectionNext = {};
+        // 第几名
+        _this._currentIndex = 0;
+        // 所有排行数据
+        _this._totalRank = [];
+        // 自己的游戏数据
+        _this._selfRank = {};
+        // 小排行榜数据
+        _this._smallRank = [];
+        _this.onMessage();
+        return _this;
+    }
+    RankCtrl_1 = RankCtrl;
+    Object.defineProperty(RankCtrl, "instance", {
+        get: function () {
+            if (!this._instance)
+                this._instance = new RankCtrl_1();
+            return this._instance;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RankCtrl.prototype, "flicker", {
+        get: function () {
+            return this._flicker;
+        },
+        set: function (v) {
+            if (this._flicker != v) {
+                this._flicker = v;
+                this.dispatchEvent(new cc.Event("onRankBubble", false));
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RankCtrl.prototype, "detectionNext", {
+        get: function () {
+            return this._detectionNext;
+        },
+        set: function (v) {
+            if (this._detectionNext != v) {
+                this._detectionNext = v;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RankCtrl.prototype, "currentIndex", {
+        get: function () {
+            return this._currentIndex;
+        },
+        set: function (v) {
+            if (this._currentIndex != v) {
+                this._currentIndex = v;
+                this.dispatchEvent(new cc.Event("getSelfRank", false));
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RankCtrl.prototype, "totalRank", {
+        get: function () {
+            return this._totalRank;
+        },
+        set: function (v) {
+            if (this._totalRank != v) {
+                this._totalRank = v;
+                console.log("==总榜数据==", this._totalRank);
+                this.dispatchEvent(new cc.Event("getTotalRankEvent", false));
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RankCtrl.prototype, "selfRank", {
+        get: function () {
+            return this._selfRank;
+        },
+        set: function (v) {
+            if (this._selfRank != v) {
+                this._selfRank = v;
+                console.log("==个人数据==", this._selfRank);
+                this.dispatchEvent(new cc.Event("getselfRankEvent", false));
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RankCtrl.prototype, "smallRank", {
+        get: function () {
+            return this._smallRank;
+        },
+        set: function (v) {
+            if (this._smallRank != v) {
+                this._smallRank = v;
+                console.log("==小榜数据==", this._smallRank);
+                this.dispatchEvent(new cc.Event("getsmallRank", false));
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    RankCtrl.prototype.initData = function () {
+        this.allDataTrim();
+        this.selfDataTrim();
+        // this.smallDataTrim();
+    };
+    // 朋友的游戏数据处理
+    RankCtrl.prototype.allDataTrim = function () {
+        var that = this;
+        function success(res) {
+            var arr = res.data;
+            var tempData = [];
+            for (var i = 0; i < arr.length; i++) {
+                var parts = arr[i]["KVDataList"];
+                var max = JSON.parse(parts[0]["value"])["wxgame"]["score"];
+                var time = JSON.parse(parts[0]["value"])["wxgame"]["update_time"];
+                var user = {};
+                for (var j = 0; j < parts.length; ++j) {
+                    if (j + 1 < parts.length) {
+                        var score1 = JSON.parse(parts[j + 1]["value"])["wxgame"]["score"];
+                        var time1 = JSON.parse(parts[j + 1]["value"])["wxgame"]["update_time"];
+                        if (max < score1) {
+                            max = score1;
+                            time = time1;
+                        }
+                    }
+                }
+                user["maxScore"] = max;
+                user["dateTime"] = time;
+                user["avatarUrl"] = arr[i]["avatarUrl"];
+                user["nickname"] = arr[i]["nickname"];
+                user["openid"] = arr[i]["openid"];
+                tempData.push(user);
+            }
+            // 按分数降序
+            that.totalRank = tempData.sort(function (obj1, obj2) {
+                var val1 = obj1["maxScore"];
+                var val2 = obj2["maxScore"];
+                if (val1 < val2) {
+                    return 1;
+                }
+                else if (val1 > val2) {
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            });
+            for (var i = 0; i < that.totalRank.length; ++i) {
+                that.totalRank[i]["rank"] = i + 1;
+            }
+            that.smallDataTrim();
+            console.log(res, "--朋友的数据--", that.totalRank);
+        }
+        WXCore_1.default.getFriendData(success, function (res) {
+            console.log(res, "朋友的数据---err");
+        });
+    };
+    // 我的游戏数据处理
+    RankCtrl.prototype.selfDataTrim = function () {
+        var that = this;
+        var success = function (res) {
+            console.log(res, "我的游戏数据--处理前");
+            var arr = res.KVDataList;
+            var max = JSON.parse(arr[0]["value"])["wxgame"]["score"];
+            var time = JSON.parse(arr[0]["value"])["wxgame"]["update_time"];
+            for (var j = 0; j < arr.length; ++j) {
+                if (j + 1 < arr.length) {
+                    var score1 = JSON.parse(arr[j + 1]["value"])["wxgame"]["score"];
+                    var time1 = JSON.parse(arr[j + 1]["value"])["wxgame"]["update_time"];
+                    if (max < score1) {
+                        max = score1;
+                        time = time1;
+                    }
+                }
+            }
+            var obj = {};
+            obj["maxScore"] = max;
+            obj["dateTime"] = time;
+            obj["isSelf"] = true;
+            that.selfRank = obj;
+            console.log("--我的数据--处理后", that.selfRank);
+        };
+        WXCore_1.default.getUserScore(success, function (res) {
+            console.log(res, "我的游戏数据---err");
+        });
+    };
+    // 小排行榜数据处理
+    RankCtrl.prototype.smallDataTrim = function () {
+        if (!this.totalRank)
+            return;
+        console.log(this.currentIndex, "当前排名");
+        var allData = this.totalRank.concat();
+        var selfData = this.selfRank;
+        var selfTemp = [];
+        var selfAvatarUrl = this.avatarUrl;
+        for (var i = 0; i < allData.length; i++) {
+            var Url = allData[i]["avatarUrl"];
+            var newUrl = Url.substring(0, Url.lastIndexOf('/'));
+            /* if(allData[i]["maxScore"] == selfData["maxScore"] && allData[i]["dateTime"] == selfData["dateTime"]){
+                this.currentIndex = i;
+            } */
+            console.log("自己", selfAvatarUrl, "大家", newUrl);
+            if (selfAvatarUrl == newUrl) {
+                this.currentIndex = i;
+            }
+        }
+        if (allData[this.currentIndex - 1]) {
+            selfTemp.push(allData[this.currentIndex - 1]);
+        }
+        allData[this.currentIndex]["isSelf"] = true;
+        selfTemp.push(allData[this.currentIndex]);
+        this.selfRank["rank"] = this.currentIndex + 1;
+        if (allData[this.currentIndex + 1]) {
+            selfTemp.push(allData[this.currentIndex + 1]);
+        }
+        this.smallRank.length = 0;
+        this.smallRank = selfTemp;
+        // console.log(allData,"------*------",selfData,"------*------",this.currentIndex,"-------+++----",this.smallRank)
+    };
+    // 获取总榜排名
+    RankCtrl.prototype.getTotallRank = function () {
+        console.log("获取总榜排名", this.totalRank);
+        return this.totalRank.concat();
+        // return [];
+    };
+    // 获取自己的排名
+    RankCtrl.prototype.getSelfRank = function () {
+        var obj = this.totalRank[this.currentIndex];
+        var newObj = {};
+        for (var k in obj) {
+            newObj[k] = obj[k];
+        }
+        // obj["isSelf"] = true;
+        console.log("获取自己的排名", this.selfRank);
+        return newObj;
+    };
+    // 获取小排行榜数据
+    RankCtrl.prototype.getSmallRank = function () {
+        console.log("获取小排行榜数据", this.smallRank);
+        return this.smallRank.concat();
+        // return [];
+    };
+    // 小排行榜获取即将超越的朋友
+    RankCtrl.prototype.surpassNext = function () {
+        console.log("即将超越的朋友");
+        var totalRank = this.totalRank.concat();
+        var index = this.currentIndex;
+        var obj = {};
+        if (totalRank[index - 1]) {
+            obj = totalRank[index - 1];
+        }
+        else {
+            obj = totalRank[index];
+        }
+        return obj;
+    };
+    // 接收主域消息
+    RankCtrl.prototype.onMessage = function () {
+        var that = this;
+        if (typeof wx == "undefined")
+            return;
+        wx.onMessage(function (res) {
+            if (res.direction == 1) {
+                var scene = cc.director.getScene().name;
+                if (scene != "smallRank") {
+                    cc.director.loadScene("smallRank");
+                }
+                console.log("跳转小排行榜");
+            }
+            if (res.direction == 2) {
+                cc.director.loadScene("wholeRank");
+                console.log("跳转大排行榜");
+                that.flicker = false;
+            }
+            if (res.direction == 3) {
+                cc.director.loadScene("gameScene");
+                console.log("跳转游戏场景");
+            }
+            if (res.integral != void 0) {
+                that.onDetectionNext(res);
+            }
+            if (res.userInfo) {
+                var str = res.userInfo.avatarUrl;
+                that.avatarUrl = str.substring(0, str.lastIndexOf('/'));
+                that.initData();
+                console.log(str, that.avatarUrl);
+            }
+            console.log(res, "接收主域消息");
+        });
+    };
+    // 即将超越的下一位
+    RankCtrl.prototype.onDetectionNext = function (res) {
+        var arr = this.totalRank.concat();
+        var temp = { "maxScore": res["integral"], "next": true };
+        var index;
+        arr.push(temp);
+        var newArr = arr.sort(function (obj1, obj2) {
+            var val1 = obj1["maxScore"];
+            var val2 = obj2["maxScore"];
+            if (val1 < val2) {
+                return 1;
+            }
+            else if (val1 > val2) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        });
+        for (var i = 0; i < newArr.length; i++) {
+            if (newArr[i]["next"]) {
+                index = i;
+            }
+        }
+        if (index == 0) {
+            this.detectionNext = {
+                "nickname": this.totalRank[this.currentIndex]["nickname"],
+                "avatarUrl": this.totalRank[this.currentIndex]["avatarUrl"],
+                "posX": res["posX"],
+                "posY": res["posY"],
+                "point": res["integral"],
+            };
+        }
+        else if (index > this.totalRank.length - 1) {
+            this.detectionNext = {
+                "nickname": this.totalRank[index - 1]["nickname"],
+                "avatarUrl": this.totalRank[index - 1]["avatarUrl"],
+                "posX": res["posX"],
+                "posY": res["posY"],
+                "point": res["integral"],
+            };
+        }
+        else {
+            this.detectionNext = {
+                "nickname": this.totalRank[index]["nickname"],
+                "avatarUrl": this.totalRank[index]["avatarUrl"],
+                "posX": res["posX"],
+                "posY": res["posY"],
+                "point": res["integral"],
+            };
+        }
+        if (this.currentIndex > index) {
+            this.flicker = true;
+        }
+        console.log("index-->", index, "arr-->", arr, "detectionNext", this.detectionNext);
+    };
+    // 游戏场景 -->> 即将超越下一位好友节点
+    RankCtrl.prototype.getDetectionNext = function () {
+        console.log("游戏场景");
+        return this.detectionNext;
+    };
+    // 首页排行气泡
+    RankCtrl.prototype.getRankBubble = function () {
+        console.log("排行气泡", this.flicker);
+        return this.flicker;
+    };
+    var RankCtrl_1;
+    RankCtrl._instance = null;
+    RankCtrl = RankCtrl_1 = __decorate([
+        ccclass
+    ], RankCtrl);
+    return RankCtrl;
+}(cc.Node));
+exports.default = RankCtrl;
+
+cc._RF.pop();

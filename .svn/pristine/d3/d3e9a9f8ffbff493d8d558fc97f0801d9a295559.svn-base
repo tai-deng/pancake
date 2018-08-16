@@ -1,0 +1,73 @@
+"use strict";
+cc._RF.push(module, '2bfe3KwvGhPCIkU2SyVOKOd', 'RankSmall');
+// Script/rankSmall/RankSmall.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var GameManager_1 = require("../gamecore/managers/GameManager");
+var WXCore_1 = require("../gamecore/wechat/WXCore");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var RankSmall = /** @class */ (function (_super) {
+    __extends(RankSmall, _super);
+    function RankSmall() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.moreBtn = null;
+        _this.anewStart = null;
+        _this.share = null;
+        return _this;
+        // update (dt) {}
+    }
+    // onLoad () {}
+    RankSmall.prototype.start = function () {
+        if (!this._isOnLoadCalled)
+            return;
+        this.moreBtn.on(cc.Node.EventType.TOUCH_END, this.onMoreBtn, this);
+        this.anewStart.on(cc.Node.EventType.TOUCH_END, this.onAnewStart, this);
+        this.share.on(cc.Node.EventType.TOUCH_END, this.onShare, this);
+        this.refreshUI();
+    };
+    RankSmall.prototype.onMoreBtn = function () {
+        this.moreBtn.active = false;
+        this.share.active = true;
+        this.anewStart.active = false;
+        GameManager_1.default.soundsManager.playTapSound();
+        console.log("更多排行榜");
+    };
+    RankSmall.prototype.onAnewStart = function () {
+        this.anewStart.active = false;
+        GameManager_1.default.soundsManager.playTapSound();
+        cc.director.loadScene("gameScene");
+        console.log("再来一次");
+    };
+    RankSmall.prototype.onShare = function () {
+        console.log("分享");
+        GameManager_1.default.soundsManager.playTapSound();
+        WXCore_1.default.shareApp("煎饼", "");
+    };
+    RankSmall.prototype.refreshUI = function () {
+        this.moreBtn.active = true;
+        this.anewStart.active = true;
+        this.share.active = true;
+        if (typeof wx == "undefined")
+            return;
+        var openData = wx.getOpenDataContext();
+        openData.postMessage({
+            "direction": 1,
+        });
+    };
+    __decorate([
+        property(cc.Node)
+    ], RankSmall.prototype, "moreBtn", void 0);
+    __decorate([
+        property(cc.Node)
+    ], RankSmall.prototype, "anewStart", void 0);
+    __decorate([
+        property(cc.Node)
+    ], RankSmall.prototype, "share", void 0);
+    RankSmall = __decorate([
+        ccclass
+    ], RankSmall);
+    return RankSmall;
+}(cc.Component));
+exports.default = RankSmall;
+
+cc._RF.pop();

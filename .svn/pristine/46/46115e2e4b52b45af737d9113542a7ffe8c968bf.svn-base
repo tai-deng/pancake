@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "surpass",
+    "texture": "80519722-a9b3-4f51-a4e5-cfccaf13575f",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      750,
+      6848
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      750,
+      6848
+    ]
+  }
+}

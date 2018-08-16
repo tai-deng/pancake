@@ -1,0 +1,52 @@
+import StateManage from "../StateManage/StateManage";
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class NewClass extends cc.Component {
+
+    @property(cc.Node)
+    homeBar: cc.Node = null;
+    @property(cc.Node)
+    potBtn:cc.Node = null;
+    @property(cc.Node)
+    cakeBtn:cc.Node = null;
+    @property([cc.SpriteFrame])
+    btnImg:Array<cc.SpriteFrame> = [];
+    // onLoad () {}
+
+    start () {
+        this.homeBar.on(cc.Node.EventType.TOUCH_END,this.backHome,this);
+        StateManage.instance.on("change",this.stateChangeHandler,this);
+        StateManage.instance.setData(StateManage.KEY_SHOPING_TAB,1);
+        StateManage.instance.setData(StateManage.KEY_SKIN,0);
+    }
+    backHome(){
+        cc.director.loadScene("index");
+    }
+    potButton(){
+        StateManage.instance.setData(StateManage.KEY_SHOPING_TAB,1);
+    }
+    cakeButton(){
+        StateManage.instance.setData(StateManage.KEY_SHOPING_TAB,2);
+    }
+    stateChangeHandler(){
+        let key:string = StateManage.instance.lastChangedKey;
+        // 1.锅按钮 2.饼按钮 3.事件完成
+        if(key == StateManage.KEY_SHOPING_TAB){
+            if(StateManage.instance.shoppingTab == 1){
+                this.potBtn.getComponent(cc.Sprite).spriteFrame = this.btnImg[1];
+                this.cakeBtn.getComponent(cc.Sprite).spriteFrame = this.btnImg[0];
+            }
+            if(StateManage.instance.shoppingTab == 2){
+                this.potBtn.getComponent(cc.Sprite).spriteFrame = this.btnImg[0];
+                this.cakeBtn.getComponent(cc.Sprite).spriteFrame = this.btnImg[1];
+            }
+            StateManage.instance.setData(StateManage.KEY_SHOPING_TAB,3);
+        }
+    }
+    // update (dt) {}
+    onDestroy() {
+        StateManage.instance.off("change", this.stateChangeHandler);
+    }
+}

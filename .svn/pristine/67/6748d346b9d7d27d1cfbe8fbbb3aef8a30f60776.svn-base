@@ -1,0 +1,285 @@
+import GameManager from "../gamecore/managers/GameManager";
+import GameEventNames from "../GameEventNames";
+import AlertCommand from "../commands/AlertCommand";
+import StateManage from "../StateManage/StateManage";
+import TaskMode from "../Task/TaskMode";
+import WXCore from "../gamecore/wechat/WXCore";
+import ResurgenceCtrl from "../resurgence/ResurgenceCtrl";
+import XYJAPI from "../gamecore/xiaoyaoji/XYJAPI";
+import GameSystem from "../GameSystem";
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class index extends cc.Component {
+    @property(cc.Node)
+    starBar:cc.Node = null;
+    @property(cc.Node)
+    luckyMoneyBar:cc.Node = null;
+    @property(cc.Node)
+    rankingBar:cc.Node = null;
+    @property(cc.Node)
+    resurgenceBar:cc.Node = null;
+    @property(cc.Node)
+    shoppingBar:cc.Node = null;
+    @property(cc.Node)
+    soundBar:cc.Node = null;
+    @property(cc.Node)
+    taskBar:cc.Node = null;
+    @property(cc.SpriteFrame)
+    voiceON:cc.SpriteFrame=null;
+    @property(cc.SpriteFrame)
+    voiceOFF:cc.SpriteFrame=null;
+    @property(sp.Skeleton)
+    spine:sp.Skeleton=null;
+    // onLoad () {}
+
+    // private _tasks:Array<object>=[];
+
+    
+
+    start () {
+        GameSystem.init();
+        // 任务进度监听
+        TaskMode.instance.on("bubbleChanged",this.bubbleChanged,this)
+
+        this.starBar.on(cc.Node.EventType.TOUCH_END,this.onStartGame,this);
+        this.luckyMoneyBar.on(cc.Node.EventType.TOUCH_END,this.onLuckyMoney,this);
+        this.rankingBar.on(cc.Node.EventType.TOUCH_END,this.onRanking,this);
+        this.resurgenceBar.on(cc.Node.EventType.TOUCH_END,this.onResurgence,this);
+        this.shoppingBar.on(cc.Node.EventType.TOUCH_END,this.onShopping,this);
+        this.soundBar.on(cc.Node.EventType.TOUCH_END,this.onSound,this);
+        this.taskBar.on(cc.Node.EventType.TOUCH_END,this.onTask,this);
+
+        this.initSystem();
+        this.refreshUI();
+        this.schedule(function() {
+            this.spineAnimation();
+        }, this.interval);
+    }
+
+    private static _systemInitialized:boolean;
+    // 任务气泡
+    private _flicker:boolean=TaskMode.instance.flicker;
+    // 排行气泡动画,默认进入游戏就会闪,查看后停止
+    private _rankBubble:boolean=StateManage.instance.getData(StateManage.KEY_RANKBUBBLE);
+    private interval:number=5;
+
+    // spine ainimation
+    private spineAnimation(){
+        let arr = ["interlude","toppot"]
+        let index = Math.floor(Math.random()*2);
+        if(index == 2) index = 1;
+        
+        this.spine.animation="toppot";
+        this.interval = Math.floor(Math.random() * 20) +5;
+    }
+    // 系统初始化
+    private initSystem():void {
+        if (index._systemInitialized) return;
+        index._systemInitialized = true;
+
+        // 綁定弹窗事件到命令
+        GameManager.context.mapEvent(GameEventNames.SHOW_ALERT, AlertCommand);
+    }
+    // 任务数据监听
+    private bubbleChanged(ev:cc.Event):void{
+        this._flicker = TaskMode.instance.flicker;
+        this.refreshTaskState();
+    }
+    // 刷新 UI
+    private refreshUI(){
+        if(!this._isOnLoadCalled)return;
+        let rankBubbleNode = cc.find("Canvas/controlLeft/ranking/marvel")
+        console.log("_rankBubble",this._rankBubble);
+        if(this._rankBubble){
+            this.buMotion(rankBubbleNode,3);
+        }else{
+            this.buMotion(rankBubbleNode,1);
+        }
+
+        this.refreshTaskState();
+        
+        if(typeof wx == "undefined") return;
+        wx.getUserInfo({
+            success(res){
+                let openData = wx.getOpenDataContext()
+                openData.postMessage({
+                    "userInfo":res.userInfo,
+                })
+                console.log("传用户信息",res)
+            }
+        })
+
+    }
+    // 获取任务状态改变气泡
+    private refreshTaskState():void {
+        let litterNode:cc.Node = cc.find("Canvas/controlRight/task/marvel");
+        let motion:number = this._flicker? 3:2;
+        this.buMotion(litterNode, motion);
+    }
+    // 气泡动作
+    private buMotion(node:cc.Node,num:number){
+        if(num == 3){
+            let seq = cc.repeatForever(
+                cc.sequence(
+                    cc.scaleTo(0.8,1.1,1.1),
+                    cc.scaleTo(0.4,0.9,0.9)
+            ));
+            node.runAction(seq);
+            node.active = true;
+        }else if(num == 2){
+            node.active = true;
+        }else if(num == 1){
+            node.active = false;
+        }
+    }
+    // 开始
+    private onStartGame(e:cc.Event):void{
+        GameManager.soundsManager.playTapSound();
+        cc.director.loadScene("gameScene");
+
+        if(typeof wx == "undefined") return;
+        let openData = wx.getOpenDataContext()
+        openData.postMessage({
+            "integral":60,
+            "direction":3,
+            "posX":100,
+            "posY":500,
+        })
+        console.log("主游戏子域")
+    }
+    // 红包
+    private onLuckyMoney(e:cc.Event):void{
+        GameManager.soundsManager.playTapSound();
+        console.log("---红包---");
+        cc.director.loadScene("luckyMoney");
+    }
+    // 排行
+    private onRanking(e:cc.Event):void{
+        cc.director.loadScene("ranking");
+        StateManage.instance.setData(StateManage.KEY_RANKBUBBLE,false);
+        GameManager.soundsManager.playTapSound();
+
+
+        if(typeof wx == "undefined") return;
+        let openData = wx.getOpenDataContext()
+        openData.postMessage({
+            "direction":2,
+        })
+        console.log("排行榜子域")
+    }
+    // 复活
+    private onResurgence(e:cc.Event):void{
+        GameManager.soundsManager.playTapSound();
+        cc.director.loadScene("resurgence");
+    }
+    // 商店
+    private onShopping(e:cc.Event):void{
+        GameManager.soundsManager.playTapSound();
+        cc.director.loadScene("shopping");
+    }
+    // 音效
+    private onSound(e:cc.Event):void{
+        GameManager.soundsManager.playTapSound();
+        let voiceSwitch = GameManager.soundsManager.musicMuted;
+        if(voiceSwitch){
+            // 停止播放背景音乐
+            this.soundBar.getComponent(cc.Sprite).spriteFrame = this.voiceOFF;
+            GameManager.soundsManager.muteMusic();
+        }else{
+            // 播放背景音乐
+            this.soundBar.getComponent(cc.Sprite).spriteFrame = this.voiceON;
+            GameManager.soundsManager.unmuteMusic();
+        }
+        console.log("---背景音效---");
+    }
+    // 任务
+    private onTask(e:cc.Event):void{
+        GameManager.soundsManager.playTapSound();
+        cc.director.loadScene("task");
+    }
+    // update (dt) {}
+    // onDestroy() {}
+
+
+    // 宝石 +10
+    public gem(){
+        let gem = StateManage.instance.getData(StateManage.KEY_GEM) + 10;
+        let tagem = StateManage.instance.getData(StateManage.KEY_GEM) + 10;
+        cc.log(gem,"*************")
+        StateManage.instance.setData(StateManage.KEY_GEM,gem)
+        StateManage.instance.setData(StateManage.KEY_TAGEM,tagem)
+    }
+    // 翻转次数 + 5
+    public overturn(){
+        let overturn = StateManage.instance.getData(StateManage.KEY_OVERTURN) + 5;
+        StateManage.instance.setData(StateManage.KEY_OVERTURN,overturn)
+    }
+    // 一周转体次数 + 5
+    public turn(){
+        let turn = StateManage.instance.getData(StateManage.KEY_TURN) + 5;
+        StateManage.instance.setData(StateManage.KEY_TURN,turn)
+    }
+    // 十秒内翻转次数 + 5
+    public tmturn(){
+        let tmturn = StateManage.instance.getData(StateManage.KEY_TMTURN) + 5;
+        StateManage.instance.setData(StateManage.KEY_TMTURN,tmturn)
+    }
+    // 等级 + 1
+    public grade(){
+        let grade = StateManage.instance.getData(StateManage.KEY_TAGRADE) + 1;
+        StateManage.instance.setData(StateManage.KEY_GRADE,grade)
+        StateManage.instance.setData(StateManage.KEY_TAGRADE,grade)
+    }
+    // 累计使用复活卡次数 + 1
+    public resurgenceCar(){
+        let resurgenceCar = StateManage.instance.getData(StateManage.KEY_RESURGENCECAR) + 1;
+        StateManage.instance.setData(StateManage.KEY_RESURGENCECAR,resurgenceCar)
+    }
+    // 好友接力次数 + 1
+    public fdrelay(){
+        let fdrelay = StateManage.instance.getData(StateManage.KEY_FDRELAY) + 1;
+        StateManage.instance.setData(StateManage.KEY_FDRELAY,fdrelay)
+    }
+    // 疯狂点击中点次数 + 10
+    public crazyTap(){
+        let crazyTap = StateManage.instance.getData(StateManage.KEY_CRAZYTAP) + 10;
+        StateManage.instance.setData(StateManage.KEY_CRAZYTAP,crazyTap)
+    }
+    // 累计任意分享 + 1
+    public anyShare(){
+        let anyShare = StateManage.instance.getData(StateManage.KEY_ANYSHARE) + 1;
+        StateManage.instance.setData(StateManage.KEY_ANYSHARE,anyShare)
+    }
+    // 煎烤好友并分享 + 1
+    public ripeShare(){
+        let ripeShare = StateManage.instance.getData(StateManage.KEY_RIPESHARE) + 1;
+        StateManage.instance.setData(StateManage.KEY_RIPESHARE,ripeShare)
+    }
+    // 复活卡数量 + 1
+    public tasknuma(){
+        ResurgenceCtrl.instance.addResurgenceCard();
+    }
+    // 复活卡数量 - 1
+    public tasknumb(){
+        ResurgenceCtrl.instance.minusResurgenceCard();
+    }
+    // 增加70分
+    public tasknumc(){
+        cc.director.loadScene("rankSmall");
+        console.log("功能移除了")
+    }
+    // 第二天 + 1
+    public nextDay(){
+        // let nextDay = StateManage.instance.getData(StateManage.KEY_NEXTDAY) + 86400000;
+        // StateManage.instance.setData(StateManage.KEY_NEXTDAY,nextDay)
+        let toDay = new Date().getTime() + 86400000;
+        StateManage.instance.setData(StateManage.KEY_TODAY,toDay)
+        cc.log(StateManage.instance.getData(StateManage.KEY_TODAY))
+    }
+    // 关闭首页子域
+    public offDeed(){
+        console.log("功能移除了")
+    }
+}

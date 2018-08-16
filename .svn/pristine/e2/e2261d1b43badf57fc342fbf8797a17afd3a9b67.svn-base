@@ -1,0 +1,91 @@
+"use strict";
+cc._RF.push(module, '07d14J4R6tHM5TJ2WPScwQC', 'ShopMod');
+// Script/shopping/ShopMod.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Json_1 = require("../Json/Json");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+var ShopMod = /** @class */ (function (_super) {
+    __extends(ShopMod, _super);
+    function ShopMod() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._potList = [];
+        _this._pancakeList = [];
+        return _this;
+    }
+    ShopMod_1 = ShopMod;
+    Object.defineProperty(ShopMod, "instance", {
+        get: function () {
+            if (!ShopMod_1._instance)
+                ShopMod_1._instance = new ShopMod_1();
+            return ShopMod_1._instance;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ShopMod.prototype.initData = function () {
+        var goods = new Json_1.default().goods;
+        for (var i = 0; i < goods.length; ++i) {
+            var item = this.createShopNode();
+            this._potList.push(item);
+        }
+    };
+    ShopMod.prototype.createShopNode = function () {
+        cc.loader.loadRes("shopping/item", function (err, prefab) {
+            return cc.instantiate(prefab);
+        });
+    };
+    // 获取锅数据
+    ShopMod.prototype.getPotList = function () {
+        return this._potList.concat();
+    };
+    // 获取饼数据
+    ShopMod.prototype.getCakeList = function () {
+        return this._pancakeList;
+    };
+    // 购买物品
+    ShopMod.prototype.buyShop = function () {
+        if (this._showTab) {
+            this._potList.forEach(function (ele, ind) {
+                // 待解锁改成 已解锁,已购买,取消新品  下个商品改成 待解锁 未购买 新品
+                if (ele["isUse"] == 2) {
+                    ele["isUse"] == 1;
+                    ele["isBuy"] == 1;
+                    ele["newPro"] == 2;
+                    this._potList[ind + 1]["isUse"] = 2;
+                    this._potList[ind + 1]["isBuy"] = 2;
+                    this._potList[ind + 1]["newPro"] = 1;
+                    return;
+                }
+            }.bind(this));
+        }
+        else {
+            this._pancakeList.forEach(function (ele, ind) {
+                if (ele["isUse"] == 2) {
+                    ele["isUse"] == 1;
+                    ele["isBuy"] == 1;
+                    ele["newPro"] == 2;
+                    this._potList[ind + 1]["isUse"] = 2;
+                    this._potList[ind + 1]["isBuy"] = 2;
+                    this._potList[ind + 1]["newPro"] = 1;
+                    return;
+                }
+            }.bind(this));
+        }
+    };
+    ShopMod.prototype.useSkin = function (skil) {
+        this.dispatchEvent(new cc.Event("currentUseChanged", false));
+    };
+    ShopMod.prototype.purchaseSkin = function (skin) {
+        this.dispatchEvent(new cc.Event("purchase", false));
+    };
+    ShopMod._instance = null;
+    ShopMod = ShopMod_1 = __decorate([
+        ccclass
+    ], ShopMod);
+    return ShopMod;
+    var ShopMod_1;
+}(cc.Node));
+exports.default = ShopMod;
+
+cc._RF.pop();

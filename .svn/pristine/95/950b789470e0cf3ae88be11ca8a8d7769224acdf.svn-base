@@ -1,0 +1,46 @@
+(function() {"use strict";var __module = CC_EDITOR ? module : {exports:{}};var __filename = 'preview-scripts/assets/Script/gamecore/legs/Command.js';var __require = CC_EDITOR ? function (request) {return cc.require(request, require);} : function (request) {return cc.require(request, __filename);};function __define (exports, require, module) {"use strict";
+cc._RF.push(module, '1d507qdRZdPcatgBlQHTkCv', 'Command', __filename);
+// Script/gamecore/legs/Command.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var GameManager_1 = require("../managers/GameManager");
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * command
+ */
+var Command = /** @class */ (function () {
+    function Command() {
+    }
+    /**
+     * 执行命令
+     */
+    Command.prototype.execute = function () {
+    };
+    /**
+     * 派发事件
+     *
+     * @param event
+     */
+    Command.prototype.dispacheEvent = function (event) {
+        GameManager_1.default.eventManager.dispatchEvent(event);
+    };
+    Command = __decorate([
+        ccclass
+    ], Command);
+    return Command;
+}());
+exports.default = Command;
+
+cc._RF.pop();
+        }
+        if (CC_EDITOR) {
+            __define(__module.exports, __require, __module);
+        }
+        else {
+            cc.registerModuleFunc(__filename, function () {
+                __define(__module.exports, __require, __module);
+            });
+        }
+        })();
+        //# sourceMappingURL=Command.js.map
+        

@@ -1,0 +1,60 @@
+"use strict";
+cc._RF.push(module, '12de4lUZw5GT503c7HLEXLt', 'ItemBase');
+// Script/gamecore/managers/item/ItemBase.ts
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
+/**
+ * 道具基类
+ */
+var ItemBase = /** @class */ (function (_super) {
+    __extends(ItemBase, _super);
+    function ItemBase() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(ItemBase.prototype, "type", {
+        /**
+         * 获取道具类型
+         *
+         * @see ItemTypes;
+         *
+         */
+        get: function () {
+            return this._type;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ItemBase.prototype, "name", {
+        /**
+         * 道具名称
+         */
+        get: function () {
+            return this._name;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ItemBase.prototype, "desc", {
+        /**
+         * 道具描述
+         */
+        get: function () {
+            return this._desc;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * 使用道具
+     */
+    ItemBase.prototype.useItem = function () {
+    };
+    ItemBase = __decorate([
+        ccclass
+    ], ItemBase);
+    return ItemBase;
+}(cc.Node));
+exports.default = ItemBase;
+
+cc._RF.pop();

@@ -1,0 +1,21 @@
+
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class NewClass extends cc.Component {
+
+    @property(cc.Node)
+    homeBar: cc.Node = null;
+
+    // LIFE-CYCLE CALLBACKS:
+
+    // onLoad () {}
+
+    start () {
+        this.homeBar.on(cc.Node.EventType.TOUCH_END,this.backHome,this);
+    }
+    backHome(){
+        cc.director.loadScene("index")
+    }
+    // update (dt) {}
+}
